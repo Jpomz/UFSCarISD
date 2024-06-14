@@ -42,7 +42,7 @@ However, binning poses a number of issues and generally provides estimates of $\
 
 Make sure you have the `sizeSpectra` package downloaded. You can download it directly from github using the `remotes` package  
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 install.packages("remotes")    # If you do not already have the "remotes" package
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
