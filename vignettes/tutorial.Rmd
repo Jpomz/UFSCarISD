@@ -32,6 +32,9 @@ More negative values of $\lambda$ (i.e., $\lambda = -2$) are "steeper" and value
 
 ![Figure 1. Conceptual figure showing the difference in power law exponents. A) Plot showing the frequency distribution with increasing body sizes. Both communtities have the same size range (x-axis) but the "Steep" community has relatively lower abundance of large sized idividuals. B) A conceptual diagram of a trophic pyramid for a "shallow" community and C) for a "steep" community. Note that the abundance for the smallest body sizes (width of the purple bar) is the same in both communities, but the widths of the subsequent bars are smaller in the "steep" community, culiminating in only one fish compared with two fish in the "shallow" pyramid.](trophic-pyramid.png) 
 
+<br>
+<br>
+
 This has commonly been modeled in the literature by creating body mass bins and counting (Abundance Size Spectra) or summing (Biomass size spectra) the number of individuals in each bin. The bnned data is then log-transformed and $\lambda$ is estimated as the slope according to:
 
 $\large log_{10}(N) = \lambda log_{10}(M)$ 
@@ -42,7 +45,7 @@ However, binning poses a number of issues and generally provides estimates of $\
 
 Make sure you have the `sizeSpectra` package downloaded. You can download it directly from github using the `remotes` package  
 
-```{r, eval=TRUE}
+```{r, eval=FALSE}
 install.packages("remotes")    # If you do not already have the "remotes" package
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
@@ -53,7 +56,7 @@ Once the package is downloaded, we need to load it into our session:
 library(sizeSpectra)
 ```
 
-For an overview of what the package can do, see the [package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
+For an overview of what the package can do, see the [*sizeSpectra* package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
 
 # Data Simulation  
 
@@ -72,7 +75,7 @@ Let's sort the vector and view it:
 sort(m2)
 ```
 
-We can see that most body sizes are less than 10, or only about 10% of the maximum size we sampled from. 
+We can see that most body sizes are less than 10. 
 
 # Estimating $\lambda$  
 
@@ -111,17 +114,19 @@ The results are returned as a list with `MLE` being the estimate of $\lambda$ ba
 
 So, based on the data we estimate that $\lambda = -1.87$ and the 95% confidence interval is: $-2.11, -1.65$. 
 
+# Plotting estimates and data  
+
+Edwards recommends two plots to display body size data and size spectra estimates. The `sizeSpectra` package has a function `MLE.plots.recommend()` which  
+
 ## Practice Problems  
 
 For the following problems, make sure to use new names of your objects. You may want to add a new `set.seed()` command before you simulate to make your results reproducible.  
 
 1. Repeat the analysis we just did but change the number of observations in our simulation. Try higher and lower sample sizes. What happens to the estimate `MLE` and the width of the confidence intervals? 
 
-2. Repeat the analysis, but this time change the value of $lambda$ (the `b` argument in the `rPLB()` command). Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
+2. Repeat the analysis, but this time change the value of $\lambda$ (the `b` argument in the `rPLB()` command). Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
 
-# Plotting estimates and data  
 
-Here is a small change, and another, yet a third
 
 
 ## MLE from `sizeSpectra`  
