@@ -185,7 +185,9 @@ keep track of what exponent was used (i.e., <code>-2</code>).</p>
 <span><span class="co">##  [85]  6.880768  6.987371  7.096980  7.183357  7.700765  8.836448 10.061311</span></span>
 <span><span class="co">##  [92] 10.401013 11.740112 19.688841 23.269900 26.192331 30.367621 34.259411</span></span>
 <span><span class="co">##  [99] 35.251265 39.758232</span></span></code></pre>
-<p>We can see that most body sizes are less than 10.</p>
+<p>We can see that most body sizes are less than 10, and there are very
+few large body sizes in this sample. Note also that the largest body
+size is ~40, even though we set our size bounds from 1 to 100.</p>
 </div>
 <div class="section level2">
 <h2 id="estimating-lambda">Estimating <span class="math inline">\(\lambda\)</span><a class="anchor" aria-label="anchor" href="#estimating-lambda"></a>
@@ -236,9 +238,35 @@ interval is: <span class="math inline">\(-2.11, -1.65\)</span>.</p>
 <div class="section level2">
 <h2 id="plotting-estimates-and-data">Plotting estimates and data<a class="anchor" aria-label="anchor" href="#plotting-estimates-and-data"></a>
 </h2>
-<p>Edwards recommends two plots to display body size data and size
-spectra estimates. The <code>sizeSpectra</code> package has a function
-<code><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plots.recommend.html" class="external-link">MLE.plots.recommend()</a></code> which</p>
+<p>Edwards provides a function called <code><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot()</a></code>. This
+function requires a vector of body sizes and the MLE results.</p>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
+<span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
+<span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="co"># confidence interval</span></span>
+<span>                      <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>         panel <span class="op">=</span> <span class="st">"b"</span>, <span class="co">#This option includes the estimate and CI</span></span>
+<span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> <span class="co"># you can change this to just x</span></span></code></pre></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<p>Here is the same plot as above but with only the x-axis log
+transformed.</p>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, </span>
+<span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, </span>
+<span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>                      <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>         panel <span class="op">=</span> <span class="st">"b"</span>, </span>
+<span>         log<span class="op">=</span><span class="st">"x"</span><span class="op">)</span> <span class="co"># Just the x axis transformed</span></span></code></pre></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p>There is an alternative option using <code>panel = "h"</code>. This
+option displays the estimate of <span class="math inline">\(\lambda\)</span> on the figure, but cannot include
+confidence itnervals.</p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
+<span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
+<span>         panel <span class="op">=</span> <span class="st">"h"</span>, <span class="co">#This option includes the estimate and CI</span></span>
+<span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> <span class="co"># you can also</span></span></code></pre></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <div class="section level3">
 <h3 id="practice-problems">Practice Problems<a class="anchor" aria-label="anchor" href="#practice-problems"></a>
 </h3>
@@ -246,21 +274,22 @@ spectra estimates. The <code>sizeSpectra</code> package has a function
 objects. You may want to add a new <code><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed()</a></code> command
 before you simulate to make your results reproducible.</p>
 <ol style="list-style-type: decimal">
-<li><p>Repeat the analysis we just did but change the number of
-observations in our simulation. Try higher and lower sample sizes. What
-happens to the estimate <code>MLE</code> and the width of the confidence
-intervals?</p></li>
-<li><p>Repeat the analysis, but this time change the value of <span class="math inline">\(\lambda\)</span> (the <code>b</code> argument in
-the <code><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB()</a></code> command). Pay special attention to the largest
-and smallest body sizes sampled. How often is the value of
-<code>xmin</code> and <code>xmax</code> observed? Does this change with
-the “steepness” of the <span class="math inline">\(\lambda\)</span>
-value?</p></li>
+<li><p>Make two new vectors of body size data but change the sample size
+in each, i.e. <code>n=1000</code> and <code>n=50</code>. Name the two
+new vectors <code>m2_high_n</code> and <code>m2_low_n</code>. Repeat the
+analysis we just did for each of your new vectors. What happens to the
+estimate <code>MLE</code> and the width of the confidence intervals?
+Make one <code>panel="b"</code> plot for each of your new
+results.</p></li>
+<li><p>Make two new vectors of body size data with <code>n=1000</code>
+but this time set <code>b = -1.5</code> and <code>b = -2.5</code>
+(recall that <code>b</code> is <span class="math inline">\(\lambda\)</span> and controls the rate of decline.
+Name your new vectors <code>m_1.5</code> and <code>m_2.5</code>. Print
+out each of your new vectors using the <code><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort()</a></code> function. Pay
+special attention to the largest and smallest body sizes sampled. How
+often is the value of <code>xmin</code> and <code>xmax</code> observed?
+Does this change with the “steepness” of the <span class="math inline">\(\lambda\)</span> value?</p></li>
 </ol>
-</div>
-<div class="section level3">
-<h3 id="mle-from-sizespectra">MLE from <code>sizeSpectra</code><a class="anchor" aria-label="anchor" href="#mle-from-sizespectra"></a>
-</h3>
 </div>
 <div class="section level3">
 <h3 id="binning-with-log2-bins">Binning with Log<sub>2</sub> Bins<a class="anchor" aria-label="anchor" href="#binning-with-log2-bins"></a>
@@ -273,14 +302,23 @@ value?</p></li>
 <div class="section level3">
 <h3 id="data-format-all-indidividuals">Data format: All indidividuals<a class="anchor" aria-label="anchor" href="#data-format-all-indidividuals"></a>
 </h3>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">ohc</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in data(ohc): data set 'ohc' not found</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="data-format-count-of-body-sizes">Data Format: Count of body sizes<a class="anchor" aria-label="anchor" href="#data-format-count-of-body-sizes"></a>
 </h3>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">WLOU</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in data(WLOU): data set 'WLOU' not found</span></span></code></pre>
 </div>
 <div class="section level3">
 <h3 id="data-format-binned-data">Data Format: Binned data<a class="anchor" aria-label="anchor" href="#data-format-binned-data"></a>
 </h3>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">fish_binned</span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## Warning in data(fish_binned): data set 'fish_binned' not found</span></span></code></pre>
 </div>
 </div>
 <div class="section level2">
