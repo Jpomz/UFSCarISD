@@ -118,6 +118,7 @@ the purple bar) is the same in both communities, but the widths of the
 subsequent bars are smaller in the “steep” community, culiminating in
 only one fish compared with two fish in the “shallow” pyramid.</div>
 </div>
+<p><br><br></p>
 <p>This has commonly been modeled in the literature by creating body
 mass bins and counting (Abundance Size Spectra) or summing (Biomass size
 spectra) the number of individuals in each bin. The bnned data is then
@@ -142,43 +143,21 @@ in each bin should be normalized or not (Sprules and Barth 2016).</p>
 You can download it directly from github using the <code>remotes</code>
 package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>    <span class="co"># If you do not already have the "remotes" package</span></span></code></pre></div>
-<pre><code><span><span class="co">## Installing package into '/home/runner/work/_temp/Library'</span></span>
-<span><span class="co">## (as 'lib' is unspecified)</span></span></code></pre>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"andrew-edwards/sizeSpectra"</span><span class="op">)</span></span></code></pre></div>
-<pre><code><span><span class="co">## Using github PAT from envvar GITHUB_PAT. Use `gitcreds::gitcreds_set()` and unset GITHUB_PAT in .Renviron (or elsewhere) if you want to use the more secure git credential store instead.</span></span></code></pre>
-<pre><code><span><span class="co">## Downloading GitHub repo andrew-edwards/sizeSpectra@HEAD</span></span></code></pre>
-<pre><code><span><span class="co">## tidyselect (NA -&gt; 1.2.1  ) [CRAN]</span></span>
-<span><span class="co">## generics   (NA -&gt; 0.1.3  ) [CRAN]</span></span>
-<span><span class="co">## shape      (NA -&gt; 1.4.6.1) [CRAN]</span></span>
-<span><span class="co">## plotrix    (NA -&gt; 3.8-4  ) [CRAN]</span></span>
-<span><span class="co">## dplyr      (NA -&gt; 1.1.4  ) [CRAN]</span></span></code></pre>
-<pre><code><span><span class="co">## Installing 5 packages: tidyselect, generics, shape, plotrix, dplyr</span></span></code></pre>
-<pre><code><span><span class="co">## Installing packages into '/home/runner/work/_temp/Library'</span></span>
-<span><span class="co">## (as 'lib' is unspecified)</span></span></code></pre>
-<pre><code><span><span class="co">## Running `R CMD build`...</span></span></code></pre>
-<pre><code><span><span class="co">## * checking for file ‘/tmp/RtmpEjTUfK/remotes174233dd133a/andrew-edwards-sizeSpectra-517c18d/DESCRIPTION’ ... OK</span></span>
-<span><span class="co">## * preparing ‘sizeSpectra’:</span></span>
-<span><span class="co">## * checking DESCRIPTION meta-information ... OK</span></span>
-<span><span class="co">## * checking for LF line-endings in source and make files and shell scripts</span></span>
-<span><span class="co">## * checking for empty or unneeded directories</span></span>
-<span><span class="co">## * building ‘sizeSpectra_1.1.0.tar.gz’</span></span></code></pre>
-<pre><code><span><span class="co">## Installing package into '/home/runner/work/_temp/Library'</span></span>
-<span><span class="co">## (as 'lib' is unspecified)</span></span></code></pre>
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>    <span class="co"># If you do not already have the "remotes" package</span></span>
+<span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"andrew-edwards/sizeSpectra"</span><span class="op">)</span></span></code></pre></div>
 <p>Once the package is downloaded, we need to load it into our
 session:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andrew-edwards/sizeSpectra" class="external-link">sizeSpectra</a></span><span class="op">)</span></span></code></pre></div>
-<p>For an overview of what the package can do, see the <a href="https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html" class="external-link">package
-vignettes</a></p>
+<p>For an overview of what the package can do, see the <a href="https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html" class="external-link"><em>sizeSpectra</em>
+package vignettes</a></p>
 </div>
 <div class="section level2">
 <h2 id="data-simulation">Data Simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
 </h2>
 <p>Let’s start off by simulating a vector of body size data. I first set
 the seed to make these reproducible.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">598</span><span class="op">)</span> <span class="co"># makes simulation reproducible</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, xmin <span class="op">=</span> <span class="fl">1</span>, xmax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <p>The above code samples <code>n = 100</code> body sizes from a power
@@ -189,7 +168,7 @@ minimum size (<code>xmin = 1</code>) and the maximum
 sample of fish from 1 to 100 grams. I have named it <code>m2</code> to
 keep track of what exponent was used (i.e., <code>-2</code>).</p>
 <p>Let’s sort the vector and view it:</p>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1]  1.031254  1.050242  1.052482  1.068892  1.078987  1.090212  1.091879</span></span>
 <span><span class="co">##   [8]  1.096940  1.097447  1.105043  1.105656  1.150811  1.170271  1.184734</span></span>
@@ -206,8 +185,7 @@ keep track of what exponent was used (i.e., <code>-2</code>).</p>
 <span><span class="co">##  [85]  6.880768  6.987371  7.096980  7.183357  7.700765  8.836448 10.061311</span></span>
 <span><span class="co">##  [92] 10.401013 11.740112 19.688841 23.269900 26.192331 30.367621 34.259411</span></span>
 <span><span class="co">##  [99] 35.251265 39.758232</span></span></code></pre>
-<p>We can see that most body sizes are less than 10, or only about 10%
-of the maximum size we sampled from.</p>
+<p>We can see that most body sizes are less than 10.</p>
 </div>
 <div class="section level2">
 <h2 id="estimating-lambda">Estimating <span class="math inline">\(\lambda\)</span><a class="anchor" aria-label="anchor" href="#estimating-lambda"></a>
@@ -230,7 +208,7 @@ all individuals</li>
 log-transformed values.</p></li>
 <li><p>The code looks like this:</p></li>
 </ul>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, <span class="co"># continuous estimates of all individuals</span></span>
 <span>      x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># the vector of data</span></span>
@@ -240,7 +218,7 @@ log-transformed values.</p></li>
 <span>      sumlogx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span><span class="op">)</span>, <span class="co"># sum of log-transformed data</span></span>
 <span>      p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span> <span class="co"># starting point, arbitrary number</span></span></code></pre></div>
 <p>Let’s look at the result:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span></span></code></pre></div>
 <pre><code><span><span class="co">## $MLE</span></span>
 <span><span class="co">## [1] -1.871733</span></span>
@@ -254,6 +232,13 @@ data.</p>
 confidence interval of <span class="math inline">\(\lambda\)</span>.</p>
 <p>So, based on the data we estimate that <span class="math inline">\(\lambda = -1.87\)</span> and the 95% confidence
 interval is: <span class="math inline">\(-2.11, -1.65\)</span>.</p>
+</div>
+<div class="section level2">
+<h2 id="plotting-estimates-and-data">Plotting estimates and data<a class="anchor" aria-label="anchor" href="#plotting-estimates-and-data"></a>
+</h2>
+<p>Edwards recommends two plots to display body size data and size
+spectra estimates. The <code>sizeSpectra</code> package has a function
+<code><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plots.recommend.html" class="external-link">MLE.plots.recommend()</a></code> which</p>
 <div class="section level3">
 <h3 id="practice-problems">Practice Problems<a class="anchor" aria-label="anchor" href="#practice-problems"></a>
 </h3>
@@ -265,7 +250,7 @@ before you simulate to make your results reproducible.</p>
 observations in our simulation. Try higher and lower sample sizes. What
 happens to the estimate <code>MLE</code> and the width of the confidence
 intervals?</p></li>
-<li><p>Repeat the analysis, but this time change the value of <span class="math inline">\(lambda\)</span> (the <code>b</code> argument in
+<li><p>Repeat the analysis, but this time change the value of <span class="math inline">\(\lambda\)</span> (the <code>b</code> argument in
 the <code><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB()</a></code> command). Pay special attention to the largest
 and smallest body sizes sampled. How often is the value of
 <code>xmin</code> and <code>xmax</code> observed? Does this change with
@@ -273,11 +258,6 @@ the “steepness” of the <span class="math inline">\(\lambda\)</span>
 value?</p></li>
 </ol>
 </div>
-</div>
-<div class="section level2">
-<h2 id="plotting-estimates-and-data">Plotting estimates and data<a class="anchor" aria-label="anchor" href="#plotting-estimates-and-data"></a>
-</h2>
-<p>Here is a small change, and another, yet a third</p>
 <div class="section level3">
 <h3 id="mle-from-sizespectra">MLE from <code>sizeSpectra</code><a class="anchor" aria-label="anchor" href="#mle-from-sizespectra"></a>
 </h3>
