@@ -5,11 +5,5 @@
 #'
 #' @format ## `ohc`
 #' A vector of 1,809 body size observations:
-#' \describe{
-#'   \item{country}{Country name}
-#'   \item{iso2, iso3}{2 & 3 letter ISO country codes}
-#'   \item{year}{Year}
-#'   ...
-#' }
 #' @source <https://onlinelibrary.wiley.com/doi/abs/10.1111/fwb.13196>
 "ohc"
