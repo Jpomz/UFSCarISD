@@ -21,6 +21,6 @@ Simulated
 isd_gradient
 }
 \description{
-This data is simulated to represent individual size data from three sites (Site A, Q, X) across a hypothetical environmental gradient. All individual body sizes are present. There is no binning or counting of individuals. In other words, this is a perfect example of when to use `negLL.fn = negLL.PLB` in the `calcLike()` function.
+This data is simulated to represent individual size data from three sites (Site A, Q, X) across a hypothetical environmental gradient. All individual body sizes are present. There is no binning or counting of individuals. In other words, this is a perfect example of when to use `negLL.fn = negLL.PLB` in the `calcLike()` function. The data was simulated from the `sizeSpectra::rPLB()` function with `b = -1`, `-1.5` and `-2` respectively.
 }
 \keyword{datasets}

@@ -265,13 +265,13 @@ When using binned data, there is a different function that Edwards recommends fo
 
 ```{r}
 
-LBN_bin_plot(binValsTibble = x.binned$binVals, # modify 
-             b.MLE = mle_fish_bin$MLE,
-             b.confMin = mle_fish_bin$conf[1],
-             b.confMax = mle_fish_bin$conf[2],
-             leg.text = "(c)",
-             log.xy = "xy",
-             plot.binned.fitted = FALSE)
+# LBN_bin_plot(binValsTibble = x.binned$binVals, # modify 
+#              b.MLE = mle_fish_bin$MLE,
+#              b.confMin = mle_fish_bin$conf[1],
+#              b.confMax = mle_fish_bin$conf[2],
+#              leg.text = "(c)",
+#              log.xy = "xy",
+#              plot.binned.fitted = FALSE)
 
 
 ```
