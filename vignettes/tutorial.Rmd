@@ -1,0 +1,162 @@
+---
+title: "Tutorial"
+author: "Justin Pomeranz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+# Overview  
+
+This tutorial will introduce the `sizeSpectra` package and go over methods for estimating the exponent of a bounded power law ($\lambda$).  
+
+# Introduction  
+
+Size spectra (AKA Individual Size Distributions, Community Biomass Distributions) are one of the many body-size abundance relationships. Here, we will be focusing on Individual Size Distributions (ISD, *sensu* White et al. 2007) where the biomass is measured (or estimated) for every single individual within a community. 
+
+## Mathematical basis  
+
+The distribution of abundance ($N$) to body size ($M$) can be modeled as a bounded power law (Andersen et al. 2016)  in the form:
+
+$\large N \propto M^ \lambda$ 
+
+Where $\lambda$ is the rate parameter describing the decline in abundance with increasing body size and is almost always negative. For pelagic marine systems, $\lambda \approx -2$ (Andersen and Beyer 2006, Wesner et al. 2024) and for stream communities $\lambda$ appears to be $\approx -1.25$ (Pomeranz et al. 2022, Gjoni et al. 2024). 
+
+More negative values of $\lambda$ (i.e., $\lambda = -2$) are "steeper" and values of $\lambda$ closer to 0 (i.e., $\lambda = -0.5$) are "shallower". This means that "steep" relationships support less biomass in the large body sizes, and "shallow" relationships have more biomass in the larger body sizes. 
+
+![Figure 1. Conceptual figure showing the difference in power law exponents. A) Plot showing the frequency distribution with increasing body sizes. Both communtities have the same size range (x-axis) but the "Steep" community has relatively lower abundance of large sized idividuals. B) A conceptual diagram of a trophic pyramid for a "shallow" community and C) for a "steep" community. Note that the abundance for the smallest body sizes (width of the purple bar) is the same in both communities, but the widths of the subsequent bars are smaller in the "steep" community, culiminating in only one fish compared with two fish in the "shallow" pyramid.](trophic-pyramid.png) 
+
+This has commonly been modeled in the literature by creating body mass bins and counting (Abundance Size Spectra) or summing (Biomass size spectra) the number of individuals in each bin. The bnned data is then log-transformed and $\lambda$ is estimated as the slope according to:
+
+$\large log_{10}(N) = \lambda log_{10}(M)$ 
+
+However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inacurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, Pomeranz et al. 2024). ONe of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
+
+# `sizeSpectra` Package  
+
+Make sure you have the `sizeSpectra` package downloaded. You can download it directly from github using the `remotes` package  
+
+```{r, eval=FALSE}
+install.packages("remotes")    # If you do not already have the "remotes" package
+remotes::install_github("andrew-edwards/sizeSpectra")
+```
+
+Once the package is downloaded, we need to load it into our session:
+
+```{r}
+library(sizeSpectra)
+```
+
+For an overview of what the package can do, see the [package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
+
+# Data Simulation  
+
+Let's start off by simulating a vector of body size data. I first set the seed to make these reproducible.   
+
+```{r}
+set.seed(598) # makes simulation reproducible
+m2 <- rPLB(n = 100, b = -2, xmin = 1, xmax = 100)
+```
+
+The above code samples `n = 100` body sizes from a power law with an exponent ($\lambda$) of `b = -2`. Becasue this is a bounded power law, we set the minimum size (`xmin = 1`) and the maximum (`xmax = 100`). You can think of this body size range as a sample of fish from 1 to 100 grams. I have named it `m2` to keep track of what exponent was used (i.e., `-2`).
+
+Let's sort the vector and view it:
+
+```{r}
+sort(m2)
+```
+
+We can see that most body sizes are less than 10, or only about 10% of the maximum size we sampled from. 
+
+# Estimating $\lambda$  
+
+We will estimate $\lambda$ from this vector of body size data. 
+
+* We will use the `calcLike()` function.  
+* This function requires us to specify the `negLL.fn = negLL.PLB`.  
+
+  * We use this one becasue we have continuous body size estimates for all individuals 
+  * More options and details on this later.  
+  
+* We also need to supply information on the data including `min`, `max`, `n`, and the sum of the log-transformed values.  
+
+* The code looks like this:  
+
+```{r}
+mle_lambda_2 <- calcLike(
+      negLL.fn = negLL.PLB, # continuous estimates of all individuals
+      x = m2, # the vector of data
+      xmin = min(m2), # the minimum body size
+      xmax = max(m2), # the maximum body size
+      n = length(m2), # the number of observations
+      sumlogx = sum(log(m2)), # sum of log-transformed data
+      p = -1.5) # starting point, arbitrary number
+```
+
+Let's look at the result:
+
+```{r}
+mle_lambda_2
+```
+
+The results are returned as a list with `MLE` being the estimate of $\lambda$ based on our data. 
+
+`conf` includes the lower and upper bound for a 95% confidence interval of $\lambda$. 
+
+So, based on the data we estimate that $\lambda = -1.87$ and the 95% confidence interval is: $-2.11, -1.65$. 
+
+## Practice Problems  
+
+For the following problems, make sure to use new names of your objects. You may want to add a new `set.seed()` command before you simulate to make your results reproducible.  
+
+1. Repeat the analysis we just did but change the number of observations in our simulation. Try higher and lower sample sizes. What happens to the estimate `MLE` and the width of the confidence intervals? 
+
+2. Repeat the analysis, but this time change the value of $lambda$ (the `b` argument in the `rPLB()` command). Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
+
+# Plotting estimates and data  
+
+
+
+## MLE from `sizeSpectra`  
+
+## Binning with Log~2~ Bins  
+
+# Working with real data  
+
+## Data format: All indidividuals  
+
+## Data Format: Count of body sizes  
+
+## Data Format: Binned data
+
+
+# References  
+
+Andersen, K. H., and J. E. Beyer. 2006. Asymptotic Size Determines Species Abundance in the Marine Size Spectrum. The American Naturalist 168:54–61.
+
+Andersen, K. H., J. L. Blanchard, E. A. Fulton, H. Gislason, N. S. Jacobsen, and T. van Kooten. 2016. Assumptions behind size-based ecosystem models are realistic. ICES Journal of Marine Science 73:1651–1655.
+
+Edwards, A. M. (2020). sizeSpectra: R package for fitting size spectra to ecological data (including binned data). https://github.com/andrew-edwards/sizeSpectra
+Google Scholar
+
+Edwards, A. M., Robinson, J., Blanchard, J., Baum, J., & Plank, M. (2020). Accounting for the bin structure of data removes bias when fitting size spectra. Marine Ecology Progress Series, 636, 19–33.
+
+Edwards, A. M., Robinson, J., Plank, M., Baum, J., & Blanchard, J. (2017). Testing and recommending methods for fitting size spectra to data. Methods in Ecology and Evolution, 8, 57–67.
+
+Gjoni, V., J. P. F. Pomeranz, J. R. Junker, and J. S. Wesner. 2024, January 11. Size spectra in freshwater streams are consistent across temperature and resource supply. bioRxiv.
+
+Pomeranz, J. P. F., J. R. Junker, and J. S. Wesner. 2022. Individual size distributions across North American streams vary with local temperature. Global Change Biology 28:848–858.
+
+Pomeranz, J., J. R. Junker, V. Gjoni, and J. S. Wesner. 2024. Maximum likelihood outperforms binning methods for detecting differences in abundance size spectra across environmental gradients. Journal of Animal Ecology 93:267–280.
+
+Sprules, W. G., and L. E. Barth. 2016. Surfing the biomass size spectrum: some remarks on history, theory, and application. Canadian Journal of Fisheries and Aquatic Sciences 73:477–495.
+
+White, E. P., S. K. M. Ernest, A. J. Kerkhoff, and B. J. Enquist. 2007. Relationships between body size and abundance in ecology. Trends in Ecology & Evolution 22:323–330.
+
+White, E. P., B. J. Enquist, and J. L. Green. 2008. On Estimating the Exponent of Power-Law Frequency Distributions. Ecology 89:905–912.
