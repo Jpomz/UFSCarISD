@@ -121,7 +121,7 @@ For the following problems, make sure to use new names of your objects. You may 
 
 # Plotting estimates and data  
 
-Here is a small change
+Here is a small changed another
 
 
 ## MLE from `sizeSpectra`  
