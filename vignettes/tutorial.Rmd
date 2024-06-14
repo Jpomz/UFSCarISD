@@ -75,7 +75,7 @@ Let's sort the vector and view it:
 sort(m2)
 ```
 
-We can see that most body sizes are less than 10. 
+We can see that most body sizes are less than 10, and there are very few large body sizes in this sample. Note also that the largest body size is ~40, even though we set our size bounds from 1 to 100. 
 
 # Estimating $\lambda$  
 
@@ -116,20 +116,46 @@ So, based on the data we estimate that $\lambda = -1.87$ and the 95% confidence 
 
 # Plotting estimates and data  
 
-Edwards recommends two plots to display body size data and size spectra estimates. The `sizeSpectra` package has a function `MLE.plots.recommend()` which  
+Edwards provides a function called `MLE.plot()`. This function requires a vector of body sizes and the MLE results.
+
+
+```{r}
+MLE.plot(x = m2, # vector of simulated body sizes
+         b = mle_lambda_2$MLE, #lambda estimate
+         confVals = c(mle_lambda_2$conf[1],# confidence interval
+                      mle_lambda_2$conf[2]),
+         panel = "b", #This option includes the estimate and CI
+         log="xy") # you can change this to just x
+```
+
+Here is the same plot as above but with only the x-axis log transformed. 
+
+```{r}
+MLE.plot(x = m2, 
+         b = mle_lambda_2$MLE, 
+         confVals = c(mle_lambda_2$conf[1],
+                      mle_lambda_2$conf[2]),
+         panel = "b", 
+         log="x") # Just the x axis transformed
+```
+
+There is an alternative option using `panel = "h"`. This option displays the estimate of $\lambda$ on the figure, but cannot include confidence itnervals. 
+
+```{r}
+MLE.plot(x = m2, # vector of simulated body sizes
+         b = mle_lambda_2$MLE, #lambda estimate
+         panel = "h", #This option includes the estimate and CI
+         log="xy") # you can also
+```
 
 ## Practice Problems  
 
 For the following problems, make sure to use new names of your objects. You may want to add a new `set.seed()` command before you simulate to make your results reproducible.  
 
-1. Repeat the analysis we just did but change the number of observations in our simulation. Try higher and lower sample sizes. What happens to the estimate `MLE` and the width of the confidence intervals? 
+1. Make two new vectors of body size data but change the sample size in each, i.e. `n=1000` and `n=50`. Name the two new vectors `m2_high_n` and `m2_low_n`. Repeat the analysis we just did for each of your new vectors. What happens to the estimate `MLE` and the width of the confidence intervals? Make one `panel="b"` plot for each of your new results. 
 
-2. Repeat the analysis, but this time change the value of $\lambda$ (the `b` argument in the `rPLB()` command). Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
+2. Make two new vectors of body size data with `n=1000` but this time set `b = -1.5` and `b = -2.5` (recall that `b` is $\lambda$ and controls the rate of decline. Name your new vectors `m_1.5` and `m_2.5`. Print out each of your new vectors using the `sort()` function. Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
 
-
-
-
-## MLE from `sizeSpectra`  
 
 ## Binning with Log~2~ Bins  
 
@@ -137,9 +163,22 @@ For the following problems, make sure to use new names of your objects. You may 
 
 ## Data format: All indidividuals  
 
+```{r}
+data(ohc)
+```
+
+
 ## Data Format: Count of body sizes  
 
+```{r}
+data(WLOU)
+```
+
 ## Data Format: Binned data
+
+```{r}
+data(fish_binned)
+```
 
 
 # References  
