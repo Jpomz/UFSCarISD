@@ -144,20 +144,9 @@ You can download it directly from github using the <code>remotes</code>
 package</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="st">"remotes"</span><span class="op">)</span>    <span class="co"># If you do not already have the "remotes" package</span></span></code></pre></div>
-<pre><code><span><span class="co">## tidyselect (NA -&gt; 1.2.1  ) [CRAN]</span></span>
-<span><span class="co">## generics   (NA -&gt; 0.1.3  ) [CRAN]</span></span>
-<span><span class="co">## shape      (NA -&gt; 1.4.6.1) [CRAN]</span></span>
-<span><span class="co">## plotrix    (NA -&gt; 3.8-4  ) [CRAN]</span></span>
-<span><span class="co">## dplyr      (NA -&gt; 1.1.4  ) [CRAN]</span></span>
-<span><span class="co">## * checking for file ‘/tmp/Rtmpdbppey/remotes17b6770ee7b0/andrew-edwards-sizeSpectra-517c18d/DESCRIPTION’ ... OK</span></span>
-<span><span class="co">## * preparing ‘sizeSpectra’:</span></span>
-<span><span class="co">## * checking DESCRIPTION meta-information ... OK</span></span>
-<span><span class="co">## * checking for LF line-endings in source and make files and shell scripts</span></span>
-<span><span class="co">## * checking for empty or unneeded directories</span></span>
-<span><span class="co">## * building ‘sizeSpectra_1.1.0.tar.gz’</span></span></code></pre>
 <p>Once the package is downloaded, we need to load it into our
 session:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andrew-edwards/sizeSpectra" class="external-link">sizeSpectra</a></span><span class="op">)</span></span></code></pre></div>
 <p>For an overview of what the package can do, see the <a href="https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html" class="external-link"><em>sizeSpectra</em>
 package vignettes</a></p>
@@ -167,7 +156,7 @@ package vignettes</a></p>
 </h2>
 <p>Let’s start off by simulating a vector of body size data. I first set
 the seed to make these reproducible.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">598</span><span class="op">)</span> <span class="co"># makes simulation reproducible</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, xmin <span class="op">=</span> <span class="fl">1</span>, xmax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <p>The above code samples <code>n = 100</code> body sizes from a power
@@ -178,7 +167,7 @@ minimum size (<code>xmin = 1</code>) and the maximum
 sample of fish from 1 to 100 grams. I have named it <code>m2</code> to
 keep track of what exponent was used (i.e., <code>-2</code>).</p>
 <p>Let’s sort the vector and view it:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1]  1.031254  1.050242  1.052482  1.068892  1.078987  1.090212  1.091879</span></span>
 <span><span class="co">##   [8]  1.096940  1.097447  1.105043  1.105656  1.150811  1.170271  1.184734</span></span>
@@ -220,7 +209,7 @@ all individuals</li>
 log-transformed values.</p></li>
 <li><p>The code looks like this:</p></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, <span class="co"># continuous estimates of all individuals</span></span>
 <span>      x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># the vector of data</span></span>
@@ -230,7 +219,7 @@ log-transformed values.</p></li>
 <span>      sumlogx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span><span class="op">)</span>, <span class="co"># sum of log-transformed data</span></span>
 <span>      p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span> <span class="co"># starting point, arbitrary number</span></span></code></pre></div>
 <p>Let’s look at the result:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span></span></code></pre></div>
 <pre><code><span><span class="co">## $MLE</span></span>
 <span><span class="co">## [1] -1.871733</span></span>
@@ -250,7 +239,7 @@ interval is: <span class="math inline">\(-2.11, -1.65\)</span>.</p>
 </h2>
 <p>Edwards provides a function called <code><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot()</a></code>. This
 function requires a vector of body sizes and the MLE results.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
 <span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="co"># confidence interval</span></span>
@@ -260,7 +249,7 @@ function requires a vector of body sizes and the MLE results.</p>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
 <p>Here is the same plot as above but with only the x-axis log
 transformed.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, </span>
 <span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
@@ -271,7 +260,7 @@ transformed.</p>
 <p>There is an alternative option using <code>panel = "h"</code>. This
 option displays the estimate of <span class="math inline">\(\lambda\)</span> on the figure, but cannot include
 confidence itnervals.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, <span class="co">#This option includes the estimate and CI</span></span>
@@ -322,11 +311,11 @@ in New Zealand. This data is a vector of <span class="math inline">\(1,809\)</sp
 individual was measured and body mass was estimated using length-weight
 regressions. You can load the data with the following command. I also
 print out the first 50 observations for reference.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ohc"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ohc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1809</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ohc</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] 0.002960 0.008360 0.089500 0.071900 0.902721 0.115630 0.383170 4.316831</span></span>
 <span><span class="co">##  [9] 0.867969 0.110412 5.223146 3.984150 0.537623 0.202904 0.081500 0.138040</span></span>
@@ -338,7 +327,7 @@ print out the first 50 observations for reference.</p>
 <p>This data set has body mass for all individuals so we can just plug
 it into our same <code><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike()</a></code> function as above. I will add
 the <code>suppress.warnings = TRUE</code> argument as well.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_ohc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, </span>
 <span>      x <span class="op">=</span> <span class="va">ohc</span>, </span>
@@ -355,7 +344,7 @@ the <code>suppress.warnings = TRUE</code> argument as well.</p>
 <span><span class="co">## $conf</span></span>
 <span><span class="co">## [1] -1.105692 -1.071692</span></span></code></pre>
 <p>As one more example, we can plot these results as above.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ohc</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_ohc</span><span class="op">$</span><span class="va">MLE</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, </span>
@@ -374,7 +363,7 @@ basis.</p>
 <p>I have included an example of this from West St. Louis Creek in the
 Rocky Mountains of Colorado. You can load the data with the following
 command.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"WLOU"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">WLOU</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
@@ -386,7 +375,7 @@ command.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> WLOU_2021-09-20 Fish                 220  0.003<span style="text-decoration: underline;">24</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> WLOU_2021-09-20 Fish                 300  0.003<span style="text-decoration: underline;">32</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> WLOU_2021-09-20 Fish                 520  0.002<span style="text-decoration: underline;">98</span></span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_WLOU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB.counts</span>, </span>
 <span>      x <span class="op">=</span> <span class="va">WLOU</span><span class="op">$</span><span class="va">body_mass</span>,</span>
@@ -399,7 +388,7 @@ command.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## $conf</span></span>
 <span><span class="co">## [1] -1.55102 -1.53302</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">WLOU</span><span class="op">$</span><span class="va">body_mass</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_WLOU</span><span class="op">$</span><span class="va">MLE</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, </span>
@@ -410,9 +399,9 @@ command.</p>
 <div class="section level3">
 <h3 id="data-format-binned-data">Data Format: Binned data<a class="anchor" aria-label="anchor" href="#data-format-binned-data"></a>
 </h3>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fish_binned"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">num.bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fish_binned</span><span class="op">)</span></span>
 <span><span class="va">binBreaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMin</span><span class="op">)</span>,</span>
 <span>  <span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMax</span><span class="op">)</span><span class="op">[</span><span class="va">num.bins</span><span class="op">]</span><span class="op">)</span></span>
@@ -437,7 +426,7 @@ command.</p>
 <p><br></p>
 <p>When using binned data, there is a different function that Edwards
 recommends for plotting.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># LBN_bin_plot(binValsTibble = x.binned$binVals, # modify </span></span>
 <span><span class="co">#              b.MLE = mle_fish_bin$MLE,</span></span>
 <span><span class="co">#              b.confMin = mle_fish_bin$conf[1],</span></span>
@@ -460,7 +449,7 @@ respectively.</p>
 <h3 id="load-the-data">Load the data<a class="anchor" aria-label="anchor" href="#load-the-data"></a>
 </h3>
 <p>Load the data and inspect it.</p>
-<div class="sourceCode" id="cb29"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"isd_gradient"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    body_mass env_value site_name</span></span>
@@ -470,13 +459,13 @@ respectively.</p>
 <span><span class="co">## 4  97.524733        -1    Site_A</span></span>
 <span><span class="co">## 5   3.578355        -1    Site_A</span></span>
 <span><span class="co">## 6  51.687566        -1    Site_A</span></span></code></pre>
-<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 6000    3</span></span></code></pre>
-<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "body_mass" "env_value" "site_name"</span></span></code></pre>
-<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    body_mass         env_value   site_name        </span></span>
 <span><span class="co">##  Min.   :  1.000   Min.   :-1   Length:6000       </span></span>
@@ -496,7 +485,7 @@ plotting and analysis.</p>
 <div class="section level3">
 <h3 id="split-the-data">Split the data<a class="anchor" aria-label="anchor" href="#split-the-data"></a>
 </h3>
-<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">isd_gradient</span>, <span class="va">isd_gradient</span><span class="op">$</span><span class="va">site_name</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">dat_list</span>, <span class="va">head</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $Site_A</span></span>
@@ -544,7 +533,7 @@ pieces.</p>
 <li>Write the <code>for</code> loop</li>
 </ol>
 <p><code>for</code> loops generally look like this:</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_object</span> <span class="op">&lt;-</span> <span class="cn">NULL</span> <span class="co"># empty object to catch data</span></span>
 <span></span>
 <span><span class="kw">for</span><span class="op">(</span><span class="va">index</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span> <span class="co"># set the bounds. This will run through from 1:n</span></span>
@@ -558,7 +547,7 @@ pieces.</p>
 <code>b</code>, and the bounds of the confidence interval for the
 estimate (<code>CI_low</code>, <code>CI_high</code>).</p>
 <p>So, I will make an empty list to catch the results.</p>
-<div class="sourceCode" id="cb40"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isd_result_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="op">)</span></span>
 <span><span class="va">isd_result_list</span></span></code></pre></div>
 <pre><code><span><span class="co">## list()</span></span></code></pre>
@@ -571,7 +560,7 @@ the <code><a href="https://rdrr.io/r/base/length.html" class="external-link">len
 * I will use <code>length(data_list)</code> to get the value of 3.<br>
 * I will abbreviate <code>index</code> above to just be the letter
 <code>i</code>.</p>
-<div class="sourceCode" id="cb42"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">dat_list</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="co"># read one piece of the list in at a time</span></span>
@@ -618,7 +607,7 @@ the <code><a href="https://rdrr.io/r/base/length.html" class="external-link">len
 <p>We now have our three results in a list and we can easily combine
 them into a single data.frame using the <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>
 command.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isd_result_df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span><span class="va">isd_result_list</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>                       <span class="va">isd_result_list</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span>,</span>
 <span>                       <span class="va">isd_result_list</span><span class="op">[[</span><span class="fl">3</span><span class="op">]</span><span class="op">]</span><span class="op">)</span></span>
@@ -631,7 +620,7 @@ command.</p>
 <p>If you don’t already have <code>ggplot2</code>, you can install it by
 running the following (only once per machine):
 <code>install.packages("ggplot2")</code></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">isd_result_df</span>,</span>
@@ -642,7 +631,7 @@ running the following (only once per machine):
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <p><img src="tutorial_files/figure-html/unnamed-chunk-26-1.png" width="700"><br> We can also add a line of best fit using the
 <code>stat_smooth(method = "lm")</code> command.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">isd_result_df</span>,</span>
 <span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">env_value</span>,</span>
 <span>           y <span class="op">=</span> <span class="va">b</span>,</span>
