@@ -53,7 +53,7 @@ install.packages("remotes")    # If you do not already have the "remotes" packag
 ```
 
 
-```{r, message=FALSE, echo=FALSE}
+```{r, eval=FALSE, message=FALSE, echo=FALSE}
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
 
