@@ -4,12 +4,6 @@
     <loc>https://jpomz.github.io/UFSCarISD/404.html</loc>
   </url>
   <url>
-    <loc>https://jpomz.github.io/UFSCarISD/articles/index.html</loc>
-  </url>
-  <url>
-    <loc>https://jpomz.github.io/UFSCarISD/articles/tutorial.html</loc>
-  </url>
-  <url>
     <loc>https://jpomz.github.io/UFSCarISD/authors.html</loc>
   </url>
   <url>
@@ -19,7 +13,16 @@
     <loc>https://jpomz.github.io/UFSCarISD/reference/UFSCarISD-package.html</loc>
   </url>
   <url>
+    <loc>https://jpomz.github.io/UFSCarISD/reference/WLOU.html</loc>
+  </url>
+  <url>
+    <loc>https://jpomz.github.io/UFSCarISD/reference/fish_binned.html</loc>
+  </url>
+  <url>
     <loc>https://jpomz.github.io/UFSCarISD/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://jpomz.github.io/UFSCarISD/reference/isd_gradient.html</loc>
   </url>
   <url>
     <loc>https://jpomz.github.io/UFSCarISD/reference/ohc.html</loc>

@@ -1,9 +1,8 @@
 pandoc: 3.1.11
 pkgdown: 2.0.9
 pkgdown_sha: ~
-articles:
-  tutorial: tutorial.html
-last_built: 2024-06-14T18:36Z
+articles: {}
+last_built: 2024-06-15T15:45Z
 urls:
   reference: https://jpomz.github.io/UFSCarISD/reference
   article: https://jpomz.github.io/UFSCarISD/articles
