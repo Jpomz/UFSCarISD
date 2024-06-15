@@ -1,2 +1,3 @@
 exportPattern("^[[:alpha:]]+")
 import(sizeSpectra)
+import(ggplot2)
