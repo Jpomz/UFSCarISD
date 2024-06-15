@@ -11,7 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(UFSCarISD)
-#library(sizeSpectra)
+library(sizeSpectra)
 ```
 
 # Overview  
@@ -41,7 +41,7 @@ This has commonly been modeled in the literature by creating body mass bins and 
 
 $\large log_{10}(N) = \lambda log_{10}(M)$ 
 
-However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inacurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, Pomeranz et al. 2024). ONe of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
+However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inacurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, Pomeranz et al. 2024). One of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
 
 # `sizeSpectra` Package  
 
@@ -327,7 +327,9 @@ In case you are not familiar with `for` loops, these are ways of performing a re
 `for` loops generally look like this:
 
 ```{r, eval=FALSE}
-dat_object <- NULL # empty object to catch data
+dat_object <- data.frame(# empty object to catch data
+  col_name_1 = character(n), # name the columns and give them a class
+  col_name_2 = integer(n)) # use "n" to repeat the number of rows
 
 for(index in 1:n){ # set the bounds. This will run through from 1:n
   # body, this is where you write your code make your calculations
@@ -343,8 +345,16 @@ The five pieces of information I want from the analysis are the `site_name`, `en
 So, I will make an empty list to catch the results.  
 
 ```{r}
-isd_result_list <- list()
-isd_result_list
+n = length(dat_list)
+n
+isd_result <- data.frame(
+    site_name = character(n),
+    env_value = numeric(n),
+    b = numeric(n), 
+    CI_low = numeric(n),
+    CI_high = numeric(n))
+
+isd_result
 ```
 
 ### Set bounds and write the `for` loop  
@@ -354,7 +364,7 @@ My `data_list` has three elements in it. So we will use the `length()` function 
 * I will abbreviate `index` above to just be the letter `i`.  
 
 ```{r}
-for(i in 1:length(dat_list)){
+for(i in 1:n){
   
   # read one piece of the list in at a time
   dat_in <- dat_list[[i]] 
@@ -373,38 +383,34 @@ for(i in 1:length(dat_list)){
       p = -1.5,
       suppress.warnings = TRUE) 
   
-  # now save all the relevant information in  a vector
-  # make sure to save the information in the same order as our data frame above: site_name, b, CI_low, CI_high
-  dat_out <- data.frame(
-    site_name = site_name,
-    env_value = env_value,
-    b = mle_estimate$MLE, 
-    CI_low = mle_estimate$conf[1],
-    CI_high = mle_estimate$conf[2])
-
-isd_result_list[[i]] <- dat_out
+  # now save all the relevant information in the data frame
+  # Make sure to put them in the right spot
+  
+  
+  isd_result$site_name[i] = site_name
+  isd_result$env_value[i] = env_value
+  isd_result$b[i] = mle_estimate$MLE
+  isd_result$CI_low[i] = mle_estimate$conf[1]
+  isd_result$CI_high[i] = mle_estimate$conf[2]
+  
 }
 
-isd_result_list
 ```
 
 We now have our three results in a list and we can easily combine them into a single data.frame using the `rbind()` command. 
 
 ```{r}
-isd_result_df <- rbind(isd_result_list[[1]],
-                       isd_result_list[[2]],
-                       isd_result_list[[3]])
-isd_result_df
+isd_result
 ```
 
 Now we can plot these results using `ggplot2` library. 
 
 If you don't already have `ggplot2`, you can install it by running the following (only once per machine): `install.packages("ggplot2")`
 
-```{r}
+```{r, message=FALSE, warning=FALSE}
 library(ggplot2)
 
-ggplot(isd_result_df,
+ggplot(isd_result,
        aes(x = env_value,
            y = b,
            ymin = CI_low,
@@ -415,7 +421,7 @@ ggplot(isd_result_df,
 We can also add a line of best fit using the `stat_smooth(method = "lm")` command. 
 
 ```{r, message=FALSE}
-ggplot(isd_result_df,
+ggplot(isd_result,
        aes(x = env_value,
            y = b,
            ymin = CI_low,
