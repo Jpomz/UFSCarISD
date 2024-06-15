@@ -1,0 +1,446 @@
+---
+title: "Tutorial"
+author: "Justin Pomeranz"
+date: "`r Sys.Date()`"
+output: 
+  html_document:
+    toc: true
+    toc_depth: 2
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(UFSCarISD)
+library(sizeSpectra)
+```
+
+# Overview  
+
+This tutorial will introduce the `sizeSpectra` package and go over methods for estimating the exponent of a bounded power law ($\lambda$).  
+
+# Introduction  
+
+Size spectra (AKA Individual Size Distributions, Community Biomass Distributions) are one of the many body-size abundance relationships. Here, we will be focusing on Individual Size Distributions (ISD, *sensu* White et al. 2007) where the biomass is measured (or estimated) for every single individual within a community. 
+
+## Mathematical basis  
+
+The distribution of abundance ($N$) to body size ($M$) can be modeled as a bounded power law (Andersen et al. 2016)  in the form:
+
+$\large N \propto M^ \lambda$ 
+
+Where $\lambda$ is the rate parameter describing the decline in abundance with increasing body size and is almost always negative. For pelagic marine systems, $\lambda \approx -2$ (Andersen and Beyer 2006, Wesner et al. 2024) and for stream communities $\lambda$ appears to be $\approx -1.25$ (Pomeranz et al. 2022, Gjoni et al. 2024). 
+
+More negative values of $\lambda$ (i.e., $\lambda = -2$) are "steeper" and values of $\lambda$ closer to 0 (i.e., $\lambda = -0.5$) are "shallower". This means that "steep" relationships support less biomass in the large body sizes, and "shallow" relationships have more biomass in the larger body sizes. 
+
+![Figure 1. Conceptual figure showing the difference in power law exponents. A) Plot showing the frequency distribution with increasing body sizes. Both communtities have the same size range (x-axis) but the "Steep" community has relatively lower abundance of large sized idividuals. B) A conceptual diagram of a trophic pyramid for a "shallow" community and C) for a "steep" community. Note that the abundance for the smallest body sizes (width of the purple bar) is the same in both communities, but the widths of the subsequent bars are smaller in the "steep" community, culiminating in only one fish compared with two fish in the "shallow" pyramid.](trophic-pyramid.png) 
+
+<br>
+<br>
+
+This has commonly been modeled in the literature by creating body mass bins and counting (Abundance Size Spectra) or summing (Biomass size spectra) the number of individuals in each bin. The bnned data is then log-transformed and $\lambda$ is estimated as the slope according to:
+
+$\large log_{10}(N) = \lambda log_{10}(M)$ 
+
+However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inacurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, Pomeranz et al. 2024). ONe of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
+
+# `sizeSpectra` Package  
+
+Make sure you have the `sizeSpectra` package downloaded. You can download it directly from github using the `remotes` package  
+
+```{r, eval=FALSE, message=FALSE}
+install.packages("remotes")    # If you do not already have the "remotes" package
+remotes::install_github("andrew-edwards/sizeSpectra")
+```
+
+
+Once the package is downloaded, we need to load it into our session:
+
+```{r, eval=FALSE}
+library(sizeSpectra)
+```
+
+For an overview of what the package can do, see the [*sizeSpectra* package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
+
+# Data Simulation  
+
+Let's start off by simulating a vector of body size data. I first set the seed to make these reproducible.   
+
+```{r}
+set.seed(598) # makes simulation reproducible
+m2 <- rPLB(n = 100, b = -2, xmin = 1, xmax = 100)
+```
+
+The above code samples `n = 100` body sizes from a power law with an exponent ($\lambda$) of `b = -2`. Becasue this is a bounded power law, we set the minimum size (`xmin = 1`) and the maximum (`xmax = 100`). You can think of this body size range as a sample of fish from 1 to 100 grams. I have named it `m2` to keep track of what exponent was used (i.e., `-2`).
+
+Let's sort the vector and view it:
+
+```{r}
+sort(m2)
+```
+
+We can see that most body sizes are less than 10, and there are very few large body sizes in this sample. Note also that the largest body size is ~40, even though we set our size bounds from 1 to 100. 
+
+# Estimating $\lambda$  
+
+We will estimate $\lambda$ from this vector of body size data. 
+
+* We will use the `calcLike()` function.  
+* This function requires us to specify the `negLL.fn = negLL.PLB`.  
+
+  * We use this one becasue we have continuous body size estimates for all individuals 
+  * More options and details on this later.  
+  
+* We also need to supply information on the data including `min`, `max`, `n`, and the sum of the log-transformed values.  
+
+* The code looks like this:  
+
+```{r}
+mle_lambda_2 <- calcLike(
+      negLL.fn = negLL.PLB, # continuous estimates of all individuals
+      x = m2, # the vector of data
+      xmin = min(m2), # the minimum body size
+      xmax = max(m2), # the maximum body size
+      n = length(m2), # the number of observations
+      sumlogx = sum(log(m2)), # sum of log-transformed data
+      p = -1.5) # starting point, arbitrary number
+```
+
+Let's look at the result:
+
+```{r}
+mle_lambda_2
+```
+
+The results are returned as a list with `MLE` being the estimate of $\lambda$ based on our data. 
+
+`conf` includes the lower and upper bound for a 95% confidence interval of $\lambda$. 
+
+So, based on the data we estimate that $\lambda = -1.87$ and the 95% confidence interval is: $-2.11, -1.65$. 
+
+# Plotting estimates and data  
+
+Edwards provides a function called `MLE.plot()`. This function requires a vector of body sizes and the MLE results.
+
+
+```{r}
+MLE.plot(x = m2, # vector of simulated body sizes
+         b = mle_lambda_2$MLE, #lambda estimate
+         confVals = c(mle_lambda_2$conf[1],# confidence interval
+                      mle_lambda_2$conf[2]),
+         panel = "b", #This option includes the estimate and CI
+         log="xy") # you can change this to just x
+```
+
+Here is the same plot as above but with only the x-axis log transformed. 
+
+```{r}
+MLE.plot(x = m2, 
+         b = mle_lambda_2$MLE, 
+         confVals = c(mle_lambda_2$conf[1],
+                      mle_lambda_2$conf[2]),
+         panel = "b", 
+         log="x") # Just the x axis transformed
+```
+
+There is an alternative option using `panel = "h"`. This option displays the estimate of $\lambda$ on the figure, but cannot include confidence itnervals. 
+
+```{r}
+MLE.plot(x = m2, # vector of simulated body sizes
+         b = mle_lambda_2$MLE, #lambda estimate
+         panel = "h", #This option includes the estimate and CI
+         log="xy") # you can also
+```
+
+## Practice Problems  
+
+For the following problems, make sure to use new names of your objects. You may want to add a new `set.seed()` command before you simulate to make your results reproducible.  
+
+1. Make two new vectors of body size data but change the sample size in each, i.e. `n=1000` and `n=50`. Name the two new vectors `m2_high_n` and `m2_low_n`. Repeat the analysis we just did for each of your new vectors. What happens to the estimate `MLE` and the width of the confidence intervals? Make one `panel="b"` plot for each of your new results. 
+
+2. Make two new vectors of body size data with `n=1000` but this time set `b = -1.5` and `b = -2.5` (recall that `b` is $\lambda$ and controls the rate of decline. Name your new vectors `m_1.5` and `m_2.5`. Print out each of your new vectors using the `sort()` function. Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
+
+
+## Binning with Log~2~ Bins  
+
+# Working with real data  
+
+Data comes in all formats. Here I will show examples of the three most common formats that I encounter:
+1. All individuals have a body mass estimate.  
+2. There are counts of individuals with a given a body mass.  
+3. Individuals are "binned" into broad categories of body mass.  
+
+## Data format: All indidividuals  
+
+I have included body size observations from a stream that I sampled in New Zealand. This data is a vector of $1,809$ individual body sizes. Every individual was measured and body mass was estimated using length-weight regressions. You can load the data with the following command. I also print out the first 50 observations for reference. 
+
+
+```{r}
+data("ohc")
+length(ohc)
+ohc[1:50]
+```
+
+This data set has body mass for all individuals so we can just plug it into our same `calcLike()` function as above. I will add the `suppress.warnings = TRUE` argument as well. 
+
+```{r}
+mle_ohc <- calcLike(
+      negLL.fn = negLL.PLB, 
+      x = ohc, 
+      xmin = min(ohc), 
+      xmax = max(ohc), 
+      n = length(ohc), 
+      sumlogx = sum(log(ohc)), 
+      p = -1.5,
+      suppress.warnings = TRUE)
+mle_ohc
+```
+
+As one more example, we can plot these results as above. 
+
+```{r}
+MLE.plot(x = ohc, 
+         b = mle_ohc$MLE,
+         panel = "h", 
+         log="xy") 
+```
+
+
+## Data Format: Count of body sizes  
+
+We don't always have an individual observation for every single individual in our sample. For example, the NEON data set that I have worked with extensively collects macroinvertebrates and fish on different scales. In order to combine these, we have calculated an estimated count of individuals of a given body size on a per m^2 basis.  
+
+I have included an example of this from West St. Louis Creek in the Rocky Mountains of Colorado. You can load the data with the following command. 
+
+```{r}
+data("WLOU")
+head(WLOU)
+```
+
+
+```{r}
+mle_WLOU <- calcLike(
+      negLL.fn = negLL.PLB.counts, 
+      x = WLOU$body_mass,
+      c = WLOU$count_m2, 
+      p = -1.5,
+      suppress.warnings = TRUE)
+mle_WLOU
+```
+
+
+```{r}
+MLE.plot(x = WLOU$body_mass, 
+         b = mle_WLOU$MLE,
+         panel = "h", 
+         log="xy") 
+```
+<br>
+Notice that empirical data is much messier and does not generally "fit" the red line nearly as nicely as simulated data.  
+
+## Data Format: Binned data
+
+```{r}
+data("fish_binned")
+```
+
+
+```{r}
+num.bins <- nrow(fish_binned)
+binBreaks <- c((fish_binned$binMin),
+  (fish_binned$binMax)[num.bins])
+binCounts <- fish_binned$n
+
+
+mle_fish_bin <- calcLike(
+  negLL.fn = negLL.PLB.binned,
+  p = -2.5,
+  w = binBreaks,
+  d = binCounts,
+  J = num.bins,
+  vecDiff = 0.5,
+  suppress.warnings = TRUE)
+
+mle_fish_bin 
+```
+
+<br>
+
+When using binned data, there is a different function that Edwards recommends for plotting. 
+
+```{r}
+
+# LBN_bin_plot(binValsTibble = x.binned$binVals, # modify 
+#              b.MLE = mle_fish_bin$MLE,
+#              b.confMin = mle_fish_bin$conf[1],
+#              b.confMax = mle_fish_bin$conf[2],
+#              leg.text = "(c)",
+#              log.xy = "xy",
+#              plot.binned.fitted = FALSE)
+
+
+```
+# Working with data from multiple sites  
+
+For this example, there is a data set included in the package called `isd_gradient`. This is simulated data from three sites across a hypothetical environmental gradient. The data was simulated so that $\lambda$ from the three sites is equal to `-1`, `-1.5`, and `-2`, respectively. 
+
+## Load the data  
+
+Load the data and inspect it.  
+
+```{r}
+data("isd_gradient")
+head(isd_gradient)
+dim(isd_gradient)
+names(isd_gradient)
+summary(isd_gradient)
+```
+
+
+There are a number of ways to treat the data. One of the simplest (?) is to:  
+1. Split the data into a list where each item in the list is the data for one site.  
+2. Use a `for` loop to estimate $\lambda$ from each site.  
+3. Store the results of the `for` loop in a data frame for plotting and analysis.  
+
+## Split the data  
+
+```{r}
+dat_list <- split(isd_gradient, isd_gradient$site_name)
+lapply(dat_list, head)
+```
+
+
+`data_list` is now a list with 3 elements in it, one element for each site.  
+
+## `for` loop  
+
+In case you are not familiar with `for` loops, these are ways of performing a repeated set of functions on different sets or pieces of data. Generally, a `for` loop has the following pieces.  
+
+1. Make an empty object to "catch" the results.  
+2. Set the bounds of the loop.  
+3. Write the `for` loop  
+
+`for` loops generally look like this:
+
+```{r, eval=FALSE}
+dat_object <- NULL # empty object to catch data
+
+for(index in 1:n){ # set the bounds. This will run through from 1:n
+  # body, this is where you write your code make your calculations
+  }
+
+```
+
+
+### Make an empty data frame  
+
+The five pieces of information I want from the analysis are the `site_name`, `env_value`, the estimated `b`, and the bounds of the confidence interval for the estimate (`CI_low`, `CI_high`). 
+
+So, I will make an empty list to catch the results.  
+
+```{r}
+isd_result_list <- list()
+isd_result_list
+```
+
+### Set bounds and write the `for` loop  
+
+My `data_list` has three elements in it. So we will use the `length()` function to set the bounds of the loop.  
+* I will use `length(data_list)` to get the value of 3.  
+* I will abbreviate `index` above to just be the letter `i`.  
+
+```{r}
+for(i in 1:length(dat_list)){
+  
+  # read one piece of the list in at a time
+  dat_in <- dat_list[[i]] 
+  # extract the relevant information from the dat_in object 
+  body_mass <- dat_in$body_mass
+  site_name <- unique(dat_in$site_name)
+  env_value <- unique(dat_in$env_value)
+  
+  mle_estimate <- calcLike(
+      negLL.fn = negLL.PLB, 
+      x = body_mass, 
+      xmin = min(body_mass), 
+      xmax = max(body_mass), 
+      n = length(body_mass), 
+      sumlogx = sum(log(body_mass)), 
+      p = -1.5,
+      suppress.warnings = TRUE) 
+  
+  # now save all the relevant information in  a vector
+  # make sure to save the information in the same order as our data frame above: site_name, b, CI_low, CI_high
+  dat_out <- data.frame(
+    site_name = site_name,
+    env_value = env_value,
+    b = mle_estimate$MLE, 
+    CI_low = mle_estimate$conf[1],
+    CI_high = mle_estimate$conf[2])
+
+isd_result_list[[i]] <- dat_out
+}
+
+isd_result_list
+```
+
+We now have our three results in a list and we can easily combine them into a single data.frame using the `rbind()` command. 
+
+```{r}
+isd_result_df <- rbind(isd_result_list[[1]],
+                       isd_result_list[[2]],
+                       isd_result_list[[3]])
+isd_result_df
+```
+
+Now we can plot these results using `ggplot2` library. 
+
+If you don't already have `ggplot2`, you can install it by running the following (only once per machine): `install.packages("ggplot2")`
+
+```{r}
+library(ggplot2)
+
+ggplot(isd_result_df,
+       aes(x = env_value,
+           y = b,
+           ymin = CI_low,
+           ymax = CI_high)) +
+  geom_pointrange()
+```
+<br>
+We can also add a line of best fit using the `stat_smooth(method = "lm")` command. 
+
+```{r, message=FALSE}
+ggplot(isd_result_df,
+       aes(x = env_value,
+           y = b,
+           ymin = CI_low,
+           ymax = CI_high)) +
+  geom_pointrange() +
+  stat_smooth(method = "lm")
+```
+
+
+# References  
+
+Andersen, K. H., and J. E. Beyer. 2006. Asymptotic Size Determines Species Abundance in the Marine Size Spectrum. The American Naturalist 168:54–61.
+
+Andersen, K. H., J. L. Blanchard, E. A. Fulton, H. Gislason, N. S. Jacobsen, and T. van Kooten. 2016. Assumptions behind size-based ecosystem models are realistic. ICES Journal of Marine Science 73:1651–1655.
+
+Edwards, A. M. (2020). sizeSpectra: R package for fitting size spectra to ecological data (including binned data). https://github.com/andrew-edwards/sizeSpectra
+Google Scholar
+
+Edwards, A. M., Robinson, J., Blanchard, J., Baum, J., & Plank, M. (2020). Accounting for the bin structure of data removes bias when fitting size spectra. Marine Ecology Progress Series, 636, 19–33.
+
+Edwards, A. M., Robinson, J., Plank, M., Baum, J., & Blanchard, J. (2017). Testing and recommending methods for fitting size spectra to data. Methods in Ecology and Evolution, 8, 57–67.
+
+Gjoni, V., J. P. F. Pomeranz, J. R. Junker, and J. S. Wesner. 2024, January 11. Size spectra in freshwater streams are consistent across temperature and resource supply. bioRxiv.
+
+Pomeranz, J. P. F., J. R. Junker, and J. S. Wesner. 2022. Individual size distributions across North American streams vary with local temperature. Global Change Biology 28:848–858.
+
+Pomeranz, J., J. R. Junker, V. Gjoni, and J. S. Wesner. 2024. Maximum likelihood outperforms binning methods for detecting differences in abundance size spectra across environmental gradients. Journal of Animal Ecology 93:267–280.
+
+Sprules, W. G., and L. E. Barth. 2016. Surfing the biomass size spectrum: some remarks on history, theory, and application. Canadian Journal of Fisheries and Aquatic Sciences 73:477–495.
+
+White, E. P., S. K. M. Ernest, A. J. Kerkhoff, and B. J. Enquist. 2007. Relationships between body size and abundance in ecology. Trends in Ecology & Evolution 22:323–330.
+
+White, E. P., B. J. Enquist, and J. L. Green. 2008. On Estimating the Exponent of Power-Law Frequency Distributions. Ecology 89:905–912.
