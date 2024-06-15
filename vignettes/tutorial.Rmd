@@ -60,7 +60,7 @@ remotes::install_github("andrew-edwards/sizeSpectra")
 
 Once the package is downloaded, we need to load it into our session:
 
-```{r, eval=FALSE}
+```{r, eval=TRUE}
 library(sizeSpectra)
 ```
 
