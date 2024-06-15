@@ -172,39 +172,3 @@ Data comes in all formats. Here I will show examples of the three most common fo
 I have included body size observations from a stream that I sampled in New Zealand. This data is a vector of $1,809$ individual body sizes. Every individual was measured and body mass was estimated using length-weight regressions. You can load the data with the following command. I also print out the first 50 observations for reference. 
 
 
-```{r}
-data("ohc")
-length(ohc)
-ohc[1:50]
-```
-
-This data set has body mass for all individuals so we can just plug it into our same `calcLike()` function as above. I will add the `suppress.warnings = TRUE` argument as well. 
-
-```{r}
-mle_ohc <- calcLike(
-      negLL.fn = negLL.PLB, 
-      x = ohc, 
-      xmin = min(ohc), 
-      xmax = max(ohc), 
-      n = length(ohc), 
-      sumlogx = sum(log(ohc)), 
-      p = -1.5,
-      suppress.warnings = TRUE)
-mle_ohc
-```
-
-As one more example, we can plot these results as above. 
-
-```{r}
-MLE.plot(x = ohc, 
-         b = mle_ohc$MLE,
-         panel = "h", 
-         log="xy") 
-```
-
-
-## Data Format: Count of body sizes  
-
-We don't always have an individual observation for every single individual in our sample. For example, the NEON data set that I have worked with extensively collects macroinvertebrates and fish on different scales. In order to combine these, we have calculated an estimated count of individuals of a given body size on a per m^2 basis.  
-
-I have included an example of this from West St. Louis Creek in the Rocky Mountains of Colorado. You can load the data with the following command. 
