@@ -1,6 +1,6 @@
 #' Simulated binned dataset
 #'
-#' This data is simulated to represent fish data which is recorded in size "bins" in the field. Here, bins of 5g are used and the count of fish in each bin is tallied.
+#' This data is simulated to represent fish data which is recorded in size "bins" in the field. Here, bins of 5g are used and the count of fish in each bin is tallied. This data is an example of when to use the `negLL.PLB.binned` in the `sizeSpectra::calcLike()` function.
 #'
 #'
 #' @format ## `fish_binned`

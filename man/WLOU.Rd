@@ -25,6 +25,8 @@ WLOU
 Community data collected in September 2021 from West St. Louis Creek in Colorado, USA. This site is abbreviated as WLOU and is a part of the National Ecological Observatory Network (NEON). More information about NEON can be found at https://www.neonscience.org/
 }
 \details{
+This data is an example of when to use the `negLL.PLB.counts` in the `sizeSpectra::calcLike()` function.
+
 This data has been modified from NEON data products for macroinvertebrates (DP1.20120.001) and for fish (DP1.20107.001). The collections were not necessarily made on the exact same day.
 }
 \keyword{datasets}
