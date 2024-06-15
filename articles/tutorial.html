@@ -404,7 +404,7 @@ command.</p>
 <code class="sourceCode R"><span><span class="va">num.bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fish_binned</span><span class="op">)</span></span>
 <span><span class="va">binBreaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMin</span><span class="op">)</span>,</span>
 <span>  <span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMax</span><span class="op">)</span><span class="op">[</span><span class="va">num.bins</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">binCounts</span> <span class="op">&lt;-</span> <span class="va">fish_binned</span><span class="op">$</span><span class="va">n</span></span>
+<span><span class="va">binCounts</span> <span class="op">&lt;-</span> <span class="va">fish_binned</span><span class="op">$</span><span class="va">binCount</span></span>
 <span></span>
 <span></span>
 <span><span class="va">mle_fish_bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
@@ -418,21 +418,21 @@ command.</p>
 <span></span>
 <span><span class="va">mle_fish_bin</span> </span></code></pre></div>
 <pre><code><span><span class="co">## $MLE</span></span>
-<span><span class="co">## [1] -1.737086</span></span>
+<span><span class="co">## [1] -1.769455</span></span>
 <span><span class="co">## </span></span>
 <span><span class="co">## $conf</span></span>
-<span><span class="co">## [1] -1.775086 -1.700086</span></span></code></pre>
+<span><span class="co">## [1] -1.808455 -1.731455</span></span></code></pre>
 <p><br></p>
 <p>When using binned data, there is a different function that Edwards
 recommends for plotting.</p>
 <div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># LBN_bin_plot(binValsTibble = x.binned$binVals, # modify </span></span>
-<span><span class="co">#              b.MLE = mle_fish_bin$MLE,</span></span>
-<span><span class="co">#              b.confMin = mle_fish_bin$conf[1],</span></span>
-<span><span class="co">#              b.confMax = mle_fish_bin$conf[2],</span></span>
-<span><span class="co">#              leg.text = "(c)",</span></span>
-<span><span class="co">#              log.xy = "xy",</span></span>
-<span><span class="co">#              plot.binned.fitted = FALSE)</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># LBN_bin_plot(</span></span>
+<span><span class="co">#   binValsTibble = fish_binned, #x.binned$binVals, # modify</span></span>
+<span><span class="co">#   b.MLE = mle_fish_bin$MLE,</span></span>
+<span><span class="co">#   b.confMin = mle_fish_bin$conf[1],</span></span>
+<span><span class="co">#   b.confMax = mle_fish_bin$conf[2],</span></span>
+<span><span class="co">#   # leg.text = "(c)",</span></span>
+<span><span class="co">#   log.xy = "xy")</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
