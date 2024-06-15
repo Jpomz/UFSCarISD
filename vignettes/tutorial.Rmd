@@ -10,6 +10,7 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+
 ```
 
 # Overview  
@@ -54,6 +55,7 @@ Once the package is downloaded, we need to load it into our session:
 
 ```{r}
 library(sizeSpectra)
+library(UFSCarISD)
 ```
 
 For an overview of what the package can do, see the [*sizeSpectra* package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
