@@ -10,7 +10,8 @@ output:
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-library(UFSCarISD)
+# library(UFSCarISD)
+# library(sizeSpectra)
 ```
 
 # Overview  
@@ -46,14 +47,17 @@ However, binning poses a number of issues and generally provides estimates of $\
 
 Make sure you have the `sizeSpectra` package downloaded. You can download it directly from github using the `remotes` package  
 
-```{r, eval=FALSE}
+```{r, eval=FALSE, message=FALSE}
 install.packages("remotes")    # If you do not already have the "remotes" package
+```
+
+```{r, message=FALSE, echo=FALSE}
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
 
 Once the package is downloaded, we need to load it into our session:
 
-```{r}
+```{r, eval=FALSE}
 library(sizeSpectra)
 ```
 
