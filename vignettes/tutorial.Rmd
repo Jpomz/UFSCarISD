@@ -11,7 +11,7 @@ output:
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(UFSCarISD)
-library(sizeSpectra)
+#library(sizeSpectra)
 ```
 
 # Overview  
@@ -49,6 +49,11 @@ Make sure you have the `sizeSpectra` package downloaded. You can download it dir
 
 ```{r, eval=FALSE, message=FALSE}
 install.packages("remotes")    # If you do not already have the "remotes" package
+
+```
+
+
+```{r, message=FALSE, echo=FALSE}
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
 
