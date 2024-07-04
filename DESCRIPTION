@@ -9,7 +9,7 @@ Description: This package was built for a short course
     will be delivered to UFSCar in Sao Carlos Brazil on 
     July 6th 2024. This package has an associated web site
     for participants to use during and after the short course. 
-License: What license is it under?
+License: MIT + file LICENSE
 Encoding: UTF-8
 LazyData: true
 URL: https://jpomz.github.io/UFSCarISD/
