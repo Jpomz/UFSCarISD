@@ -1,11 +1,14 @@
 Package: UFSCarISD
 Type: Package
-Title: What the Package Does (Title Case)
+Title: Tutorial on using the "sizeSpectra" Package. 
 Version: 0.1.0
-Author: Who wrote it
-Maintainer: The package maintainer <yourself@somewhere.net>
-Description: More about what it does (maybe more than one line)
-    Use four spaces when indenting paragraphs within the Description.
+Author: Justin Pomeranz
+Maintainer: Justin Pomeranz <jfpomeranz@gmail.com>
+Description: This package was built for a short course
+    on using the "sizeSpectra" package. The short course 
+    will be delivered to UFSCar in Sao Carlos Brazil on 
+    July 6th 2024. This package has an associated web site
+    for participants to use during and after the short course. 
 License: What license is it under?
 Encoding: UTF-8
 LazyData: true
