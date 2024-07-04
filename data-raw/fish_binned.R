@@ -1,6 +1,7 @@
 ## code to prepare `fish_binned` dataset goes here
 
 library(sizeSpectra)
+library(dplyr)
 set.seed(783)
 
 x <- rPLB(n = 1000, b = -1.79, xmin = 1, xmax = 1000)
@@ -8,7 +9,8 @@ small_bin <- binData(x, binWidth = 0.5)
 
 fish_binned <- small_bin$binVals %>%
   select(binMid, binCount) %>%
-  rename(body_mass = binMid, count = binCount)
+  rename(body_mass = binMid, count = binCount) %>%
+  as.data.frame()
 fish_binned
 
 usethis::use_data(fish_binned, overwrite = TRUE)

@@ -243,46 +243,75 @@ Notice that empirical data is much messier and does not generally "fit" the red 
 
 ## Data Format: Binned data
 
-```{r}
-data("fish_binned")
-```
-
-
 ```{r, eval=FALSE}
-num.bins <- nrow(fish_binned)
-binBreaks <- c((fish_binned$binMin),
-  (fish_binned$binMax)[num.bins])
-binCounts <- fish_binned$binCount
-
-
-mle_fish_bin <- calcLike(
-  negLL.fn = negLL.PLB.binned,
-  p = -2.5,
-  w = binBreaks,
-  d = binCounts,
-  J = num.bins,
-  vecDiff = 0.5,
-  suppress.warnings = TRUE)
-
-mle_fish_bin 
+data("fish_binned")
+head(fish_binned)
 ```
+
+
+This data only has resolution to the nearest 0.25 g. In other words, the data are in "bins" that are each 025 g wide. This could occur when data is rounded in the field, or if the scale used is only accurate to a certain level, for example.  
+
+The first thing we need to do is put this data in Log~2~ bins. As far as I know, the `sizeSpectra` package only works with bins of this size. 
+
+The `binData()` function in size spectra can take a data frame with body mass in the first column (can be named anything) and the counts in the second column (column *MUST* be named `count`). 
+
+
+```{r, eval=TRUE}
+x_binned <- binData(counts = fish_binned,
+                    binWidth = "2k")
+
+x_binned
+```
+
+Note that you can also use `binData()` with just a vector of body_mass data. for that, you would run the following:
+
+```{r, eval = FALSE}
+binData(x = my_body_mass_vector,
+        binWidth = "2k")
+```
+
+Now we can extract the necessary data from `x_binned` object to run the MLE calculation. 
+
+```{r, eval=TRUE}
+num_bins <- nrow(x_binned$binVals)
+
+# bin breaks are the minima plus the max of the final bin:
+bin_breaks <- c(dplyr::pull(x_binned$binVals, binMin),
+                    dplyr::pull(x_binned$binVals, binMax)[num_bins])
+
+bin_counts <- dplyr::pull(x_binned$binVals, binCount)
+
+mle_fish_bin <-  calcLike(negLL.PLB.binned,
+                        p = -1.5,
+                        w = bin_breaks,
+                        d = bin_counts,
+                        J = length(bin_counts),   # = num.bins
+                        vecDiff = 1,
+      suppress.warnings = TRUE)             # increase this if hit a bound
+mle_fish_bin
+```
+
+
 
 <br>
 
 When using binned data, there is a different function that Edwards recommends for plotting. 
 
-```{r}
+```{r, eval=TRUE}
 
-# LBN_bin_plot(
-#   binValsTibble = fish_binned, #x.binned$binVals, # modify
-#   b.MLE = mle_fish_bin$MLE,
-#   b.confMin = mle_fish_bin$conf[1],
-#   b.confMax = mle_fish_bin$conf[2],
-#   # leg.text = "(c)",
-#   log.xy = "xy")
+LBN_bin_plot(
+  binValsTibble = x_binned$binVals,
+  b.MLE = mle_fish_bin$MLE,
+  b.confMin = mle_fish_bin$conf[1],
+  b.confMax = mle_fish_bin$conf[2],
+  leg.text = "(c)",
+  log.xy = "xy")
 
 
 ```
+
+<br>
+
 # Working with data from multiple sites  
 
 For this example, there is a data set included in the package called `isd_gradient`. This is simulated data from three sites across a hypothetical environmental gradient. The data was simulated so that $\lambda$ from the three sites is equal to `-1`, `-1.5`, and `-2`, respectively. 
