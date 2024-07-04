@@ -20,6 +20,5 @@ Suggests:
     knitr,
     remotes,
     rmarkdown,
-    sizeSpectra,
     tidyverse
 VignetteBuilder: knitr
