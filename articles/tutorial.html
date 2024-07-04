@@ -149,13 +149,35 @@ session:</p>
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andrew-edwards/sizeSpectra" class="external-link">sizeSpectra</a></span><span class="op">)</span></span></code></pre></div>
 <p>For an overview of what the package can do, see the <a href="https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html" class="external-link"><em>sizeSpectra</em>
 package vignettes</a></p>
+<div class="section level3">
+<h3 id="other-packages">Other packages<a class="anchor" aria-label="anchor" href="#other-packages"></a>
+</h3>
+<p>I will utilize some functions from the <code>tidyverse</code>
+package. If you need to download it, run the following command without
+the <code>#</code></p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("tidyverse") # run this without the first `#` if you need to install the package </span></span>
+<span></span>
+<span><span class="co"># load the package with the following:</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+<pre><code><span><span class="co">## ── <span style="font-weight: bold;">Attaching core tidyverse packages</span> ──────────────────────── tidyverse 2.0.0 ──</span></span>
+<span><span class="co">## <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">dplyr    </span> 1.1.4     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">readr    </span> 2.1.5</span></span>
+<span><span class="co">## <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">forcats  </span> 1.0.0     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">stringr  </span> 1.5.1</span></span>
+<span><span class="co">## <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">ggplot2  </span> 3.5.1     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tibble   </span> 3.2.1</span></span>
+<span><span class="co">## <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">lubridate</span> 1.9.3     <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">tidyr    </span> 1.3.1</span></span>
+<span><span class="co">## <span style="color: #00BB00;">✔</span> <span style="color: #0000BB;">purrr    </span> 1.0.2     </span></span>
+<span><span class="co">## ── <span style="font-weight: bold;">Conflicts</span> ────────────────────────────────────────── tidyverse_conflicts() ──</span></span>
+<span><span class="co">## <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">filter()</span> masks <span style="color: #0000BB;">stats</span>::filter()</span></span>
+<span><span class="co">## <span style="color: #BB0000;">✖</span> <span style="color: #0000BB;">dplyr</span>::<span style="color: #00BB00;">lag()</span>    masks <span style="color: #0000BB;">stats</span>::lag()</span></span>
+<span><span class="co">## <span style="color: #00BBBB;">ℹ</span> Use the conflicted package (<span style="color: #0000BB; font-style: italic;">&lt;http://conflicted.r-lib.org/&gt;</span>) to force all conflicts to become errors</span></span></code></pre>
+</div>
 </div>
 <div class="section level2">
 <h2 id="data-simulation">Data Simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
 </h2>
 <p>Let’s start off by simulating a vector of body size data. I first set
 the seed to make these reproducible.</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">598</span><span class="op">)</span> <span class="co"># makes simulation reproducible</span></span>
 <span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, xmin <span class="op">=</span> <span class="fl">1</span>, xmax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
 <p>The above code samples <code>n = 100</code> body sizes from a power
@@ -166,7 +188,7 @@ minimum size (<code>xmin = 1</code>) and the maximum
 sample of fish from 1 to 100 grams. I have named it <code>m2</code> to
 keep track of what exponent was used (i.e., <code>-2</code>).</p>
 <p>Let’s sort the vector and view it:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sort.html" class="external-link">sort</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##   [1]  1.031254  1.050242  1.052482  1.068892  1.078987  1.090212  1.091879</span></span>
 <span><span class="co">##   [8]  1.096940  1.097447  1.105043  1.105656  1.150811  1.170271  1.184734</span></span>
@@ -208,7 +230,7 @@ all individuals</li>
 log-transformed values.</p></li>
 <li><p>The code looks like this:</p></li>
 </ul>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, <span class="co"># continuous estimates of all individuals</span></span>
 <span>      x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># the vector of data</span></span>
@@ -218,7 +240,7 @@ log-transformed values.</p></li>
 <span>      sumlogx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span><span class="op">)</span>, <span class="co"># sum of log-transformed data</span></span>
 <span>      p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span> <span class="co"># starting point, arbitrary number</span></span></code></pre></div>
 <p>Let’s look at the result:</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_lambda_2</span></span></code></pre></div>
 <pre><code><span><span class="co">## $MLE</span></span>
 <span><span class="co">## [1] -1.871733</span></span>
@@ -238,33 +260,33 @@ interval is: <span class="math inline">\(-2.11, -1.65\)</span>.</p>
 </h2>
 <p>Edwards provides a function called <code><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot()</a></code>. This
 function requires a vector of body sizes and the MLE results.</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
 <span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,<span class="co"># confidence interval</span></span>
 <span>                      <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"b"</span>, <span class="co">#This option includes the estimate and CI</span></span>
 <span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> <span class="co"># you can change this to just x</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-8-1.png" width="700"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
 <p>Here is the same plot as above but with only the x-axis log
 transformed.</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, </span>
 <span>         confVals <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
 <span>                      <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"b"</span>, </span>
 <span>         log<span class="op">=</span><span class="st">"x"</span><span class="op">)</span> <span class="co"># Just the x axis transformed</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-9-1.png" width="700"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
 <p>There is an alternative option using <code>panel = "h"</code>. This
 option displays the estimate of <span class="math inline">\(\lambda\)</span> on the figure, but cannot include
 confidence itnervals.</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># vector of simulated body sizes</span></span>
 <span>         b <span class="op">=</span> <span class="va">mle_lambda_2</span><span class="op">$</span><span class="va">MLE</span>, <span class="co">#lambda estimate</span></span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, <span class="co">#This option includes the estimate and CI</span></span>
 <span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> <span class="co"># you can also</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-10-1.png" width="700"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-11-1.png" width="700"></p>
 <div class="section level3">
 <h3 id="practice-problems">Practice Problems<a class="anchor" aria-label="anchor" href="#practice-problems"></a>
 </h3>
@@ -310,11 +332,11 @@ in New Zealand. This data is a vector of <span class="math inline">\(1,809\)</sp
 individual was measured and body mass was estimated using length-weight
 regressions. You can load the data with the following command. I also
 print out the first 50 observations for reference.</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"ohc"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">ohc</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 1809</span></span></code></pre>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">ohc</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">50</span><span class="op">]</span></span></code></pre></div>
 <pre><code><span><span class="co">##  [1] 0.002960 0.008360 0.089500 0.071900 0.902721 0.115630 0.383170 4.316831</span></span>
 <span><span class="co">##  [9] 0.867969 0.110412 5.223146 3.984150 0.537623 0.202904 0.081500 0.138040</span></span>
@@ -326,7 +348,7 @@ print out the first 50 observations for reference.</p>
 <p>This data set has body mass for all individuals so we can just plug
 it into our same <code><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike()</a></code> function as above. I will add
 the <code>suppress.warnings = TRUE</code> argument as well.</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_ohc</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, </span>
 <span>      x <span class="op">=</span> <span class="va">ohc</span>, </span>
@@ -343,12 +365,12 @@ the <code>suppress.warnings = TRUE</code> argument as well.</p>
 <span><span class="co">## $conf</span></span>
 <span><span class="co">## [1] -1.105692 -1.071692</span></span></code></pre>
 <p>As one more example, we can plot these results as above.</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">ohc</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_ohc</span><span class="op">$</span><span class="va">MLE</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, </span>
 <span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-13-1.png" width="700"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-14-1.png" width="700"></p>
 </div>
 <div class="section level3">
 <h3 id="data-format-count-of-body-sizes">Data Format: Count of body sizes<a class="anchor" aria-label="anchor" href="#data-format-count-of-body-sizes"></a>
@@ -362,7 +384,7 @@ basis.</p>
 <p>I have included an example of this from West St. Louis Creek in the
 Rocky Mountains of Colorado. You can load the data with the following
 command.</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"WLOU"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">WLOU</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## <span style="color: #949494;"># A tibble: 6 × 4</span></span></span>
@@ -374,7 +396,7 @@ command.</p>
 <span><span class="co">## <span style="color: #BCBCBC;">4</span> WLOU_2021-09-20 Fish                 220  0.003<span style="text-decoration: underline;">24</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">5</span> WLOU_2021-09-20 Fish                 300  0.003<span style="text-decoration: underline;">32</span></span></span>
 <span><span class="co">## <span style="color: #BCBCBC;">6</span> WLOU_2021-09-20 Fish                 520  0.002<span style="text-decoration: underline;">98</span></span></span></code></pre>
-<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">mle_WLOU</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
 <span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB.counts</span>, </span>
 <span>      x <span class="op">=</span> <span class="va">WLOU</span><span class="op">$</span><span class="va">body_mass</span>,</span>
@@ -387,47 +409,1106 @@ command.</p>
 <span><span class="co">## </span></span>
 <span><span class="co">## $conf</span></span>
 <span><span class="co">## [1] -1.55102 -1.53302</span></span></code></pre>
-<div class="sourceCode" id="cb24"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/MLE.plot.html" class="external-link">MLE.plot</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">WLOU</span><span class="op">$</span><span class="va">body_mass</span>, </span>
 <span>         b <span class="op">=</span> <span class="va">mle_WLOU</span><span class="op">$</span><span class="va">MLE</span>,</span>
 <span>         panel <span class="op">=</span> <span class="st">"h"</span>, </span>
 <span>         log<span class="op">=</span><span class="st">"xy"</span><span class="op">)</span> </span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-16-1.png" width="700"><br> Notice that empirical data is much messier and does not generally
+<p><img src="tutorial_files/figure-html/unnamed-chunk-17-1.png" width="700"><br> Notice that empirical data is much messier and does not generally
 “fit” the red line nearly as nicely as simulated data.</p>
 </div>
 <div class="section level3">
 <h3 id="data-format-binned-data">Data Format: Binned data<a class="anchor" aria-label="anchor" href="#data-format-binned-data"></a>
 </h3>
-<div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fish_binned"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">num.bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">fish_binned</span><span class="op">)</span></span>
-<span><span class="va">binBreaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMin</span><span class="op">)</span>,</span>
-<span>  <span class="op">(</span><span class="va">fish_binned</span><span class="op">$</span><span class="va">binMax</span><span class="op">)</span><span class="op">[</span><span class="va">num.bins</span><span class="op">]</span><span class="op">)</span></span>
-<span><span class="va">binCounts</span> <span class="op">&lt;-</span> <span class="va">fish_binned</span><span class="op">$</span><span class="va">binCount</span></span>
+<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"fish_binned"</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">fish_binned</span><span class="op">)</span></span></code></pre></div>
+<p>This data only has resolution to the nearest 0.25 g. In other words,
+the data are in “bins” that are each 025 g wide. This could occur when
+data is rounded in the field, or if the scale used is only accurate to a
+certain level, for example.</p>
+<p>The first thing we need to do is put this data in Log<sub>2</sub>
+bins. As far as I know, the <code>sizeSpectra</code> package only works
+with bins of this size.</p>
+<p>The <code><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData()</a></code> function in size spectra can take a data
+frame with body mass in the first column (can be named anything) and the
+counts in the second column (column <em>MUST</em> be named
+<code>count</code>).</p>
+<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x_binned</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData</a></span><span class="op">(</span>counts <span class="op">=</span> <span class="va">fish_binned</span>,</span>
+<span>                    binWidth <span class="op">=</span> <span class="st">"2k"</span><span class="op">)</span></span>
 <span></span>
+<span><span class="va">x_binned</span></span></code></pre></div>
+<pre><code><span><span class="co">## $indiv</span></span>
+<span><span class="co">##           x binMid binMin binMax</span></span>
+<span><span class="co">## 1      1.25    1.5      1      2</span></span>
+<span><span class="co">## 2      1.25    1.5      1      2</span></span>
+<span><span class="co">## 3      1.25    1.5      1      2</span></span>
+<span><span class="co">## 4      1.25    1.5      1      2</span></span>
+<span><span class="co">## 5      1.25    1.5      1      2</span></span>
+<span><span class="co">## 6      1.25    1.5      1      2</span></span>
+<span><span class="co">## 7      1.25    1.5      1      2</span></span>
+<span><span class="co">## 8      1.25    1.5      1      2</span></span>
+<span><span class="co">## 9      1.25    1.5      1      2</span></span>
+<span><span class="co">## 10     1.25    1.5      1      2</span></span>
+<span><span class="co">## 11     1.25    1.5      1      2</span></span>
+<span><span class="co">## 12     1.25    1.5      1      2</span></span>
+<span><span class="co">## 13     1.25    1.5      1      2</span></span>
+<span><span class="co">## 14     1.25    1.5      1      2</span></span>
+<span><span class="co">## 15     1.25    1.5      1      2</span></span>
+<span><span class="co">## 16     1.25    1.5      1      2</span></span>
+<span><span class="co">## 17     1.25    1.5      1      2</span></span>
+<span><span class="co">## 18     1.25    1.5      1      2</span></span>
+<span><span class="co">## 19     1.25    1.5      1      2</span></span>
+<span><span class="co">## 20     1.25    1.5      1      2</span></span>
+<span><span class="co">## 21     1.25    1.5      1      2</span></span>
+<span><span class="co">## 22     1.25    1.5      1      2</span></span>
+<span><span class="co">## 23     1.25    1.5      1      2</span></span>
+<span><span class="co">## 24     1.25    1.5      1      2</span></span>
+<span><span class="co">## 25     1.25    1.5      1      2</span></span>
+<span><span class="co">## 26     1.25    1.5      1      2</span></span>
+<span><span class="co">## 27     1.25    1.5      1      2</span></span>
+<span><span class="co">## 28     1.25    1.5      1      2</span></span>
+<span><span class="co">## 29     1.25    1.5      1      2</span></span>
+<span><span class="co">## 30     1.25    1.5      1      2</span></span>
+<span><span class="co">## 31     1.25    1.5      1      2</span></span>
+<span><span class="co">## 32     1.25    1.5      1      2</span></span>
+<span><span class="co">## 33     1.25    1.5      1      2</span></span>
+<span><span class="co">## 34     1.25    1.5      1      2</span></span>
+<span><span class="co">## 35     1.25    1.5      1      2</span></span>
+<span><span class="co">## 36     1.25    1.5      1      2</span></span>
+<span><span class="co">## 37     1.25    1.5      1      2</span></span>
+<span><span class="co">## 38     1.25    1.5      1      2</span></span>
+<span><span class="co">## 39     1.25    1.5      1      2</span></span>
+<span><span class="co">## 40     1.25    1.5      1      2</span></span>
+<span><span class="co">## 41     1.25    1.5      1      2</span></span>
+<span><span class="co">## 42     1.25    1.5      1      2</span></span>
+<span><span class="co">## 43     1.25    1.5      1      2</span></span>
+<span><span class="co">## 44     1.25    1.5      1      2</span></span>
+<span><span class="co">## 45     1.25    1.5      1      2</span></span>
+<span><span class="co">## 46     1.25    1.5      1      2</span></span>
+<span><span class="co">## 47     1.25    1.5      1      2</span></span>
+<span><span class="co">## 48     1.25    1.5      1      2</span></span>
+<span><span class="co">## 49     1.25    1.5      1      2</span></span>
+<span><span class="co">## 50     1.25    1.5      1      2</span></span>
+<span><span class="co">## 51     1.25    1.5      1      2</span></span>
+<span><span class="co">## 52     1.25    1.5      1      2</span></span>
+<span><span class="co">## 53     1.25    1.5      1      2</span></span>
+<span><span class="co">## 54     1.25    1.5      1      2</span></span>
+<span><span class="co">## 55     1.25    1.5      1      2</span></span>
+<span><span class="co">## 56     1.25    1.5      1      2</span></span>
+<span><span class="co">## 57     1.25    1.5      1      2</span></span>
+<span><span class="co">## 58     1.25    1.5      1      2</span></span>
+<span><span class="co">## 59     1.25    1.5      1      2</span></span>
+<span><span class="co">## 60     1.25    1.5      1      2</span></span>
+<span><span class="co">## 61     1.25    1.5      1      2</span></span>
+<span><span class="co">## 62     1.25    1.5      1      2</span></span>
+<span><span class="co">## 63     1.25    1.5      1      2</span></span>
+<span><span class="co">## 64     1.25    1.5      1      2</span></span>
+<span><span class="co">## 65     1.25    1.5      1      2</span></span>
+<span><span class="co">## 66     1.25    1.5      1      2</span></span>
+<span><span class="co">## 67     1.25    1.5      1      2</span></span>
+<span><span class="co">## 68     1.25    1.5      1      2</span></span>
+<span><span class="co">## 69     1.25    1.5      1      2</span></span>
+<span><span class="co">## 70     1.25    1.5      1      2</span></span>
+<span><span class="co">## 71     1.25    1.5      1      2</span></span>
+<span><span class="co">## 72     1.25    1.5      1      2</span></span>
+<span><span class="co">## 73     1.25    1.5      1      2</span></span>
+<span><span class="co">## 74     1.25    1.5      1      2</span></span>
+<span><span class="co">## 75     1.25    1.5      1      2</span></span>
+<span><span class="co">## 76     1.25    1.5      1      2</span></span>
+<span><span class="co">## 77     1.25    1.5      1      2</span></span>
+<span><span class="co">## 78     1.25    1.5      1      2</span></span>
+<span><span class="co">## 79     1.25    1.5      1      2</span></span>
+<span><span class="co">## 80     1.25    1.5      1      2</span></span>
+<span><span class="co">## 81     1.25    1.5      1      2</span></span>
+<span><span class="co">## 82     1.25    1.5      1      2</span></span>
+<span><span class="co">## 83     1.25    1.5      1      2</span></span>
+<span><span class="co">## 84     1.25    1.5      1      2</span></span>
+<span><span class="co">## 85     1.25    1.5      1      2</span></span>
+<span><span class="co">## 86     1.25    1.5      1      2</span></span>
+<span><span class="co">## 87     1.25    1.5      1      2</span></span>
+<span><span class="co">## 88     1.25    1.5      1      2</span></span>
+<span><span class="co">## 89     1.25    1.5      1      2</span></span>
+<span><span class="co">## 90     1.25    1.5      1      2</span></span>
+<span><span class="co">## 91     1.25    1.5      1      2</span></span>
+<span><span class="co">## 92     1.25    1.5      1      2</span></span>
+<span><span class="co">## 93     1.25    1.5      1      2</span></span>
+<span><span class="co">## 94     1.25    1.5      1      2</span></span>
+<span><span class="co">## 95     1.25    1.5      1      2</span></span>
+<span><span class="co">## 96     1.25    1.5      1      2</span></span>
+<span><span class="co">## 97     1.25    1.5      1      2</span></span>
+<span><span class="co">## 98     1.25    1.5      1      2</span></span>
+<span><span class="co">## 99     1.25    1.5      1      2</span></span>
+<span><span class="co">## 100    1.25    1.5      1      2</span></span>
+<span><span class="co">## 101    1.25    1.5      1      2</span></span>
+<span><span class="co">## 102    1.25    1.5      1      2</span></span>
+<span><span class="co">## 103    1.25    1.5      1      2</span></span>
+<span><span class="co">## 104    1.25    1.5      1      2</span></span>
+<span><span class="co">## 105    1.25    1.5      1      2</span></span>
+<span><span class="co">## 106    1.25    1.5      1      2</span></span>
+<span><span class="co">## 107    1.25    1.5      1      2</span></span>
+<span><span class="co">## 108    1.25    1.5      1      2</span></span>
+<span><span class="co">## 109    1.25    1.5      1      2</span></span>
+<span><span class="co">## 110    1.25    1.5      1      2</span></span>
+<span><span class="co">## 111    1.25    1.5      1      2</span></span>
+<span><span class="co">## 112    1.25    1.5      1      2</span></span>
+<span><span class="co">## 113    1.25    1.5      1      2</span></span>
+<span><span class="co">## 114    1.25    1.5      1      2</span></span>
+<span><span class="co">## 115    1.25    1.5      1      2</span></span>
+<span><span class="co">## 116    1.25    1.5      1      2</span></span>
+<span><span class="co">## 117    1.25    1.5      1      2</span></span>
+<span><span class="co">## 118    1.25    1.5      1      2</span></span>
+<span><span class="co">## 119    1.25    1.5      1      2</span></span>
+<span><span class="co">## 120    1.25    1.5      1      2</span></span>
+<span><span class="co">## 121    1.25    1.5      1      2</span></span>
+<span><span class="co">## 122    1.25    1.5      1      2</span></span>
+<span><span class="co">## 123    1.25    1.5      1      2</span></span>
+<span><span class="co">## 124    1.25    1.5      1      2</span></span>
+<span><span class="co">## 125    1.25    1.5      1      2</span></span>
+<span><span class="co">## 126    1.25    1.5      1      2</span></span>
+<span><span class="co">## 127    1.25    1.5      1      2</span></span>
+<span><span class="co">## 128    1.25    1.5      1      2</span></span>
+<span><span class="co">## 129    1.25    1.5      1      2</span></span>
+<span><span class="co">## 130    1.25    1.5      1      2</span></span>
+<span><span class="co">## 131    1.25    1.5      1      2</span></span>
+<span><span class="co">## 132    1.25    1.5      1      2</span></span>
+<span><span class="co">## 133    1.25    1.5      1      2</span></span>
+<span><span class="co">## 134    1.25    1.5      1      2</span></span>
+<span><span class="co">## 135    1.25    1.5      1      2</span></span>
+<span><span class="co">## 136    1.25    1.5      1      2</span></span>
+<span><span class="co">## 137    1.25    1.5      1      2</span></span>
+<span><span class="co">## 138    1.25    1.5      1      2</span></span>
+<span><span class="co">## 139    1.25    1.5      1      2</span></span>
+<span><span class="co">## 140    1.25    1.5      1      2</span></span>
+<span><span class="co">## 141    1.25    1.5      1      2</span></span>
+<span><span class="co">## 142    1.25    1.5      1      2</span></span>
+<span><span class="co">## 143    1.25    1.5      1      2</span></span>
+<span><span class="co">## 144    1.25    1.5      1      2</span></span>
+<span><span class="co">## 145    1.25    1.5      1      2</span></span>
+<span><span class="co">## 146    1.25    1.5      1      2</span></span>
+<span><span class="co">## 147    1.25    1.5      1      2</span></span>
+<span><span class="co">## 148    1.25    1.5      1      2</span></span>
+<span><span class="co">## 149    1.25    1.5      1      2</span></span>
+<span><span class="co">## 150    1.25    1.5      1      2</span></span>
+<span><span class="co">## 151    1.25    1.5      1      2</span></span>
+<span><span class="co">## 152    1.25    1.5      1      2</span></span>
+<span><span class="co">## 153    1.25    1.5      1      2</span></span>
+<span><span class="co">## 154    1.25    1.5      1      2</span></span>
+<span><span class="co">## 155    1.25    1.5      1      2</span></span>
+<span><span class="co">## 156    1.25    1.5      1      2</span></span>
+<span><span class="co">## 157    1.25    1.5      1      2</span></span>
+<span><span class="co">## 158    1.25    1.5      1      2</span></span>
+<span><span class="co">## 159    1.25    1.5      1      2</span></span>
+<span><span class="co">## 160    1.25    1.5      1      2</span></span>
+<span><span class="co">## 161    1.25    1.5      1      2</span></span>
+<span><span class="co">## 162    1.25    1.5      1      2</span></span>
+<span><span class="co">## 163    1.25    1.5      1      2</span></span>
+<span><span class="co">## 164    1.25    1.5      1      2</span></span>
+<span><span class="co">## 165    1.25    1.5      1      2</span></span>
+<span><span class="co">## 166    1.25    1.5      1      2</span></span>
+<span><span class="co">## 167    1.25    1.5      1      2</span></span>
+<span><span class="co">## 168    1.25    1.5      1      2</span></span>
+<span><span class="co">## 169    1.25    1.5      1      2</span></span>
+<span><span class="co">## 170    1.25    1.5      1      2</span></span>
+<span><span class="co">## 171    1.25    1.5      1      2</span></span>
+<span><span class="co">## 172    1.25    1.5      1      2</span></span>
+<span><span class="co">## 173    1.25    1.5      1      2</span></span>
+<span><span class="co">## 174    1.25    1.5      1      2</span></span>
+<span><span class="co">## 175    1.25    1.5      1      2</span></span>
+<span><span class="co">## 176    1.25    1.5      1      2</span></span>
+<span><span class="co">## 177    1.25    1.5      1      2</span></span>
+<span><span class="co">## 178    1.25    1.5      1      2</span></span>
+<span><span class="co">## 179    1.25    1.5      1      2</span></span>
+<span><span class="co">## 180    1.25    1.5      1      2</span></span>
+<span><span class="co">## 181    1.25    1.5      1      2</span></span>
+<span><span class="co">## 182    1.25    1.5      1      2</span></span>
+<span><span class="co">## 183    1.25    1.5      1      2</span></span>
+<span><span class="co">## 184    1.25    1.5      1      2</span></span>
+<span><span class="co">## 185    1.25    1.5      1      2</span></span>
+<span><span class="co">## 186    1.25    1.5      1      2</span></span>
+<span><span class="co">## 187    1.25    1.5      1      2</span></span>
+<span><span class="co">## 188    1.25    1.5      1      2</span></span>
+<span><span class="co">## 189    1.25    1.5      1      2</span></span>
+<span><span class="co">## 190    1.25    1.5      1      2</span></span>
+<span><span class="co">## 191    1.25    1.5      1      2</span></span>
+<span><span class="co">## 192    1.25    1.5      1      2</span></span>
+<span><span class="co">## 193    1.25    1.5      1      2</span></span>
+<span><span class="co">## 194    1.25    1.5      1      2</span></span>
+<span><span class="co">## 195    1.25    1.5      1      2</span></span>
+<span><span class="co">## 196    1.25    1.5      1      2</span></span>
+<span><span class="co">## 197    1.25    1.5      1      2</span></span>
+<span><span class="co">## 198    1.25    1.5      1      2</span></span>
+<span><span class="co">## 199    1.25    1.5      1      2</span></span>
+<span><span class="co">## 200    1.25    1.5      1      2</span></span>
+<span><span class="co">## 201    1.25    1.5      1      2</span></span>
+<span><span class="co">## 202    1.25    1.5      1      2</span></span>
+<span><span class="co">## 203    1.25    1.5      1      2</span></span>
+<span><span class="co">## 204    1.25    1.5      1      2</span></span>
+<span><span class="co">## 205    1.25    1.5      1      2</span></span>
+<span><span class="co">## 206    1.25    1.5      1      2</span></span>
+<span><span class="co">## 207    1.25    1.5      1      2</span></span>
+<span><span class="co">## 208    1.25    1.5      1      2</span></span>
+<span><span class="co">## 209    1.25    1.5      1      2</span></span>
+<span><span class="co">## 210    1.25    1.5      1      2</span></span>
+<span><span class="co">## 211    1.25    1.5      1      2</span></span>
+<span><span class="co">## 212    1.25    1.5      1      2</span></span>
+<span><span class="co">## 213    1.25    1.5      1      2</span></span>
+<span><span class="co">## 214    1.25    1.5      1      2</span></span>
+<span><span class="co">## 215    1.25    1.5      1      2</span></span>
+<span><span class="co">## 216    1.25    1.5      1      2</span></span>
+<span><span class="co">## 217    1.25    1.5      1      2</span></span>
+<span><span class="co">## 218    1.25    1.5      1      2</span></span>
+<span><span class="co">## 219    1.25    1.5      1      2</span></span>
+<span><span class="co">## 220    1.25    1.5      1      2</span></span>
+<span><span class="co">## 221    1.25    1.5      1      2</span></span>
+<span><span class="co">## 222    1.25    1.5      1      2</span></span>
+<span><span class="co">## 223    1.25    1.5      1      2</span></span>
+<span><span class="co">## 224    1.25    1.5      1      2</span></span>
+<span><span class="co">## 225    1.25    1.5      1      2</span></span>
+<span><span class="co">## 226    1.25    1.5      1      2</span></span>
+<span><span class="co">## 227    1.25    1.5      1      2</span></span>
+<span><span class="co">## 228    1.25    1.5      1      2</span></span>
+<span><span class="co">## 229    1.25    1.5      1      2</span></span>
+<span><span class="co">## 230    1.25    1.5      1      2</span></span>
+<span><span class="co">## 231    1.25    1.5      1      2</span></span>
+<span><span class="co">## 232    1.25    1.5      1      2</span></span>
+<span><span class="co">## 233    1.25    1.5      1      2</span></span>
+<span><span class="co">## 234    1.25    1.5      1      2</span></span>
+<span><span class="co">## 235    1.25    1.5      1      2</span></span>
+<span><span class="co">## 236    1.25    1.5      1      2</span></span>
+<span><span class="co">## 237    1.25    1.5      1      2</span></span>
+<span><span class="co">## 238    1.25    1.5      1      2</span></span>
+<span><span class="co">## 239    1.25    1.5      1      2</span></span>
+<span><span class="co">## 240    1.25    1.5      1      2</span></span>
+<span><span class="co">## 241    1.25    1.5      1      2</span></span>
+<span><span class="co">## 242    1.25    1.5      1      2</span></span>
+<span><span class="co">## 243    1.25    1.5      1      2</span></span>
+<span><span class="co">## 244    1.25    1.5      1      2</span></span>
+<span><span class="co">## 245    1.25    1.5      1      2</span></span>
+<span><span class="co">## 246    1.25    1.5      1      2</span></span>
+<span><span class="co">## 247    1.25    1.5      1      2</span></span>
+<span><span class="co">## 248    1.25    1.5      1      2</span></span>
+<span><span class="co">## 249    1.25    1.5      1      2</span></span>
+<span><span class="co">## 250    1.25    1.5      1      2</span></span>
+<span><span class="co">## 251    1.25    1.5      1      2</span></span>
+<span><span class="co">## 252    1.25    1.5      1      2</span></span>
+<span><span class="co">## 253    1.25    1.5      1      2</span></span>
+<span><span class="co">## 254    1.25    1.5      1      2</span></span>
+<span><span class="co">## 255    1.25    1.5      1      2</span></span>
+<span><span class="co">## 256    1.25    1.5      1      2</span></span>
+<span><span class="co">## 257    1.25    1.5      1      2</span></span>
+<span><span class="co">## 258    1.25    1.5      1      2</span></span>
+<span><span class="co">## 259    1.25    1.5      1      2</span></span>
+<span><span class="co">## 260    1.25    1.5      1      2</span></span>
+<span><span class="co">## 261    1.25    1.5      1      2</span></span>
+<span><span class="co">## 262    1.25    1.5      1      2</span></span>
+<span><span class="co">## 263    1.25    1.5      1      2</span></span>
+<span><span class="co">## 264    1.25    1.5      1      2</span></span>
+<span><span class="co">## 265    1.25    1.5      1      2</span></span>
+<span><span class="co">## 266    1.25    1.5      1      2</span></span>
+<span><span class="co">## 267    1.25    1.5      1      2</span></span>
+<span><span class="co">## 268    1.25    1.5      1      2</span></span>
+<span><span class="co">## 269    1.25    1.5      1      2</span></span>
+<span><span class="co">## 270    1.25    1.5      1      2</span></span>
+<span><span class="co">## 271    1.25    1.5      1      2</span></span>
+<span><span class="co">## 272    1.25    1.5      1      2</span></span>
+<span><span class="co">## 273    1.25    1.5      1      2</span></span>
+<span><span class="co">## 274    1.25    1.5      1      2</span></span>
+<span><span class="co">## 275    1.25    1.5      1      2</span></span>
+<span><span class="co">## 276    1.25    1.5      1      2</span></span>
+<span><span class="co">## 277    1.25    1.5      1      2</span></span>
+<span><span class="co">## 278    1.25    1.5      1      2</span></span>
+<span><span class="co">## 279    1.25    1.5      1      2</span></span>
+<span><span class="co">## 280    1.25    1.5      1      2</span></span>
+<span><span class="co">## 281    1.25    1.5      1      2</span></span>
+<span><span class="co">## 282    1.25    1.5      1      2</span></span>
+<span><span class="co">## 283    1.25    1.5      1      2</span></span>
+<span><span class="co">## 284    1.25    1.5      1      2</span></span>
+<span><span class="co">## 285    1.25    1.5      1      2</span></span>
+<span><span class="co">## 286    1.25    1.5      1      2</span></span>
+<span><span class="co">## 287    1.25    1.5      1      2</span></span>
+<span><span class="co">## 288    1.75    1.5      1      2</span></span>
+<span><span class="co">## 289    1.75    1.5      1      2</span></span>
+<span><span class="co">## 290    1.75    1.5      1      2</span></span>
+<span><span class="co">## 291    1.75    1.5      1      2</span></span>
+<span><span class="co">## 292    1.75    1.5      1      2</span></span>
+<span><span class="co">## 293    1.75    1.5      1      2</span></span>
+<span><span class="co">## 294    1.75    1.5      1      2</span></span>
+<span><span class="co">## 295    1.75    1.5      1      2</span></span>
+<span><span class="co">## 296    1.75    1.5      1      2</span></span>
+<span><span class="co">## 297    1.75    1.5      1      2</span></span>
+<span><span class="co">## 298    1.75    1.5      1      2</span></span>
+<span><span class="co">## 299    1.75    1.5      1      2</span></span>
+<span><span class="co">## 300    1.75    1.5      1      2</span></span>
+<span><span class="co">## 301    1.75    1.5      1      2</span></span>
+<span><span class="co">## 302    1.75    1.5      1      2</span></span>
+<span><span class="co">## 303    1.75    1.5      1      2</span></span>
+<span><span class="co">## 304    1.75    1.5      1      2</span></span>
+<span><span class="co">## 305    1.75    1.5      1      2</span></span>
+<span><span class="co">## 306    1.75    1.5      1      2</span></span>
+<span><span class="co">## 307    1.75    1.5      1      2</span></span>
+<span><span class="co">## 308    1.75    1.5      1      2</span></span>
+<span><span class="co">## 309    1.75    1.5      1      2</span></span>
+<span><span class="co">## 310    1.75    1.5      1      2</span></span>
+<span><span class="co">## 311    1.75    1.5      1      2</span></span>
+<span><span class="co">## 312    1.75    1.5      1      2</span></span>
+<span><span class="co">## 313    1.75    1.5      1      2</span></span>
+<span><span class="co">## 314    1.75    1.5      1      2</span></span>
+<span><span class="co">## 315    1.75    1.5      1      2</span></span>
+<span><span class="co">## 316    1.75    1.5      1      2</span></span>
+<span><span class="co">## 317    1.75    1.5      1      2</span></span>
+<span><span class="co">## 318    1.75    1.5      1      2</span></span>
+<span><span class="co">## 319    1.75    1.5      1      2</span></span>
+<span><span class="co">## 320    1.75    1.5      1      2</span></span>
+<span><span class="co">## 321    1.75    1.5      1      2</span></span>
+<span><span class="co">## 322    1.75    1.5      1      2</span></span>
+<span><span class="co">## 323    1.75    1.5      1      2</span></span>
+<span><span class="co">## 324    1.75    1.5      1      2</span></span>
+<span><span class="co">## 325    1.75    1.5      1      2</span></span>
+<span><span class="co">## 326    1.75    1.5      1      2</span></span>
+<span><span class="co">## 327    1.75    1.5      1      2</span></span>
+<span><span class="co">## 328    1.75    1.5      1      2</span></span>
+<span><span class="co">## 329    1.75    1.5      1      2</span></span>
+<span><span class="co">## 330    1.75    1.5      1      2</span></span>
+<span><span class="co">## 331    1.75    1.5      1      2</span></span>
+<span><span class="co">## 332    1.75    1.5      1      2</span></span>
+<span><span class="co">## 333    1.75    1.5      1      2</span></span>
+<span><span class="co">## 334    1.75    1.5      1      2</span></span>
+<span><span class="co">## 335    1.75    1.5      1      2</span></span>
+<span><span class="co">## 336    1.75    1.5      1      2</span></span>
+<span><span class="co">## 337    1.75    1.5      1      2</span></span>
+<span><span class="co">## 338    1.75    1.5      1      2</span></span>
+<span><span class="co">## 339    1.75    1.5      1      2</span></span>
+<span><span class="co">## 340    1.75    1.5      1      2</span></span>
+<span><span class="co">## 341    1.75    1.5      1      2</span></span>
+<span><span class="co">## 342    1.75    1.5      1      2</span></span>
+<span><span class="co">## 343    1.75    1.5      1      2</span></span>
+<span><span class="co">## 344    1.75    1.5      1      2</span></span>
+<span><span class="co">## 345    1.75    1.5      1      2</span></span>
+<span><span class="co">## 346    1.75    1.5      1      2</span></span>
+<span><span class="co">## 347    1.75    1.5      1      2</span></span>
+<span><span class="co">## 348    1.75    1.5      1      2</span></span>
+<span><span class="co">## 349    1.75    1.5      1      2</span></span>
+<span><span class="co">## 350    1.75    1.5      1      2</span></span>
+<span><span class="co">## 351    1.75    1.5      1      2</span></span>
+<span><span class="co">## 352    1.75    1.5      1      2</span></span>
+<span><span class="co">## 353    1.75    1.5      1      2</span></span>
+<span><span class="co">## 354    1.75    1.5      1      2</span></span>
+<span><span class="co">## 355    1.75    1.5      1      2</span></span>
+<span><span class="co">## 356    1.75    1.5      1      2</span></span>
+<span><span class="co">## 357    1.75    1.5      1      2</span></span>
+<span><span class="co">## 358    1.75    1.5      1      2</span></span>
+<span><span class="co">## 359    1.75    1.5      1      2</span></span>
+<span><span class="co">## 360    1.75    1.5      1      2</span></span>
+<span><span class="co">## 361    1.75    1.5      1      2</span></span>
+<span><span class="co">## 362    1.75    1.5      1      2</span></span>
+<span><span class="co">## 363    1.75    1.5      1      2</span></span>
+<span><span class="co">## 364    1.75    1.5      1      2</span></span>
+<span><span class="co">## 365    1.75    1.5      1      2</span></span>
+<span><span class="co">## 366    1.75    1.5      1      2</span></span>
+<span><span class="co">## 367    1.75    1.5      1      2</span></span>
+<span><span class="co">## 368    1.75    1.5      1      2</span></span>
+<span><span class="co">## 369    1.75    1.5      1      2</span></span>
+<span><span class="co">## 370    1.75    1.5      1      2</span></span>
+<span><span class="co">## 371    1.75    1.5      1      2</span></span>
+<span><span class="co">## 372    1.75    1.5      1      2</span></span>
+<span><span class="co">## 373    1.75    1.5      1      2</span></span>
+<span><span class="co">## 374    1.75    1.5      1      2</span></span>
+<span><span class="co">## 375    1.75    1.5      1      2</span></span>
+<span><span class="co">## 376    1.75    1.5      1      2</span></span>
+<span><span class="co">## 377    1.75    1.5      1      2</span></span>
+<span><span class="co">## 378    1.75    1.5      1      2</span></span>
+<span><span class="co">## 379    1.75    1.5      1      2</span></span>
+<span><span class="co">## 380    1.75    1.5      1      2</span></span>
+<span><span class="co">## 381    1.75    1.5      1      2</span></span>
+<span><span class="co">## 382    1.75    1.5      1      2</span></span>
+<span><span class="co">## 383    1.75    1.5      1      2</span></span>
+<span><span class="co">## 384    1.75    1.5      1      2</span></span>
+<span><span class="co">## 385    1.75    1.5      1      2</span></span>
+<span><span class="co">## 386    1.75    1.5      1      2</span></span>
+<span><span class="co">## 387    1.75    1.5      1      2</span></span>
+<span><span class="co">## 388    1.75    1.5      1      2</span></span>
+<span><span class="co">## 389    1.75    1.5      1      2</span></span>
+<span><span class="co">## 390    1.75    1.5      1      2</span></span>
+<span><span class="co">## 391    1.75    1.5      1      2</span></span>
+<span><span class="co">## 392    1.75    1.5      1      2</span></span>
+<span><span class="co">## 393    1.75    1.5      1      2</span></span>
+<span><span class="co">## 394    1.75    1.5      1      2</span></span>
+<span><span class="co">## 395    1.75    1.5      1      2</span></span>
+<span><span class="co">## 396    1.75    1.5      1      2</span></span>
+<span><span class="co">## 397    1.75    1.5      1      2</span></span>
+<span><span class="co">## 398    1.75    1.5      1      2</span></span>
+<span><span class="co">## 399    1.75    1.5      1      2</span></span>
+<span><span class="co">## 400    1.75    1.5      1      2</span></span>
+<span><span class="co">## 401    1.75    1.5      1      2</span></span>
+<span><span class="co">## 402    1.75    1.5      1      2</span></span>
+<span><span class="co">## 403    1.75    1.5      1      2</span></span>
+<span><span class="co">## 404    1.75    1.5      1      2</span></span>
+<span><span class="co">## 405    1.75    1.5      1      2</span></span>
+<span><span class="co">## 406    1.75    1.5      1      2</span></span>
+<span><span class="co">## 407    1.75    1.5      1      2</span></span>
+<span><span class="co">## 408    1.75    1.5      1      2</span></span>
+<span><span class="co">## 409    1.75    1.5      1      2</span></span>
+<span><span class="co">## 410    1.75    1.5      1      2</span></span>
+<span><span class="co">## 411    1.75    1.5      1      2</span></span>
+<span><span class="co">## 412    1.75    1.5      1      2</span></span>
+<span><span class="co">## 413    1.75    1.5      1      2</span></span>
+<span><span class="co">## 414    1.75    1.5      1      2</span></span>
+<span><span class="co">## 415    1.75    1.5      1      2</span></span>
+<span><span class="co">## 416    1.75    1.5      1      2</span></span>
+<span><span class="co">## 417    1.75    1.5      1      2</span></span>
+<span><span class="co">## 418    1.75    1.5      1      2</span></span>
+<span><span class="co">## 419    1.75    1.5      1      2</span></span>
+<span><span class="co">## 420    1.75    1.5      1      2</span></span>
+<span><span class="co">## 421    1.75    1.5      1      2</span></span>
+<span><span class="co">## 422    1.75    1.5      1      2</span></span>
+<span><span class="co">## 423    1.75    1.5      1      2</span></span>
+<span><span class="co">## 424    1.75    1.5      1      2</span></span>
+<span><span class="co">## 425    1.75    1.5      1      2</span></span>
+<span><span class="co">## 426    1.75    1.5      1      2</span></span>
+<span><span class="co">## 427    1.75    1.5      1      2</span></span>
+<span><span class="co">## 428    1.75    1.5      1      2</span></span>
+<span><span class="co">## 429    1.75    1.5      1      2</span></span>
+<span><span class="co">## 430    1.75    1.5      1      2</span></span>
+<span><span class="co">## 431    1.75    1.5      1      2</span></span>
+<span><span class="co">## 432    1.75    1.5      1      2</span></span>
+<span><span class="co">## 433    1.75    1.5      1      2</span></span>
+<span><span class="co">## 434    1.75    1.5      1      2</span></span>
+<span><span class="co">## 435    1.75    1.5      1      2</span></span>
+<span><span class="co">## 436    1.75    1.5      1      2</span></span>
+<span><span class="co">## 437    1.75    1.5      1      2</span></span>
+<span><span class="co">## 438    1.75    1.5      1      2</span></span>
+<span><span class="co">## 439    1.75    1.5      1      2</span></span>
+<span><span class="co">## 440    1.75    1.5      1      2</span></span>
+<span><span class="co">## 441    1.75    1.5      1      2</span></span>
+<span><span class="co">## 442    1.75    1.5      1      2</span></span>
+<span><span class="co">## 443    1.75    1.5      1      2</span></span>
+<span><span class="co">## 444    1.75    1.5      1      2</span></span>
+<span><span class="co">## 445    1.75    1.5      1      2</span></span>
+<span><span class="co">## 446    1.75    1.5      1      2</span></span>
+<span><span class="co">## 447    1.75    1.5      1      2</span></span>
+<span><span class="co">## 448    1.75    1.5      1      2</span></span>
+<span><span class="co">## 449    1.75    1.5      1      2</span></span>
+<span><span class="co">## 450    1.75    1.5      1      2</span></span>
+<span><span class="co">## 451    1.75    1.5      1      2</span></span>
+<span><span class="co">## 452    1.75    1.5      1      2</span></span>
+<span><span class="co">## 453    2.25    3.0      2      4</span></span>
+<span><span class="co">## 454    2.25    3.0      2      4</span></span>
+<span><span class="co">## 455    2.25    3.0      2      4</span></span>
+<span><span class="co">## 456    2.25    3.0      2      4</span></span>
+<span><span class="co">## 457    2.25    3.0      2      4</span></span>
+<span><span class="co">## 458    2.25    3.0      2      4</span></span>
+<span><span class="co">## 459    2.25    3.0      2      4</span></span>
+<span><span class="co">## 460    2.25    3.0      2      4</span></span>
+<span><span class="co">## 461    2.25    3.0      2      4</span></span>
+<span><span class="co">## 462    2.25    3.0      2      4</span></span>
+<span><span class="co">## 463    2.25    3.0      2      4</span></span>
+<span><span class="co">## 464    2.25    3.0      2      4</span></span>
+<span><span class="co">## 465    2.25    3.0      2      4</span></span>
+<span><span class="co">## 466    2.25    3.0      2      4</span></span>
+<span><span class="co">## 467    2.25    3.0      2      4</span></span>
+<span><span class="co">## 468    2.25    3.0      2      4</span></span>
+<span><span class="co">## 469    2.25    3.0      2      4</span></span>
+<span><span class="co">## 470    2.25    3.0      2      4</span></span>
+<span><span class="co">## 471    2.25    3.0      2      4</span></span>
+<span><span class="co">## 472    2.25    3.0      2      4</span></span>
+<span><span class="co">## 473    2.25    3.0      2      4</span></span>
+<span><span class="co">## 474    2.25    3.0      2      4</span></span>
+<span><span class="co">## 475    2.25    3.0      2      4</span></span>
+<span><span class="co">## 476    2.25    3.0      2      4</span></span>
+<span><span class="co">## 477    2.25    3.0      2      4</span></span>
+<span><span class="co">## 478    2.25    3.0      2      4</span></span>
+<span><span class="co">## 479    2.25    3.0      2      4</span></span>
+<span><span class="co">## 480    2.25    3.0      2      4</span></span>
+<span><span class="co">## 481    2.25    3.0      2      4</span></span>
+<span><span class="co">## 482    2.25    3.0      2      4</span></span>
+<span><span class="co">## 483    2.25    3.0      2      4</span></span>
+<span><span class="co">## 484    2.25    3.0      2      4</span></span>
+<span><span class="co">## 485    2.25    3.0      2      4</span></span>
+<span><span class="co">## 486    2.25    3.0      2      4</span></span>
+<span><span class="co">## 487    2.25    3.0      2      4</span></span>
+<span><span class="co">## 488    2.25    3.0      2      4</span></span>
+<span><span class="co">## 489    2.25    3.0      2      4</span></span>
+<span><span class="co">## 490    2.25    3.0      2      4</span></span>
+<span><span class="co">## 491    2.25    3.0      2      4</span></span>
+<span><span class="co">## 492    2.25    3.0      2      4</span></span>
+<span><span class="co">## 493    2.25    3.0      2      4</span></span>
+<span><span class="co">## 494    2.25    3.0      2      4</span></span>
+<span><span class="co">## 495    2.25    3.0      2      4</span></span>
+<span><span class="co">## 496    2.25    3.0      2      4</span></span>
+<span><span class="co">## 497    2.25    3.0      2      4</span></span>
+<span><span class="co">## 498    2.25    3.0      2      4</span></span>
+<span><span class="co">## 499    2.25    3.0      2      4</span></span>
+<span><span class="co">## 500    2.25    3.0      2      4</span></span>
+<span><span class="co">## 501    2.25    3.0      2      4</span></span>
+<span><span class="co">## 502    2.25    3.0      2      4</span></span>
+<span><span class="co">## 503    2.25    3.0      2      4</span></span>
+<span><span class="co">## 504    2.25    3.0      2      4</span></span>
+<span><span class="co">## 505    2.25    3.0      2      4</span></span>
+<span><span class="co">## 506    2.25    3.0      2      4</span></span>
+<span><span class="co">## 507    2.25    3.0      2      4</span></span>
+<span><span class="co">## 508    2.25    3.0      2      4</span></span>
+<span><span class="co">## 509    2.25    3.0      2      4</span></span>
+<span><span class="co">## 510    2.25    3.0      2      4</span></span>
+<span><span class="co">## 511    2.25    3.0      2      4</span></span>
+<span><span class="co">## 512    2.25    3.0      2      4</span></span>
+<span><span class="co">## 513    2.25    3.0      2      4</span></span>
+<span><span class="co">## 514    2.25    3.0      2      4</span></span>
+<span><span class="co">## 515    2.25    3.0      2      4</span></span>
+<span><span class="co">## 516    2.25    3.0      2      4</span></span>
+<span><span class="co">## 517    2.25    3.0      2      4</span></span>
+<span><span class="co">## 518    2.25    3.0      2      4</span></span>
+<span><span class="co">## 519    2.25    3.0      2      4</span></span>
+<span><span class="co">## 520    2.25    3.0      2      4</span></span>
+<span><span class="co">## 521    2.25    3.0      2      4</span></span>
+<span><span class="co">## 522    2.25    3.0      2      4</span></span>
+<span><span class="co">## 523    2.25    3.0      2      4</span></span>
+<span><span class="co">## 524    2.25    3.0      2      4</span></span>
+<span><span class="co">## 525    2.25    3.0      2      4</span></span>
+<span><span class="co">## 526    2.25    3.0      2      4</span></span>
+<span><span class="co">## 527    2.25    3.0      2      4</span></span>
+<span><span class="co">## 528    2.25    3.0      2      4</span></span>
+<span><span class="co">## 529    2.25    3.0      2      4</span></span>
+<span><span class="co">## 530    2.25    3.0      2      4</span></span>
+<span><span class="co">## 531    2.75    3.0      2      4</span></span>
+<span><span class="co">## 532    2.75    3.0      2      4</span></span>
+<span><span class="co">## 533    2.75    3.0      2      4</span></span>
+<span><span class="co">## 534    2.75    3.0      2      4</span></span>
+<span><span class="co">## 535    2.75    3.0      2      4</span></span>
+<span><span class="co">## 536    2.75    3.0      2      4</span></span>
+<span><span class="co">## 537    2.75    3.0      2      4</span></span>
+<span><span class="co">## 538    2.75    3.0      2      4</span></span>
+<span><span class="co">## 539    2.75    3.0      2      4</span></span>
+<span><span class="co">## 540    2.75    3.0      2      4</span></span>
+<span><span class="co">## 541    2.75    3.0      2      4</span></span>
+<span><span class="co">## 542    2.75    3.0      2      4</span></span>
+<span><span class="co">## 543    2.75    3.0      2      4</span></span>
+<span><span class="co">## 544    2.75    3.0      2      4</span></span>
+<span><span class="co">## 545    2.75    3.0      2      4</span></span>
+<span><span class="co">## 546    2.75    3.0      2      4</span></span>
+<span><span class="co">## 547    2.75    3.0      2      4</span></span>
+<span><span class="co">## 548    2.75    3.0      2      4</span></span>
+<span><span class="co">## 549    2.75    3.0      2      4</span></span>
+<span><span class="co">## 550    2.75    3.0      2      4</span></span>
+<span><span class="co">## 551    2.75    3.0      2      4</span></span>
+<span><span class="co">## 552    2.75    3.0      2      4</span></span>
+<span><span class="co">## 553    2.75    3.0      2      4</span></span>
+<span><span class="co">## 554    2.75    3.0      2      4</span></span>
+<span><span class="co">## 555    2.75    3.0      2      4</span></span>
+<span><span class="co">## 556    2.75    3.0      2      4</span></span>
+<span><span class="co">## 557    2.75    3.0      2      4</span></span>
+<span><span class="co">## 558    2.75    3.0      2      4</span></span>
+<span><span class="co">## 559    2.75    3.0      2      4</span></span>
+<span><span class="co">## 560    2.75    3.0      2      4</span></span>
+<span><span class="co">## 561    2.75    3.0      2      4</span></span>
+<span><span class="co">## 562    2.75    3.0      2      4</span></span>
+<span><span class="co">## 563    2.75    3.0      2      4</span></span>
+<span><span class="co">## 564    2.75    3.0      2      4</span></span>
+<span><span class="co">## 565    2.75    3.0      2      4</span></span>
+<span><span class="co">## 566    2.75    3.0      2      4</span></span>
+<span><span class="co">## 567    2.75    3.0      2      4</span></span>
+<span><span class="co">## 568    2.75    3.0      2      4</span></span>
+<span><span class="co">## 569    2.75    3.0      2      4</span></span>
+<span><span class="co">## 570    2.75    3.0      2      4</span></span>
+<span><span class="co">## 571    2.75    3.0      2      4</span></span>
+<span><span class="co">## 572    2.75    3.0      2      4</span></span>
+<span><span class="co">## 573    2.75    3.0      2      4</span></span>
+<span><span class="co">## 574    2.75    3.0      2      4</span></span>
+<span><span class="co">## 575    2.75    3.0      2      4</span></span>
+<span><span class="co">## 576    2.75    3.0      2      4</span></span>
+<span><span class="co">## 577    2.75    3.0      2      4</span></span>
+<span><span class="co">## 578    2.75    3.0      2      4</span></span>
+<span><span class="co">## 579    2.75    3.0      2      4</span></span>
+<span><span class="co">## 580    2.75    3.0      2      4</span></span>
+<span><span class="co">## 581    2.75    3.0      2      4</span></span>
+<span><span class="co">## 582    2.75    3.0      2      4</span></span>
+<span><span class="co">## 583    2.75    3.0      2      4</span></span>
+<span><span class="co">## 584    2.75    3.0      2      4</span></span>
+<span><span class="co">## 585    2.75    3.0      2      4</span></span>
+<span><span class="co">## 586    2.75    3.0      2      4</span></span>
+<span><span class="co">## 587    2.75    3.0      2      4</span></span>
+<span><span class="co">## 588    2.75    3.0      2      4</span></span>
+<span><span class="co">## 589    3.25    3.0      2      4</span></span>
+<span><span class="co">## 590    3.25    3.0      2      4</span></span>
+<span><span class="co">## 591    3.25    3.0      2      4</span></span>
+<span><span class="co">## 592    3.25    3.0      2      4</span></span>
+<span><span class="co">## 593    3.25    3.0      2      4</span></span>
+<span><span class="co">## 594    3.25    3.0      2      4</span></span>
+<span><span class="co">## 595    3.25    3.0      2      4</span></span>
+<span><span class="co">## 596    3.25    3.0      2      4</span></span>
+<span><span class="co">## 597    3.25    3.0      2      4</span></span>
+<span><span class="co">## 598    3.25    3.0      2      4</span></span>
+<span><span class="co">## 599    3.25    3.0      2      4</span></span>
+<span><span class="co">## 600    3.25    3.0      2      4</span></span>
+<span><span class="co">## 601    3.25    3.0      2      4</span></span>
+<span><span class="co">## 602    3.25    3.0      2      4</span></span>
+<span><span class="co">## 603    3.25    3.0      2      4</span></span>
+<span><span class="co">## 604    3.25    3.0      2      4</span></span>
+<span><span class="co">## 605    3.25    3.0      2      4</span></span>
+<span><span class="co">## 606    3.25    3.0      2      4</span></span>
+<span><span class="co">## 607    3.25    3.0      2      4</span></span>
+<span><span class="co">## 608    3.25    3.0      2      4</span></span>
+<span><span class="co">## 609    3.25    3.0      2      4</span></span>
+<span><span class="co">## 610    3.25    3.0      2      4</span></span>
+<span><span class="co">## 611    3.25    3.0      2      4</span></span>
+<span><span class="co">## 612    3.25    3.0      2      4</span></span>
+<span><span class="co">## 613    3.25    3.0      2      4</span></span>
+<span><span class="co">## 614    3.25    3.0      2      4</span></span>
+<span><span class="co">## 615    3.25    3.0      2      4</span></span>
+<span><span class="co">## 616    3.25    3.0      2      4</span></span>
+<span><span class="co">## 617    3.25    3.0      2      4</span></span>
+<span><span class="co">## 618    3.25    3.0      2      4</span></span>
+<span><span class="co">## 619    3.25    3.0      2      4</span></span>
+<span><span class="co">## 620    3.25    3.0      2      4</span></span>
+<span><span class="co">## 621    3.25    3.0      2      4</span></span>
+<span><span class="co">## 622    3.25    3.0      2      4</span></span>
+<span><span class="co">## 623    3.25    3.0      2      4</span></span>
+<span><span class="co">## 624    3.25    3.0      2      4</span></span>
+<span><span class="co">## 625    3.25    3.0      2      4</span></span>
+<span><span class="co">## 626    3.25    3.0      2      4</span></span>
+<span><span class="co">## 627    3.25    3.0      2      4</span></span>
+<span><span class="co">## 628    3.25    3.0      2      4</span></span>
+<span><span class="co">## 629    3.25    3.0      2      4</span></span>
+<span><span class="co">## 630    3.25    3.0      2      4</span></span>
+<span><span class="co">## 631    3.25    3.0      2      4</span></span>
+<span><span class="co">## 632    3.25    3.0      2      4</span></span>
+<span><span class="co">## 633    3.25    3.0      2      4</span></span>
+<span><span class="co">## 634    3.25    3.0      2      4</span></span>
+<span><span class="co">## 635    3.25    3.0      2      4</span></span>
+<span><span class="co">## 636    3.25    3.0      2      4</span></span>
+<span><span class="co">## 637    3.75    3.0      2      4</span></span>
+<span><span class="co">## 638    3.75    3.0      2      4</span></span>
+<span><span class="co">## 639    3.75    3.0      2      4</span></span>
+<span><span class="co">## 640    3.75    3.0      2      4</span></span>
+<span><span class="co">## 641    3.75    3.0      2      4</span></span>
+<span><span class="co">## 642    3.75    3.0      2      4</span></span>
+<span><span class="co">## 643    3.75    3.0      2      4</span></span>
+<span><span class="co">## 644    3.75    3.0      2      4</span></span>
+<span><span class="co">## 645    3.75    3.0      2      4</span></span>
+<span><span class="co">## 646    3.75    3.0      2      4</span></span>
+<span><span class="co">## 647    3.75    3.0      2      4</span></span>
+<span><span class="co">## 648    3.75    3.0      2      4</span></span>
+<span><span class="co">## 649    3.75    3.0      2      4</span></span>
+<span><span class="co">## 650    3.75    3.0      2      4</span></span>
+<span><span class="co">## 651    3.75    3.0      2      4</span></span>
+<span><span class="co">## 652    3.75    3.0      2      4</span></span>
+<span><span class="co">## 653    3.75    3.0      2      4</span></span>
+<span><span class="co">## 654    3.75    3.0      2      4</span></span>
+<span><span class="co">## 655    3.75    3.0      2      4</span></span>
+<span><span class="co">## 656    3.75    3.0      2      4</span></span>
+<span><span class="co">## 657    3.75    3.0      2      4</span></span>
+<span><span class="co">## 658    3.75    3.0      2      4</span></span>
+<span><span class="co">## 659    3.75    3.0      2      4</span></span>
+<span><span class="co">## 660    3.75    3.0      2      4</span></span>
+<span><span class="co">## 661    3.75    3.0      2      4</span></span>
+<span><span class="co">## 662    3.75    3.0      2      4</span></span>
+<span><span class="co">## 663    3.75    3.0      2      4</span></span>
+<span><span class="co">## 664    3.75    3.0      2      4</span></span>
+<span><span class="co">## 665    3.75    3.0      2      4</span></span>
+<span><span class="co">## 666    3.75    3.0      2      4</span></span>
+<span><span class="co">## 667    3.75    3.0      2      4</span></span>
+<span><span class="co">## 668    3.75    3.0      2      4</span></span>
+<span><span class="co">## 669    3.75    3.0      2      4</span></span>
+<span><span class="co">## 670    3.75    3.0      2      4</span></span>
+<span><span class="co">## 671    3.75    3.0      2      4</span></span>
+<span><span class="co">## 672    3.75    3.0      2      4</span></span>
+<span><span class="co">## 673    3.75    3.0      2      4</span></span>
+<span><span class="co">## 674    3.75    3.0      2      4</span></span>
+<span><span class="co">## 675    3.75    3.0      2      4</span></span>
+<span><span class="co">## 676    4.25    6.0      4      8</span></span>
+<span><span class="co">## 677    4.25    6.0      4      8</span></span>
+<span><span class="co">## 678    4.25    6.0      4      8</span></span>
+<span><span class="co">## 679    4.25    6.0      4      8</span></span>
+<span><span class="co">## 680    4.25    6.0      4      8</span></span>
+<span><span class="co">## 681    4.25    6.0      4      8</span></span>
+<span><span class="co">## 682    4.25    6.0      4      8</span></span>
+<span><span class="co">## 683    4.25    6.0      4      8</span></span>
+<span><span class="co">## 684    4.25    6.0      4      8</span></span>
+<span><span class="co">## 685    4.25    6.0      4      8</span></span>
+<span><span class="co">## 686    4.25    6.0      4      8</span></span>
+<span><span class="co">## 687    4.25    6.0      4      8</span></span>
+<span><span class="co">## 688    4.25    6.0      4      8</span></span>
+<span><span class="co">## 689    4.25    6.0      4      8</span></span>
+<span><span class="co">## 690    4.25    6.0      4      8</span></span>
+<span><span class="co">## 691    4.25    6.0      4      8</span></span>
+<span><span class="co">## 692    4.25    6.0      4      8</span></span>
+<span><span class="co">## 693    4.25    6.0      4      8</span></span>
+<span><span class="co">## 694    4.25    6.0      4      8</span></span>
+<span><span class="co">## 695    4.25    6.0      4      8</span></span>
+<span><span class="co">## 696    4.25    6.0      4      8</span></span>
+<span><span class="co">## 697    4.25    6.0      4      8</span></span>
+<span><span class="co">## 698    4.25    6.0      4      8</span></span>
+<span><span class="co">## 699    4.25    6.0      4      8</span></span>
+<span><span class="co">## 700    4.25    6.0      4      8</span></span>
+<span><span class="co">## 701    4.25    6.0      4      8</span></span>
+<span><span class="co">## 702    4.25    6.0      4      8</span></span>
+<span><span class="co">## 703    4.25    6.0      4      8</span></span>
+<span><span class="co">## 704    4.25    6.0      4      8</span></span>
+<span><span class="co">## 705    4.25    6.0      4      8</span></span>
+<span><span class="co">## 706    4.25    6.0      4      8</span></span>
+<span><span class="co">## 707    4.75    6.0      4      8</span></span>
+<span><span class="co">## 708    4.75    6.0      4      8</span></span>
+<span><span class="co">## 709    4.75    6.0      4      8</span></span>
+<span><span class="co">## 710    4.75    6.0      4      8</span></span>
+<span><span class="co">## 711    4.75    6.0      4      8</span></span>
+<span><span class="co">## 712    4.75    6.0      4      8</span></span>
+<span><span class="co">## 713    4.75    6.0      4      8</span></span>
+<span><span class="co">## 714    4.75    6.0      4      8</span></span>
+<span><span class="co">## 715    4.75    6.0      4      8</span></span>
+<span><span class="co">## 716    4.75    6.0      4      8</span></span>
+<span><span class="co">## 717    4.75    6.0      4      8</span></span>
+<span><span class="co">## 718    4.75    6.0      4      8</span></span>
+<span><span class="co">## 719    4.75    6.0      4      8</span></span>
+<span><span class="co">## 720    4.75    6.0      4      8</span></span>
+<span><span class="co">## 721    4.75    6.0      4      8</span></span>
+<span><span class="co">## 722    4.75    6.0      4      8</span></span>
+<span><span class="co">## 723    4.75    6.0      4      8</span></span>
+<span><span class="co">## 724    4.75    6.0      4      8</span></span>
+<span><span class="co">## 725    4.75    6.0      4      8</span></span>
+<span><span class="co">## 726    4.75    6.0      4      8</span></span>
+<span><span class="co">## 727    4.75    6.0      4      8</span></span>
+<span><span class="co">## 728    4.75    6.0      4      8</span></span>
+<span><span class="co">## 729    4.75    6.0      4      8</span></span>
+<span><span class="co">## 730    5.25    6.0      4      8</span></span>
+<span><span class="co">## 731    5.25    6.0      4      8</span></span>
+<span><span class="co">## 732    5.25    6.0      4      8</span></span>
+<span><span class="co">## 733    5.25    6.0      4      8</span></span>
+<span><span class="co">## 734    5.25    6.0      4      8</span></span>
+<span><span class="co">## 735    5.25    6.0      4      8</span></span>
+<span><span class="co">## 736    5.25    6.0      4      8</span></span>
+<span><span class="co">## 737    5.25    6.0      4      8</span></span>
+<span><span class="co">## 738    5.25    6.0      4      8</span></span>
+<span><span class="co">## 739    5.25    6.0      4      8</span></span>
+<span><span class="co">## 740    5.25    6.0      4      8</span></span>
+<span><span class="co">## 741    5.25    6.0      4      8</span></span>
+<span><span class="co">## 742    5.25    6.0      4      8</span></span>
+<span><span class="co">## 743    5.25    6.0      4      8</span></span>
+<span><span class="co">## 744    5.25    6.0      4      8</span></span>
+<span><span class="co">## 745    5.25    6.0      4      8</span></span>
+<span><span class="co">## 746    5.25    6.0      4      8</span></span>
+<span><span class="co">## 747    5.25    6.0      4      8</span></span>
+<span><span class="co">## 748    5.25    6.0      4      8</span></span>
+<span><span class="co">## 749    5.25    6.0      4      8</span></span>
+<span><span class="co">## 750    5.25    6.0      4      8</span></span>
+<span><span class="co">## 751    5.25    6.0      4      8</span></span>
+<span><span class="co">## 752    5.25    6.0      4      8</span></span>
+<span><span class="co">## 753    5.25    6.0      4      8</span></span>
+<span><span class="co">## 754    5.25    6.0      4      8</span></span>
+<span><span class="co">## 755    5.25    6.0      4      8</span></span>
+<span><span class="co">## 756    5.75    6.0      4      8</span></span>
+<span><span class="co">## 757    5.75    6.0      4      8</span></span>
+<span><span class="co">## 758    5.75    6.0      4      8</span></span>
+<span><span class="co">## 759    5.75    6.0      4      8</span></span>
+<span><span class="co">## 760    5.75    6.0      4      8</span></span>
+<span><span class="co">## 761    5.75    6.0      4      8</span></span>
+<span><span class="co">## 762    5.75    6.0      4      8</span></span>
+<span><span class="co">## 763    5.75    6.0      4      8</span></span>
+<span><span class="co">## 764    5.75    6.0      4      8</span></span>
+<span><span class="co">## 765    5.75    6.0      4      8</span></span>
+<span><span class="co">## 766    5.75    6.0      4      8</span></span>
+<span><span class="co">## 767    5.75    6.0      4      8</span></span>
+<span><span class="co">## 768    5.75    6.0      4      8</span></span>
+<span><span class="co">## 769    6.25    6.0      4      8</span></span>
+<span><span class="co">## 770    6.25    6.0      4      8</span></span>
+<span><span class="co">## 771    6.25    6.0      4      8</span></span>
+<span><span class="co">## 772    6.25    6.0      4      8</span></span>
+<span><span class="co">## 773    6.25    6.0      4      8</span></span>
+<span><span class="co">## 774    6.25    6.0      4      8</span></span>
+<span><span class="co">## 775    6.25    6.0      4      8</span></span>
+<span><span class="co">## 776    6.25    6.0      4      8</span></span>
+<span><span class="co">## 777    6.25    6.0      4      8</span></span>
+<span><span class="co">## 778    6.25    6.0      4      8</span></span>
+<span><span class="co">## 779    6.25    6.0      4      8</span></span>
+<span><span class="co">## 780    6.25    6.0      4      8</span></span>
+<span><span class="co">## 781    6.75    6.0      4      8</span></span>
+<span><span class="co">## 782    6.75    6.0      4      8</span></span>
+<span><span class="co">## 783    6.75    6.0      4      8</span></span>
+<span><span class="co">## 784    6.75    6.0      4      8</span></span>
+<span><span class="co">## 785    6.75    6.0      4      8</span></span>
+<span><span class="co">## 786    6.75    6.0      4      8</span></span>
+<span><span class="co">## 787    6.75    6.0      4      8</span></span>
+<span><span class="co">## 788    6.75    6.0      4      8</span></span>
+<span><span class="co">## 789    6.75    6.0      4      8</span></span>
+<span><span class="co">## 790    7.25    6.0      4      8</span></span>
+<span><span class="co">## 791    7.25    6.0      4      8</span></span>
+<span><span class="co">## 792    7.25    6.0      4      8</span></span>
+<span><span class="co">## 793    7.25    6.0      4      8</span></span>
+<span><span class="co">## 794    7.25    6.0      4      8</span></span>
+<span><span class="co">## 795    7.25    6.0      4      8</span></span>
+<span><span class="co">## 796    7.25    6.0      4      8</span></span>
+<span><span class="co">## 797    7.25    6.0      4      8</span></span>
+<span><span class="co">## 798    7.25    6.0      4      8</span></span>
+<span><span class="co">## 799    7.25    6.0      4      8</span></span>
+<span><span class="co">## 800    7.25    6.0      4      8</span></span>
+<span><span class="co">## 801    7.25    6.0      4      8</span></span>
+<span><span class="co">## 802    7.25    6.0      4      8</span></span>
+<span><span class="co">## 803    7.25    6.0      4      8</span></span>
+<span><span class="co">## 804    7.25    6.0      4      8</span></span>
+<span><span class="co">## 805    7.75    6.0      4      8</span></span>
+<span><span class="co">## 806    7.75    6.0      4      8</span></span>
+<span><span class="co">## 807    7.75    6.0      4      8</span></span>
+<span><span class="co">## 808    7.75    6.0      4      8</span></span>
+<span><span class="co">## 809    7.75    6.0      4      8</span></span>
+<span><span class="co">## 810    7.75    6.0      4      8</span></span>
+<span><span class="co">## 811    7.75    6.0      4      8</span></span>
+<span><span class="co">## 812    8.25   12.0      8     16</span></span>
+<span><span class="co">## 813    8.25   12.0      8     16</span></span>
+<span><span class="co">## 814    8.25   12.0      8     16</span></span>
+<span><span class="co">## 815    8.25   12.0      8     16</span></span>
+<span><span class="co">## 816    8.25   12.0      8     16</span></span>
+<span><span class="co">## 817    8.25   12.0      8     16</span></span>
+<span><span class="co">## 818    8.25   12.0      8     16</span></span>
+<span><span class="co">## 819    8.75   12.0      8     16</span></span>
+<span><span class="co">## 820    8.75   12.0      8     16</span></span>
+<span><span class="co">## 821    8.75   12.0      8     16</span></span>
+<span><span class="co">## 822    8.75   12.0      8     16</span></span>
+<span><span class="co">## 823    8.75   12.0      8     16</span></span>
+<span><span class="co">## 824    8.75   12.0      8     16</span></span>
+<span><span class="co">## 825    8.75   12.0      8     16</span></span>
+<span><span class="co">## 826    8.75   12.0      8     16</span></span>
+<span><span class="co">## 827    8.75   12.0      8     16</span></span>
+<span><span class="co">## 828    8.75   12.0      8     16</span></span>
+<span><span class="co">## 829    8.75   12.0      8     16</span></span>
+<span><span class="co">## 830    9.25   12.0      8     16</span></span>
+<span><span class="co">## 831    9.25   12.0      8     16</span></span>
+<span><span class="co">## 832    9.25   12.0      8     16</span></span>
+<span><span class="co">## 833    9.25   12.0      8     16</span></span>
+<span><span class="co">## 834    9.25   12.0      8     16</span></span>
+<span><span class="co">## 835    9.25   12.0      8     16</span></span>
+<span><span class="co">## 836    9.25   12.0      8     16</span></span>
+<span><span class="co">## 837    9.25   12.0      8     16</span></span>
+<span><span class="co">## 838    9.75   12.0      8     16</span></span>
+<span><span class="co">## 839    9.75   12.0      8     16</span></span>
+<span><span class="co">## 840    9.75   12.0      8     16</span></span>
+<span><span class="co">## 841   10.25   12.0      8     16</span></span>
+<span><span class="co">## 842   10.25   12.0      8     16</span></span>
+<span><span class="co">## 843   10.25   12.0      8     16</span></span>
+<span><span class="co">## 844   10.25   12.0      8     16</span></span>
+<span><span class="co">## 845   10.25   12.0      8     16</span></span>
+<span><span class="co">## 846   10.75   12.0      8     16</span></span>
+<span><span class="co">## 847   10.75   12.0      8     16</span></span>
+<span><span class="co">## 848   10.75   12.0      8     16</span></span>
+<span><span class="co">## 849   10.75   12.0      8     16</span></span>
+<span><span class="co">## 850   10.75   12.0      8     16</span></span>
+<span><span class="co">## 851   10.75   12.0      8     16</span></span>
+<span><span class="co">## 852   10.75   12.0      8     16</span></span>
+<span><span class="co">## 853   10.75   12.0      8     16</span></span>
+<span><span class="co">## 854   10.75   12.0      8     16</span></span>
+<span><span class="co">## 855   10.75   12.0      8     16</span></span>
+<span><span class="co">## 856   11.25   12.0      8     16</span></span>
+<span><span class="co">## 857   11.25   12.0      8     16</span></span>
+<span><span class="co">## 858   11.25   12.0      8     16</span></span>
+<span><span class="co">## 859   11.25   12.0      8     16</span></span>
+<span><span class="co">## 860   11.25   12.0      8     16</span></span>
+<span><span class="co">## 861   11.75   12.0      8     16</span></span>
+<span><span class="co">## 862   11.75   12.0      8     16</span></span>
+<span><span class="co">## 863   11.75   12.0      8     16</span></span>
+<span><span class="co">## 864   11.75   12.0      8     16</span></span>
+<span><span class="co">## 865   11.75   12.0      8     16</span></span>
+<span><span class="co">## 866   11.75   12.0      8     16</span></span>
+<span><span class="co">## 867   12.25   12.0      8     16</span></span>
+<span><span class="co">## 868   12.25   12.0      8     16</span></span>
+<span><span class="co">## 869   12.25   12.0      8     16</span></span>
+<span><span class="co">## 870   12.25   12.0      8     16</span></span>
+<span><span class="co">## 871   12.25   12.0      8     16</span></span>
+<span><span class="co">## 872   12.75   12.0      8     16</span></span>
+<span><span class="co">## 873   12.75   12.0      8     16</span></span>
+<span><span class="co">## 874   12.75   12.0      8     16</span></span>
+<span><span class="co">## 875   13.25   12.0      8     16</span></span>
+<span><span class="co">## 876   13.25   12.0      8     16</span></span>
+<span><span class="co">## 877   13.25   12.0      8     16</span></span>
+<span><span class="co">## 878   13.25   12.0      8     16</span></span>
+<span><span class="co">## 879   13.25   12.0      8     16</span></span>
+<span><span class="co">## 880   13.75   12.0      8     16</span></span>
+<span><span class="co">## 881   13.75   12.0      8     16</span></span>
+<span><span class="co">## 882   13.75   12.0      8     16</span></span>
+<span><span class="co">## 883   14.25   12.0      8     16</span></span>
+<span><span class="co">## 884   14.25   12.0      8     16</span></span>
+<span><span class="co">## 885   14.25   12.0      8     16</span></span>
+<span><span class="co">## 886   14.25   12.0      8     16</span></span>
+<span><span class="co">## 887   14.25   12.0      8     16</span></span>
+<span><span class="co">## 888   14.75   12.0      8     16</span></span>
+<span><span class="co">## 889   14.75   12.0      8     16</span></span>
+<span><span class="co">## 890   14.75   12.0      8     16</span></span>
+<span><span class="co">## 891   15.25   12.0      8     16</span></span>
+<span><span class="co">## 892   15.25   12.0      8     16</span></span>
+<span><span class="co">## 893   15.25   12.0      8     16</span></span>
+<span><span class="co">## 894   15.75   12.0      8     16</span></span>
+<span><span class="co">## 895   15.75   12.0      8     16</span></span>
+<span><span class="co">## 896   16.25   24.0     16     32</span></span>
+<span><span class="co">## 897   16.25   24.0     16     32</span></span>
+<span><span class="co">## 898   16.25   24.0     16     32</span></span>
+<span><span class="co">## 899   16.25   24.0     16     32</span></span>
+<span><span class="co">## 900   16.75   24.0     16     32</span></span>
+<span><span class="co">## 901   17.25   24.0     16     32</span></span>
+<span><span class="co">## 902   17.25   24.0     16     32</span></span>
+<span><span class="co">## 903   17.25   24.0     16     32</span></span>
+<span><span class="co">## 904   17.75   24.0     16     32</span></span>
+<span><span class="co">## 905   17.75   24.0     16     32</span></span>
+<span><span class="co">## 906   17.75   24.0     16     32</span></span>
+<span><span class="co">## 907   17.75   24.0     16     32</span></span>
+<span><span class="co">## 908   18.25   24.0     16     32</span></span>
+<span><span class="co">## 909   18.25   24.0     16     32</span></span>
+<span><span class="co">## 910   18.75   24.0     16     32</span></span>
+<span><span class="co">## 911   18.75   24.0     16     32</span></span>
+<span><span class="co">## 912   18.75   24.0     16     32</span></span>
+<span><span class="co">## 913   19.25   24.0     16     32</span></span>
+<span><span class="co">## 914   19.25   24.0     16     32</span></span>
+<span><span class="co">## 915   20.25   24.0     16     32</span></span>
+<span><span class="co">## 916   20.75   24.0     16     32</span></span>
+<span><span class="co">## 917   21.25   24.0     16     32</span></span>
+<span><span class="co">## 918   21.25   24.0     16     32</span></span>
+<span><span class="co">## 919   22.25   24.0     16     32</span></span>
+<span><span class="co">## 920   22.25   24.0     16     32</span></span>
+<span><span class="co">## 921   22.75   24.0     16     32</span></span>
+<span><span class="co">## 922   22.75   24.0     16     32</span></span>
+<span><span class="co">## 923   23.75   24.0     16     32</span></span>
+<span><span class="co">## 924   23.75   24.0     16     32</span></span>
+<span><span class="co">## 925   24.25   24.0     16     32</span></span>
+<span><span class="co">## 926   24.75   24.0     16     32</span></span>
+<span><span class="co">## 927   24.75   24.0     16     32</span></span>
+<span><span class="co">## 928   25.25   24.0     16     32</span></span>
+<span><span class="co">## 929   25.75   24.0     16     32</span></span>
+<span><span class="co">## 930   26.75   24.0     16     32</span></span>
+<span><span class="co">## 931   26.75   24.0     16     32</span></span>
+<span><span class="co">## 932   27.75   24.0     16     32</span></span>
+<span><span class="co">## 933   28.25   24.0     16     32</span></span>
+<span><span class="co">## 934   29.75   24.0     16     32</span></span>
+<span><span class="co">## 935   29.75   24.0     16     32</span></span>
+<span><span class="co">## 936   30.25   24.0     16     32</span></span>
+<span><span class="co">## 937   30.75   24.0     16     32</span></span>
+<span><span class="co">## 938   30.75   24.0     16     32</span></span>
+<span><span class="co">## 939   31.25   24.0     16     32</span></span>
+<span><span class="co">## 940   31.75   24.0     16     32</span></span>
+<span><span class="co">## 941   31.75   24.0     16     32</span></span>
+<span><span class="co">## 942   32.25   48.0     32     64</span></span>
+<span><span class="co">## 943   32.25   48.0     32     64</span></span>
+<span><span class="co">## 944   33.25   48.0     32     64</span></span>
+<span><span class="co">## 945   34.25   48.0     32     64</span></span>
+<span><span class="co">## 946   34.75   48.0     32     64</span></span>
+<span><span class="co">## 947   35.25   48.0     32     64</span></span>
+<span><span class="co">## 948   35.75   48.0     32     64</span></span>
+<span><span class="co">## 949   36.25   48.0     32     64</span></span>
+<span><span class="co">## 950   37.75   48.0     32     64</span></span>
+<span><span class="co">## 951   38.75   48.0     32     64</span></span>
+<span><span class="co">## 952   38.75   48.0     32     64</span></span>
+<span><span class="co">## 953   38.75   48.0     32     64</span></span>
+<span><span class="co">## 954   39.25   48.0     32     64</span></span>
+<span><span class="co">## 955   40.25   48.0     32     64</span></span>
+<span><span class="co">## 956   44.25   48.0     32     64</span></span>
+<span><span class="co">## 957   44.75   48.0     32     64</span></span>
+<span><span class="co">## 958   45.25   48.0     32     64</span></span>
+<span><span class="co">## 959   46.75   48.0     32     64</span></span>
+<span><span class="co">## 960   47.25   48.0     32     64</span></span>
+<span><span class="co">## 961   47.25   48.0     32     64</span></span>
+<span><span class="co">## 962   48.75   48.0     32     64</span></span>
+<span><span class="co">## 963   49.75   48.0     32     64</span></span>
+<span><span class="co">## 964   50.75   48.0     32     64</span></span>
+<span><span class="co">## 965   52.25   48.0     32     64</span></span>
+<span><span class="co">## 966   58.25   48.0     32     64</span></span>
+<span><span class="co">## 967   58.75   48.0     32     64</span></span>
+<span><span class="co">## 968   60.25   48.0     32     64</span></span>
+<span><span class="co">## 969   62.25   48.0     32     64</span></span>
+<span><span class="co">## 970   62.75   48.0     32     64</span></span>
+<span><span class="co">## 971   63.75   48.0     32     64</span></span>
+<span><span class="co">## 972   64.75   96.0     64    128</span></span>
+<span><span class="co">## 973   67.75   96.0     64    128</span></span>
+<span><span class="co">## 974   69.25   96.0     64    128</span></span>
+<span><span class="co">## 975   70.75   96.0     64    128</span></span>
+<span><span class="co">## 976   74.25   96.0     64    128</span></span>
+<span><span class="co">## 977   74.25   96.0     64    128</span></span>
+<span><span class="co">## 978   79.75   96.0     64    128</span></span>
+<span><span class="co">## 979   80.25   96.0     64    128</span></span>
+<span><span class="co">## 980   80.25   96.0     64    128</span></span>
+<span><span class="co">## 981   80.25   96.0     64    128</span></span>
+<span><span class="co">## 982   82.25   96.0     64    128</span></span>
+<span><span class="co">## 983   84.25   96.0     64    128</span></span>
+<span><span class="co">## 984   92.75   96.0     64    128</span></span>
+<span><span class="co">## 985   92.75   96.0     64    128</span></span>
+<span><span class="co">## 986  103.25   96.0     64    128</span></span>
+<span><span class="co">## 987  107.75   96.0     64    128</span></span>
+<span><span class="co">## 988  114.75   96.0     64    128</span></span>
+<span><span class="co">## 989  135.75  192.0    128    256</span></span>
+<span><span class="co">## 990  150.25  192.0    128    256</span></span>
+<span><span class="co">## 991  150.75  192.0    128    256</span></span>
+<span><span class="co">## 992  153.25  192.0    128    256</span></span>
+<span><span class="co">## 993  154.25  192.0    128    256</span></span>
+<span><span class="co">## 994  230.75  192.0    128    256</span></span>
+<span><span class="co">## 995  234.25  192.0    128    256</span></span>
+<span><span class="co">## 996  349.25  384.0    256    512</span></span>
+<span><span class="co">## 997  385.75  384.0    256    512</span></span>
+<span><span class="co">## 998  425.25  384.0    256    512</span></span>
+<span><span class="co">## 999  438.25  384.0    256    512</span></span>
+<span><span class="co">## 1000 810.75  768.0    512   1024</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $binVals</span></span>
+<span><span class="co">## <span style="color: #949494;"># A tibble: 10 × 13</span></span></span>
+<span><span class="co">##    binMid binMin binMax binWidth binCount binCountNorm binSum binSumNorm</span></span>
+<span><span class="co">##     <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 1</span>    1.5      1      2        1      452    452         648.     648.  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 2</span>    3        2      4        2      223    112.        637.     319.  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 3</span>    6        4      8        4      136     34         751      188.  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 4</span>   12        8     16        8       84     10.5       942.     118.  </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 5</span>   24       16     32       16       46      2.88     <span style="text-decoration: underline;">1</span>037       64.8 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 6</span>   48       32     64       32       30      0.938    <span style="text-decoration: underline;">1</span>350.      42.2 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 7</span>   96       64    128       64       17      0.266    <span style="text-decoration: underline;">1</span>419.      22.2 </span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 8</span>  192      128    256      128        7      0.054<span style="text-decoration: underline;">7</span>   <span style="text-decoration: underline;">1</span>209.       9.45</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;"> 9</span>  384      256    512      256        4      0.015<span style="text-decoration: underline;">6</span>   <span style="text-decoration: underline;">1</span>598.       6.24</span></span>
+<span><span class="co">## <span style="color: #BCBCBC;">10</span>  768      512   <span style="text-decoration: underline;">1</span>024      512        1      0.001<span style="text-decoration: underline;">95</span>   811.       1.58</span></span>
+<span><span class="co">## <span style="color: #949494;"># ℹ 5 more variables: log10binMid &lt;dbl&gt;, log10binCount &lt;dbl&gt;,</span></span></span>
+<span><span class="co">## <span style="color: #949494;">#   log10binSum &lt;dbl&gt;, log10binCountNorm &lt;dbl&gt;, log10binSumNorm &lt;dbl&gt;</span></span></span></code></pre>
+<p>Note that you can also use <code><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData()</a></code> with just a vector
+of body_mass data. for that, you would run the following:</p>
+<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">my_body_mass_vector</span>,</span>
+<span>        binWidth <span class="op">=</span> <span class="st">"2k"</span><span class="op">)</span></span></code></pre></div>
+<p>Now we can extract the necessary data from <code>x_binned</code>
+object to run the MLE calculation.</p>
+<div class="sourceCode" id="cb31"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">num_bins</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">mle_fish_bin</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
-<span>  negLL.fn <span class="op">=</span> <span class="va">negLL.PLB.binned</span>,</span>
-<span>  p <span class="op">=</span> <span class="op">-</span><span class="fl">2.5</span>,</span>
-<span>  w <span class="op">=</span> <span class="va">binBreaks</span>,</span>
-<span>  d <span class="op">=</span> <span class="va">binCounts</span>,</span>
-<span>  J <span class="op">=</span> <span class="va">num.bins</span>,</span>
-<span>  vecDiff <span class="op">=</span> <span class="fl">0.5</span>,</span>
-<span>  suppress.warnings <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
+<span><span class="co"># bin breaks are the minima plus the max of the final bin:</span></span>
+<span><span class="va">bin_breaks</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span>, <span class="va">binMin</span><span class="op">)</span>,</span>
+<span>                    <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span>, <span class="va">binMax</span><span class="op">)</span><span class="op">[</span><span class="va">num_bins</span><span class="op">]</span><span class="op">)</span></span>
 <span></span>
-<span><span class="va">mle_fish_bin</span> </span></code></pre></div>
+<span><span class="va">bin_counts</span> <span class="op">&lt;-</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/pull.html" class="external-link">pull</a></span><span class="op">(</span><span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span>, <span class="va">binCount</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">mle_fish_bin</span> <span class="op">&lt;-</span>  <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span><span class="va">negLL.PLB.binned</span>,</span>
+<span>                        p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span>,</span>
+<span>                        w <span class="op">=</span> <span class="va">bin_breaks</span>,</span>
+<span>                        d <span class="op">=</span> <span class="va">bin_counts</span>,</span>
+<span>                        J <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">bin_counts</span><span class="op">)</span>,   <span class="co"># = num.bins</span></span>
+<span>                        vecDiff <span class="op">=</span> <span class="fl">1</span>,</span>
+<span>      suppress.warnings <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>             <span class="co"># increase this if hit a bound</span></span>
+<span><span class="va">mle_fish_bin</span></span></code></pre></div>
+<pre><code><span><span class="co">## $MLE</span></span>
+<span><span class="co">## [1] -1.819663</span></span>
+<span><span class="co">## </span></span>
+<span><span class="co">## $conf</span></span>
+<span><span class="co">## [1] -1.874663 -1.766663</span></span></code></pre>
 <p><br></p>
 <p>When using binned data, there is a different function that Edwards
 recommends for plotting.</p>
-<div class="sourceCode" id="cb27"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># LBN_bin_plot(</span></span>
-<span><span class="co">#   binValsTibble = fish_binned, #x.binned$binVals, # modify</span></span>
-<span><span class="co">#   b.MLE = mle_fish_bin$MLE,</span></span>
-<span><span class="co">#   b.confMin = mle_fish_bin$conf[1],</span></span>
-<span><span class="co">#   b.confMax = mle_fish_bin$conf[2],</span></span>
-<span><span class="co">#   # leg.text = "(c)",</span></span>
-<span><span class="co">#   log.xy = "xy")</span></span></code></pre></div>
+<div class="sourceCode" id="cb33"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/LBN_bin_plot.html" class="external-link">LBN_bin_plot</a></span><span class="op">(</span></span>
+<span>  binValsTibble <span class="op">=</span> <span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span>,</span>
+<span>  b.MLE <span class="op">=</span> <span class="va">mle_fish_bin</span><span class="op">$</span><span class="va">MLE</span>,</span>
+<span>  b.confMin <span class="op">=</span> <span class="va">mle_fish_bin</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>,</span>
+<span>  b.confMax <span class="op">=</span> <span class="va">mle_fish_bin</span><span class="op">$</span><span class="va">conf</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>,</span>
+<span>  leg.text <span class="op">=</span> <span class="st">"(c)"</span>,</span>
+<span>  log.xy <span class="op">=</span> <span class="st">"xy"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-22-1.png" width="700"></p>
+<p><br></p>
+<p>When working with binned data, you need to make sure that none of the
+bins have a <code>0</code> count in them. If they do, the above plot
+will not work and you will get an error. If that’s the case you can
+remove the rows/bins with <code>0</code>s in them.</p>
+<p>One option is to use <code><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">dplyr::filter()</a></code> using the
+following:</p>
+<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">binCount</span> <span class="op">!=</span><span class="fl">0</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -443,7 +1524,7 @@ respectively.</p>
 <h3 id="load-the-data">Load the data<a class="anchor" aria-label="anchor" href="#load-the-data"></a>
 </h3>
 <p>Load the data and inspect it.</p>
-<div class="sourceCode" id="cb28"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">"isd_gradient"</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    body_mass env_value site_name</span></span>
@@ -453,13 +1534,13 @@ respectively.</p>
 <span><span class="co">## 4  97.524733        -1    Site_A</span></span>
 <span><span class="co">## 5   3.578355        -1    Site_A</span></span>
 <span><span class="co">## 6  51.687566        -1    Site_A</span></span></code></pre>
-<div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb37"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/dim.html" class="external-link">dim</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 6000    3</span></span></code></pre>
-<div class="sourceCode" id="cb32"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] "body_mass" "env_value" "site_name"</span></span></code></pre>
-<div class="sourceCode" id="cb34"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">isd_gradient</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">##    body_mass         env_value   site_name        </span></span>
 <span><span class="co">##  Min.   :  1.000   Min.   :-1   Length:6000       </span></span>
@@ -479,7 +1560,7 @@ plotting and analysis.</p>
 <div class="section level3">
 <h3 id="split-the-data">Split the data<a class="anchor" aria-label="anchor" href="#split-the-data"></a>
 </h3>
-<div class="sourceCode" id="cb36"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/split.html" class="external-link">split</a></span><span class="op">(</span><span class="va">isd_gradient</span>, <span class="va">isd_gradient</span><span class="op">$</span><span class="va">site_name</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="va">dat_list</span>, <span class="va">head</span><span class="op">)</span></span></code></pre></div>
 <pre><code><span><span class="co">## $Site_A</span></span>
@@ -527,7 +1608,7 @@ pieces.</p>
 <li>Write the <code>for</code> loop</li>
 </ol>
 <p><code>for</code> loops generally look like this:</p>
-<div class="sourceCode" id="cb38"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb45"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dat_object</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="co"># empty object to catch data</span></span>
 <span>  col_name_1 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>, <span class="co"># name the columns and give them a class</span></span>
 <span>  col_name_2 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html" class="external-link">integer</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span><span class="op">)</span> <span class="co"># use "n" to repeat the number of rows</span></span>
@@ -543,11 +1624,11 @@ pieces.</p>
 <code>b</code>, and the bounds of the confidence interval for the
 estimate (<code>CI_low</code>, <code>CI_high</code>).</p>
 <p>So, I will make an empty list to catch the results.</p>
-<div class="sourceCode" id="cb39"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">n</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">dat_list</span><span class="op">)</span></span>
 <span><span class="va">n</span></span></code></pre></div>
 <pre><code><span><span class="co">## [1] 3</span></span></code></pre>
-<div class="sourceCode" id="cb41"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb48"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isd_result</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>    site_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/character.html" class="external-link">character</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
 <span>    env_value <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/numeric.html" class="external-link">numeric</a></span><span class="op">(</span><span class="va">n</span><span class="op">)</span>,</span>
@@ -569,7 +1650,7 @@ the <code><a href="https://rdrr.io/r/base/length.html" class="external-link">len
 * I will use <code>length(data_list)</code> to get the value of 3.<br>
 * I will abbreviate <code>index</code> above to just be the letter
 <code>i</code>.</p>
-<div class="sourceCode" id="cb43"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb50"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw">for</span><span class="op">(</span><span class="va">i</span> <span class="kw">in</span> <span class="fl">1</span><span class="op">:</span><span class="va">n</span><span class="op">)</span><span class="op">{</span></span>
 <span>  </span>
 <span>  <span class="co"># read one piece of the list in at a time</span></span>
@@ -603,7 +1684,7 @@ the <code><a href="https://rdrr.io/r/base/length.html" class="external-link">len
 <p>We now have our three results in a list and we can easily combine
 them into a single data.frame using the <code><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind()</a></code>
 command.</p>
-<div class="sourceCode" id="cb44"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb51"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isd_result</span></span></code></pre></div>
 <pre><code><span><span class="co">##   site_name env_value         b    CI_low    CI_high</span></span>
 <span><span class="co">## 1    Site_A        -1 -1.012709 -1.034709 -0.9907085</span></span>
@@ -613,7 +1694,7 @@ command.</p>
 <p>If you don’t already have <code>ggplot2</code>, you can install it by
 running the following (only once per machine):
 <code>install.packages("ggplot2")</code></p>
-<div class="sourceCode" id="cb46"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb53"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://ggplot2.tidyverse.org" class="external-link">ggplot2</a></span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">isd_result</span>,</span>
@@ -622,9 +1703,9 @@ running the following (only once per machine):
 <span>           ymin <span class="op">=</span> <span class="va">CI_low</span>,</span>
 <span>           ymax <span class="op">=</span> <span class="va">CI_high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-26-1.png" width="700"><br> We can also add a line of best fit using the
+<p><img src="tutorial_files/figure-html/unnamed-chunk-30-1.png" width="700"><br> We can also add a line of best fit using the
 <code>stat_smooth(method = "lm")</code> command.</p>
-<div class="sourceCode" id="cb47"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb54"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">isd_result</span>,</span>
 <span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">env_value</span>,</span>
 <span>           y <span class="op">=</span> <span class="va">b</span>,</span>
@@ -632,7 +1713,7 @@ running the following (only once per machine):
 <span>           ymax <span class="op">=</span> <span class="va">CI_high</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_linerange.html" class="external-link">geom_pointrange</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
 <span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_smooth.html" class="external-link">stat_smooth</a></span><span class="op">(</span>method <span class="op">=</span> <span class="st">"lm"</span><span class="op">)</span></span></code></pre></div>
-<p><img src="tutorial_files/figure-html/unnamed-chunk-27-1.png" width="700"></p>
+<p><img src="tutorial_files/figure-html/unnamed-chunk-31-1.png" width="700"></p>
 </div>
 </div>
 </div>
