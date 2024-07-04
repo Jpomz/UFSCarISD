@@ -248,7 +248,7 @@ data("fish_binned")
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 num.bins <- nrow(fish_binned)
 binBreaks <- c((fish_binned$binMin),
   (fish_binned$binMax)[num.bins])
