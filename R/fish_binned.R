@@ -1,15 +1,13 @@
 #' Simulated binned dataset
 #'
-#' This data is simulated to represent fish data which is recorded in size "bins" in the field. Here, bins of 5g are used and the count of fish in each bin is tallied. This data is an example of when to use the `negLL.PLB.binned` in the `sizeSpectra::calcLike()` function.
+#' This data is part of the AquaSYNC project. It is fish data from one sample event in 2007. When the data were collected, the weights were measured to the nearest 25 mg and the number of fish in each bin were tallied. This data is an example of when to use the `negLL.PLB.binned` in the `sizeSpectra::calcLike()` function.
 #'
 #'
 #' @format ## `fish_binned`
-#' A data frame with 58 rows and 4 columns:
+#' A data frame with 99 rows and 2 columns:
 #' \describe{
-#'   \item{binMid}{The mid point of the bin}
-#'   \item{binMin}{The minimum edge of a bin}
-#'   \item{binMax}{The maximum edge of a bin}
-#'   \item{binCount}{count of individuals in that bin}
+#'   \item{body_mass}{The mid point of the bin}
+#'   \item{count}{The minimum edge of a bin}
 #'   ...
 #' }
 #' @source Simulated
