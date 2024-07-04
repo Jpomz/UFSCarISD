@@ -4,9 +4,9 @@
 \name{UFSCarISD-package}
 \alias{UFSCarISD}
 \alias{UFSCarISD-package}
-\title{UFSCarISD: What the Package Does (Title Case)}
+\title{UFSCarISD: Tutorial on using the "sizeSpectra" Package.}
 \description{
-More about what it does (maybe more than one line) Use four spaces when indenting paragraphs within the Description.
+This package was built for a short course on using the "sizeSpectra" package. The short course will be delivered to UFSCar in Sao Carlos Brazil on July 6th 2024. This package has an associated web site for participants to use during and after the short course.
 }
 \seealso{
 Useful links:

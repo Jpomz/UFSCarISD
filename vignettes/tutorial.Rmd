@@ -10,7 +10,7 @@ vignette: >
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(UFSCarISD)
-#library(sizeSpectra)
+library(sizeSpectra)
 ```
 
 # Overview  
@@ -52,7 +52,7 @@ install.packages("remotes")    # If you do not already have the "remotes" packag
 ```
 
 
-```{r, eval=TRUE, message=FALSE}
+```{r, eval=FALSE, message=FALSE}
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
 
