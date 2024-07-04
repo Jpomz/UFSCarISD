@@ -65,6 +65,18 @@ library(sizeSpectra)
 
 For an overview of what the package can do, see the [*sizeSpectra* package vignettes](https://htmlpreview.github.io/?https://github.com/andrew-edwards/sizeSpectra/blob/master/doc/vignettes_overview.html)
 
+
+## Other packages  
+
+I will utilize some functions from the `tidyverse` package. If you need to download it, run the following command without the `#` 
+```{r}
+# install.packages("tidyverse") # run this without the first `#` if you need to install the package 
+
+# load the package with the following:
+library(tidyverse)
+```
+
+
 # Data Simulation  
 
 Let's start off by simulating a vector of body size data. I first set the seed to make these reproducible.   
@@ -311,6 +323,15 @@ LBN_bin_plot(
 ```
 
 <br>
+
+When working with binned data, you need to make sure that none of the bins have a `0` count in them. If they do, the above plot will not work and you will get an error. If that's the case you can remove the rows/bins with `0`s in them. 
+
+One option is to use `dplyr::filter()` using the following:
+
+```{r, eval=FALSE}
+x_binned$binVals %>%
+  filter(binCount !=0)
+```
 
 # Working with data from multiple sites  
 
