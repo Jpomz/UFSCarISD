@@ -15,10 +15,15 @@ a collection of resources for a workshop.
 *Workshop Details*:
 
 *Facilitator*: Justin Pomeranz, PhD. Assistant Professor of
-Environmental Sciences & Technology at Colorado Mesa University *Date*:
-Saturday, July 6, 2024 *Time*: 9 AM to 5 PM *Location*: Integrated
-Research Unit for Tropical Biodiversity (BIOTROP), Federal University of
-São Carlos (UFSCar), São Carlos, São Paulo, Brazil
+Environmental Sciences & Technology at Colorado Mesa University
+
+*Date*: Saturday, July 6, 2024
+
+*Time*: 9 AM to 5 PM
+
+*Location*: Integrated Research Unit for Tropical Biodiversity
+(BIOTROP), Federal University of São Carlos (UFSCar), São Carlos, São
+Paulo, Brazil
 
 ## Installation
 
