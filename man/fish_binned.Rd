@@ -11,7 +11,7 @@ A data frame with 58 rows and 4 columns:
   \item{binMid}{The mid point of the bin}
   \item{binMin}{The minimum edge of a bin}
   \item{binMax}{The maximum edge of a bin}
-  \item{n}{count of individuals in that bin}
+  \item{binCount}{count of individuals in that bin}
   ...
 }
 }

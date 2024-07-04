@@ -1,6 +1,6 @@
 #' Simulated binned dataset
 #'
-#' This data is part of the AquaSYNC project. It is fish data from one sample event in 2007. When the data were collected, the weights were measured to the nearest 25 mg and the number of fish in each bin were tallied. This data is an example of when to use the `negLL.PLB.binned` in the `sizeSpectra::calcLike()` function.
+#' This is a simulated data set representing fish data where the weights were measured to the nearest 0.25 g and the number of fish in each bin were tallied. This data is an example of when to use the `negLL.PLB.binned` in the `sizeSpectra::calcLike()` function.
 #'
 #'
 #' @format ## `fish_binned`
