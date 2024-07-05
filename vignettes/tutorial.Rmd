@@ -176,7 +176,6 @@ For the following problems, make sure to use new names of your objects. You may 
 2. Make two new vectors of body size data with `n=1000` but this time set `b = -1.5` and `b = -2.5` (recall that `b` is $\lambda$ and controls the rate of decline. Name your new vectors `m_1.5` and `m_2.5`. Print out each of your new vectors using the `sort()` function. Pay special attention to the largest and smallest body sizes sampled. How often is the value of `xmin` and `xmax` observed? Does this change with the "steepness" of the $\lambda$ value?
 
 
-## Binning with Log~2~ Bins  
 
 # Working with real data  
 
