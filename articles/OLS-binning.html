@@ -71,10 +71,235 @@
 
     
     
+<div class="section level2">
+<h2 id="setup-packages">Setup: Packages<a class="anchor" aria-label="anchor" href="#setup-packages"></a>
+</h2>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jpomz.github.io/UFSCarISD/">UFSCarISD</a></span><span class="op">)</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andrew-edwards/sizeSpectra" class="external-link">sizeSpectra</a></span><span class="op">)</span></span></code></pre></div>
-  </main>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/andrew-edwards/sizeSpectra" class="external-link">sizeSpectra</a></span><span class="op">)</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
+</div>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
+<p>Lot’s of previous research in size spectra or individual size
+distributions first bins the data and then performs an ordinary least
+squares (OLS) linear regression with x being the midpoint of each bin,
+and y being the count of individuals in each bin.</p>
+<p>One of the issues with binning is you first need to decide the size
+of the bin. Linear bin widths have been used, but generally bins on a
+logarithmic scale are chosen.</p>
+<p>Here, I will use log<sub>2</sub> bin widths. This is an octave scale
+where each successive bin is twice the size of the previous one. For
+example, if the first bin is from 1-2, the second bin will be from 2-4,
+following bins will be 4-8, 8-16, etc.</p>
+<p>A second choice to make is whether or not to “normalize” the data.
+The bins are not equal widths and to account for that the count in the
+bin is often transformed be dividing by the width of the bin.</p>
+<p>We will use the <code><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData()</a></code> function from
+<code>sizeSpectra</code>. Conveniently, this has a built in argument for
+using log<sub>2</sub> bins, and also calculates the regular and
+“normalized” counts so we can compare them below.</p>
+</div>
+<div class="section level2">
+<h2 id="data-simulation">Data Simulation<a class="anchor" aria-label="anchor" href="#data-simulation"></a>
+</h2>
+<p>Let’s start off by simulating a vector of body size data. I first set
+the seed to make these reproducible. This creates the same data as our
+first example in the MLE tutorial.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">598</span><span class="op">)</span> <span class="co"># makes simulation reproducible</span></span>
+<span><span class="va">m2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, xmin <span class="op">=</span> <span class="fl">1</span>, xmax <span class="op">=</span> <span class="fl">100</span><span class="op">)</span></span></code></pre></div>
+<div class="section level3">
+<h3 id="bindata">
+<code>binData()</code><a class="anchor" aria-label="anchor" href="#bindata"></a>
+</h3>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">x_binned</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData</a></span><span class="op">(</span><span class="va">m2</span>, binWidth <span class="op">=</span> <span class="st">"2k"</span><span class="op">)</span></span></code></pre></div>
+<p><code>x_binned</code> is a list with two parts, the original body
+sizes (<code>x_binned$indiv</code>) with information on the bin it was
+placed in and all the binned information
+(<code>x_binned$binVals</code>).</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">x_binned</span><span class="op">$</span><span class="va">indiv</span><span class="op">)</span></span>
+<span><span class="co">#&gt;           x binMid binMin binMax</span></span>
+<span><span class="co">#&gt; 1  1.202709    1.5      1      2</span></span>
+<span><span class="co">#&gt; 2 26.192331   24.0     16     32</span></span>
+<span><span class="co">#&gt; 3  1.257296    1.5      1      2</span></span>
+<span><span class="co">#&gt; 4  2.097940    3.0      2      4</span></span>
+<span><span class="co">#&gt; 5  2.128986    3.0      2      4</span></span>
+<span><span class="co">#&gt; 6  7.700765    6.0      4      8</span></span></code></pre></div>
+<p>We are going to be working with the full binned data, so I’m going to
+save that as a new object for simplicity.</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bin_vals</span> <span class="op">&lt;-</span> <span class="va">x_binned</span><span class="op">$</span><span class="va">binVals</span></span>
+<span><span class="va">bin_vals</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 13</span></span></span>
+<span><span class="co">#&gt;   binMid binMin binMax binWidth binCount binCountNorm binSum binSumNorm</span></span>
+<span><span class="co">#&gt;    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>    <span style="color: #949494; font-style: italic;">&lt;int&gt;</span>        <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>  <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>      <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>    1.5      1      2        1       48      48        68.6      68.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>    3        2      4        2       26      13        75.1      37.6 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>    6        4      8        4       15       3.75     87.0      21.8 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>   12        8     16        8        4       0.5      41.0       5.13</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>   24       16     32       16        4       0.25     99.5       6.22</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>   48       32     64       32        3       0.093<span style="text-decoration: underline;">8</span>  109.        3.41</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># ℹ 5 more variables: log10binMid &lt;dbl&gt;, log10binCount &lt;dbl&gt;,</span></span></span>
+<span><span class="co">#&gt; <span style="color: #949494;">#   log10binSum &lt;dbl&gt;, log10binCountNorm &lt;dbl&gt;, log10binSumNorm &lt;dbl&gt;</span></span></span></code></pre></div>
+<p>Likewise, we are only going to use a few of the columns in this data,
+so I will simplify it here.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">bin_vals</span> <span class="op">&lt;-</span> <span class="va">bin_vals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">log10binMid</span>, <span class="va">log10binCount</span>, <span class="va">log10binCountNorm</span><span class="op">)</span></span>
+<span><span class="va">bin_vals</span></span>
+<span><span class="co">#&gt; <span style="color: #949494;"># A tibble: 6 × 3</span></span></span>
+<span><span class="co">#&gt;   log10binMid log10binCount log10binCountNorm</span></span>
+<span><span class="co">#&gt;         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>         <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span>             <span style="color: #949494; font-style: italic;">&lt;dbl&gt;</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">1</span>       0.176         1.68              1.68 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">2</span>       0.477         1.41              1.11 </span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">3</span>       0.778         1.18              0.574</span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">4</span>       1.08          0.602            -<span style="color: #BB0000;">0.301</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">5</span>       1.38          0.602            -<span style="color: #BB0000;">0.602</span></span></span>
+<span><span class="co">#&gt; <span style="color: #BCBCBC;">6</span>       1.68          0.477            -<span style="color: #BB0000;">1.03</span></span></span></code></pre></div>
+<p>Let’s plot them to see what they look like</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">bin_vals</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">log10binMid</span>,</span>
+<span>           y <span class="op">=</span> <span class="va">log10binCount</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Bin Counts"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="OLS-binning_files/figure-html/unnamed-chunk-7-1.png" width="700"></p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggplot.html" class="external-link">ggplot</a></span><span class="op">(</span><span class="va">bin_vals</span>,</span>
+<span>       <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/aes.html" class="external-link">aes</a></span><span class="op">(</span>x <span class="op">=</span> <span class="va">log10binMid</span>,</span>
+<span>           y <span class="op">=</span> <span class="va">log10binCountNorm</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/geom_point.html" class="external-link">geom_point</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/ggtheme.html" class="external-link">theme_bw</a></span><span class="op">(</span><span class="op">)</span> <span class="op">+</span></span>
+<span>  <span class="fu"><a href="https://ggplot2.tidyverse.org/reference/labs.html" class="external-link">labs</a></span><span class="op">(</span>title <span class="op">=</span> <span class="st">"Normalized Bin Counts"</span><span class="op">)</span></span></code></pre></div>
+<p><img src="OLS-binning_files/figure-html/unnamed-chunk-8-1.png" width="700">
+Not a drastic change, but we can see the third from the last point comes
+“up” a little bit and the data looks more linear. Indeed, this is the
+primary reason that normalization has been recommended in the past.</p>
+</div>
+<div class="section level3">
+<h3 id="ols-regression">OLS Regression<a class="anchor" aria-label="anchor" href="#ols-regression"></a>
+</h3>
+<p>Let’s fit some simple linear models and extract the slope estimates
+(often represented with <span class="math inline">\(\beta_1\)</span>)</p>
+<div class="section level4">
+<h4 id="original-counts">Original counts<a class="anchor" aria-label="anchor" href="#original-counts"></a>
+</h4>
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lm_count</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">log10binCount</span> <span class="op">~</span> <span class="va">log10binMid</span>, data <span class="op">=</span> <span class="va">bin_vals</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">lm_count</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Intercept) log10binMid </span></span>
+<span><span class="co">#&gt;   1.7884753  -0.8573774</span></span></code></pre></div>
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">lm_count</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 2.5 %     97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept)  1.434875  2.1420754</span></span>
+<span><span class="co">#&gt; log10binMid -1.190499 -0.5242556</span></span></code></pre></div>
+<p>Here, the <code>(Intercept)</code> is <span class="math inline">\(\beta_0\)</span> and <code>log10binMid</code> is
+the <span class="math inline">\(\beta_1\)</span> or slope estimate.</p>
+</div>
+<div class="section level4">
+<h4 id="normalized-counts">Normalized counts<a class="anchor" aria-label="anchor" href="#normalized-counts"></a>
+</h4>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">lm_normal</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">log10binCountNorm</span> <span class="op">~</span> <span class="va">log10binMid</span>, data <span class="op">=</span> <span class="va">bin_vals</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">lm_normal</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Intercept) log10binMid </span></span>
+<span><span class="co">#&gt;    1.964567   -1.857377</span></span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">lm_normal</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 2.5 %    97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept)  1.610966  2.318167</span></span>
+<span><span class="co">#&gt; log10binMid -2.190499 -1.524256</span></span></code></pre></div>
+<p>OLS estimates:<br>
+* Count = <span class="math inline">\(\beta_{1} = -0.857\)</span> and
+95% CI $(-1.19 -0.524)</p>
+<ul>
+<li>Normalized = <span class="math inline">\(\beta_{1} = -1.857\)</span>
+and 95% CI $(-2.19, -1.524)</li>
+</ul>
+<p>Note that the normalized result shifts the estimate by a value of -1.
+This is also consistent across methods; Normalizing binned data results
+in an estimate that is shifted by -1.</p>
+<p>I personally think that this is where a lot of confusion has come in
+from previous studies. The OLS count method is actually estimating <span class="math inline">\(\lambda + 1\)</span> so you have to subtract one
+from your estimate to get <span class="math inline">\(\lambda\)</span>.
+Whereas the estimate from normalized data is actually estimating <span class="math inline">\(\lambda\)</span> directly. See table 1 in Sprules
+and Barth (2016) and table 2 in Edwards et al. (2017; but note that they
+use <span class="math inline">\(b\)</span> instead of <span class="math inline">\(\lambda\)</span>)</p>
+</div>
+</div>
+</div>
+<div class="section level2">
+<h2 id="comparing-with-known-value">Comparing with known value<a class="anchor" aria-label="anchor" href="#comparing-with-known-value"></a>
+</h2>
+<p>So, after converting the OLS count estimate above, both the OLS
+methods give us an estimated <span class="math inline">\(\lambda\)</span> of -1.87. Recall that we
+simulated data from a <em>known</em> lambda of -2. Let’s compare it with
+the MLE estimate</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
+<span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, <span class="co"># continuous estimates of all individuals</span></span>
+<span>      x <span class="op">=</span> <span class="va">m2</span>, <span class="co"># the vector of data</span></span>
+<span>      xmin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span>, <span class="co"># the minimum body size</span></span>
+<span>      xmax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span>, <span class="co"># the maximum body size</span></span>
+<span>      n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span>, <span class="co"># the number of observations</span></span>
+<span>      sumlogx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">m2</span><span class="op">)</span><span class="op">)</span>, <span class="co"># sum of log-transformed data</span></span>
+<span>      p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span> <span class="co"># starting point, arbitrary number</span></span>
+<span><span class="co">#&gt; $MLE</span></span>
+<span><span class="co">#&gt; [1] -1.871733</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $conf</span></span>
+<span><span class="co">#&gt; [1] -2.111733 -1.647733</span></span></code></pre></div>
+<p>In this case, the estimates are nearly identical but the confidence
+intervals are smaller for the MLE method.</p>
+<p>But you may also recall that the sample size for this example was
+only 100. What happens if we use a larger sample size of
+<code>n = 1000</code>?</p>
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/Random.html" class="external-link">set.seed</a></span><span class="op">(</span><span class="fl">598</span><span class="op">)</span> <span class="co"># makes simulation reproducible</span></span>
+<span><span class="va">m2_large</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/Distributions.html" class="external-link">rPLB</a></span><span class="op">(</span>n <span class="op">=</span> <span class="fl">100</span>, b <span class="op">=</span> <span class="op">-</span><span class="fl">2</span>, xmin <span class="op">=</span> <span class="fl">1</span>, xmax <span class="op">=</span> <span class="fl">1000</span><span class="op">)</span></span>
+<span><span class="va">x_binned_large</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/binData.html" class="external-link">binData</a></span><span class="op">(</span><span class="va">m2_large</span>, binWidth <span class="op">=</span> <span class="st">"2k"</span><span class="op">)</span></span>
+<span><span class="va">bin_vals_large</span> <span class="op">&lt;-</span> <span class="va">x_binned_large</span><span class="op">$</span><span class="va">binVals</span> <span class="op"><a href="https://magrittr.tidyverse.org/reference/pipe.html" class="external-link">%&gt;%</a></span></span>
+<span>  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html" class="external-link">select</a></span><span class="op">(</span><span class="va">log10binMid</span>, <span class="va">log10binCount</span>, <span class="va">log10binCountNorm</span><span class="op">)</span></span>
+<span><span class="va">lm_count</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">log10binCountNorm</span> <span class="op">~</span> <span class="va">log10binMid</span>, data <span class="op">=</span> <span class="va">bin_vals_large</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/stats/coef.html" class="external-link">coef</a></span><span class="op">(</span><span class="va">lm_count</span><span class="op">)</span></span>
+<span><span class="co">#&gt; (Intercept) log10binMid </span></span>
+<span><span class="co">#&gt;    1.935255   -1.824274</span></span></code></pre></div>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/stats/confint.html" class="external-link">confint</a></span><span class="op">(</span><span class="va">lm_count</span><span class="op">)</span></span>
+<span><span class="co">#&gt;                 2.5 %    97.5 %</span></span>
+<span><span class="co">#&gt; (Intercept)  1.353673  2.516837</span></span>
+<span><span class="co">#&gt; log10binMid -2.372174 -1.276373</span></span></code></pre></div>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/pkg/sizeSpectra/man/calcLike.html" class="external-link">calcLike</a></span><span class="op">(</span></span>
+<span>      negLL.fn <span class="op">=</span> <span class="va">negLL.PLB</span>, </span>
+<span>      x <span class="op">=</span> <span class="va">m2_large</span>, </span>
+<span>      xmin <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">min</a></span><span class="op">(</span><span class="va">m2_large</span><span class="op">)</span>, </span>
+<span>      xmax <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Extremes.html" class="external-link">max</a></span><span class="op">(</span><span class="va">m2_large</span><span class="op">)</span>, </span>
+<span>      n <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">m2_large</span><span class="op">)</span>, </span>
+<span>      sumlogx <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">m2_large</span><span class="op">)</span><span class="op">)</span>, </span>
+<span>      p <span class="op">=</span> <span class="op">-</span><span class="fl">1.5</span><span class="op">)</span> </span>
+<span><span class="co">#&gt; $MLE</span></span>
+<span><span class="co">#&gt; [1] -1.87256</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $conf</span></span>
+<span><span class="co">#&gt; [1] -2.09856 -1.66356</span></span></code></pre></div>
+<p>In this specific example, the estimate from the normalized OLS method
+actually got worse (lower estimate; wider CI) whereas the MLE estimate
+was essentially the same but with a narrower CI (and the tru value is
+still inside the CI).</p>
+<p>For a more thorough and robust comparison of how the results for
+identical, simulated data sets vary when using three methods (MLE, L2n
+and ELn) across a hypothetical environmental gradient, see <a href="https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2656.14044" class="external-link">Pomeranz
+et al. 2024</a></p>
+</div>
+  </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
