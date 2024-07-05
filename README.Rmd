@@ -47,6 +47,13 @@ In addition, you must install the `sizeSpectra` package by using:
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
 
+Finally, you will also need the suite of packages in the `tidyverse`. The `tidyverse` is hosted on CRAN so you can install it and load it with the following two lines of code. 
+
+```r
+# install.packages("tidyverse") # if you need to install
+library(tidyverse)
+```
+
 ## Example
 
 This is a basic example which shows you what data objects exist:
@@ -62,11 +69,11 @@ There are four data sets included which represent some of the most common body s
 
 2. `WLOU` is a dataframe of body sizes from one of the aquatic sites of the [National Ecological Observatory Netwrok (NEON)](https://www.neonscience.org). This data has the estimated count per $m^2$ of individuals for a given body size.  
 
-3. `fish_binned` is a simulated data set where individual fish were grouped into arbitrary "bins" of body size during the data collection process.  
+3. `fish_binned` is a simulated data set where individual fish were grouped into arbitrary "bins" of body size during the data collection process. In this example, the bins are 0.25 g wide, i.e., that was the accuracy of the scale used.   
 
-4. `isd_gradient` is a simulated dataset with body size observations from three "sites", each of which has a different individual size distribution relaitonship. This is used as an example for how to work with data from multiple sites at one time.  
+4. `isd_gradient` is a simulated dataset with body size observations from three "sites", each of which has a different individual size distribution relationship. This is used as an example for how to work with data from multiple sites at one time.  
 
-Ypou can load the data objects by running `data(data_name). For example:
+You can load the data objects by running `data(data_name)`. For example:
 
 ```{r, eval=FALSE}
 data(WLOU)
