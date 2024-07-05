@@ -113,9 +113,10 @@ confint(lm_normal)
 
 
 OLS estimates:  
-* Count = $\beta_{1} = -0.857$ and 95% CI $(-1.19 -0.524)  
 
-* Normalized = $\beta_{1} = -1.857$ and 95% CI $(-2.19, -1.524)   
+* Count = $\beta_{1} = -0.857$ and 95% CI $(-1.19 -0.524)$  
+
+* Normalized = $\beta_{1} = -1.857$ and 95% CI $(-2.19, -1.524)$   
 
 Note that the normalized result shifts the estimate by a value of -1. This is also consistent across methods; Normalizing binned data results in an estimate that is shifted by -1. 
 

@@ -36,7 +36,7 @@ More negative values of $\lambda$ (i.e., $\lambda = -2$) are "steeper" and value
 <br>
 <br>
 
-This has commonly been modeled in the literature by creating body mass bins and counting (Abundance Size Spectra) or summing (Biomass size spectra) the number of individuals in each bin. The bnned data is then log-transformed and $\lambda$ is estimated as the slope according to:
+This has commonly been modeled in the literature by creating body mass bins and counting (Abundance Size Spectra) or summing (Biomass size spectra) the number of individuals in each bin (see the *OLS-binning* article on this website for an example. The binned data is then log-transformed and $\lambda$ is estimated as the slope according to:
 
 $\large log_{10}(N) = \lambda log_{10}(M)$ 
 
