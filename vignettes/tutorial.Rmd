@@ -1,5 +1,5 @@
 ---
-title: "Tutorial"
+title: "MLE Tutorial"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Tutorial}
