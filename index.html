@@ -41,7 +41,7 @@
 <li class="nav-item dropdown">
   <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
   <div class="dropdown-menu" aria-labelledby="dropdown-articles">
-    <a class="dropdown-item" href="articles/tutorial.html">Tutorial</a>
+    <a class="dropdown-item" href="articles/tutorial.html">MLE Tutorial</a>
   </div>
 </li>
       </ul>
@@ -77,26 +77,30 @@
 <p>In addition, you must install the <code>sizeSpectra</code> package by using:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"andrew-edwards/sizeSpectra"</span><span class="op">)</span></span></code></pre></div>
+<p>Finally, you will also need the suite of packages in the <code>tidyverse</code>. The <code>tidyverse</code> is hosted on CRAN so you can install it and load it with the following two lines of code.</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># install.packages("tidyverse") # if you need to install</span></span>
+<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyverse.tidyverse.org" class="external-link">tidyverse</a></span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level2">
 <h2 id="example">Example<a class="anchor" aria-label="anchor" href="#example"></a>
 </h2>
 <p>This is a basic example which shows you what data objects exist:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://jpomz.github.io/UFSCarISD/">UFSCarISD</a></span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span>package <span class="op">=</span> <span class="st">"UFSCarISD"</span><span class="op">)</span></span></code></pre></div>
 <p>There are four data sets included which represent some of the most common body size data formats.</p>
 <ol style="list-style-type: decimal">
 <li><p><code>ohc</code> is a vector of individual body sizes. All individuals were measured and this represents a continuous measurement.</p></li>
 <li><p><code>WLOU</code> is a dataframe of body sizes from one of the aquatic sites of the <a href="https://www.neonscience.org" class="external-link">National Ecological Observatory Netwrok (NEON)</a>. This data has the estimated count per <span class="math inline"><em>m</em><sup>2</sup></span> of individuals for a given body size.</p></li>
-<li><p><code>fish_binned</code> is a simulated data set where individual fish were grouped into arbitrary “bins” of body size during the data collection process.</p></li>
-<li><p><code>isd_gradient</code> is a simulated dataset with body size observations from three “sites”, each of which has a different individual size distribution relaitonship. This is used as an example for how to work with data from multiple sites at one time.</p></li>
+<li><p><code>fish_binned</code> is a simulated data set where individual fish were grouped into arbitrary “bins” of body size during the data collection process. In this example, the bins are 0.25 g wide, i.e., that was the accuracy of the scale used.</p></li>
+<li><p><code>isd_gradient</code> is a simulated dataset with body size observations from three “sites”, each of which has a different individual size distribution relationship. This is used as an example for how to work with data from multiple sites at one time.</p></li>
 </ol>
-<p>Ypou can load the data objects by running `data(data_name). For example:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<p>You can load the data objects by running <code>data(data_name)</code>. For example:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="va">WLOU</span><span class="op">)</span></span></code></pre></div>
 <p>You can learn more about each individual data set by running <code>?data_name</code>. For example:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="op">?</span><span class="va">WLOU</span></span></code></pre></div>
 <p>You’ll still need to render <code>README.Rmd</code> regularly, to keep <code>README.md</code> up-to-date. <code>devtools::build_readme()</code> is handy for this.</p>
 </div>
