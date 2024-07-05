@@ -12,16 +12,16 @@ Edwards](https://github.com/andrew-edwards/sizeSpectra). This package
 was developed in order to make a website using `pkgdown`. The website is
 a collection of resources for a workshop.
 
-*Workshop Details*:
+**Workshop Details**:
 
-*Facilitator*: Justin Pomeranz, PhD. Assistant Professor of
+**Facilitator**: Justin Pomeranz, PhD. Assistant Professor of
 Environmental Sciences & Technology at Colorado Mesa University
 
-*Date*: Saturday, July 6, 2024
+**Date**: Saturday, July 6, 2024
 
-*Time*: 9 AM to 5 PM
+**Time**: 9 AM to 5 PM
 
-*Location*: Integrated Research Unit for Tropical Biodiversity
+**Location**: Integrated Research Unit for Tropical Biodiversity
 (BIOTROP), Federal University of São Carlos (UFSCar), São Carlos, São
 Paulo, Brazil
 
@@ -41,6 +41,12 @@ In addition, you must install the `sizeSpectra` package by using:
 ``` r
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
+
+**NOTE** that this tutorial was built using `sizeSpectra 1.1.0` and the
+last commit was on June 12, 2023 and has commit tag `commit 517c18d`. If
+you are trying to follow along on the website what happens on your
+machine may be slightly different depending on when/how the
+`sizeSpectra` package is updated in the future.
 
 Finally, you will also need the suite of packages in the `tidyverse`.
 The `tidyverse` is hosted on CRAN so you can install it and load it with

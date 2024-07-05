@@ -15,7 +15,7 @@ library(UFSCarISD)
 
 # Overview  
 
-This tutorial will introduce the `sizeSpectra` package and go over methods for estimating the exponent of a bounded power law ($\lambda$).  
+This tutorial will introduce the `sizeSpectra` package (Edwards 2020a) and go over methods for estimating the exponent of a bounded power law ($\lambda$).  
 
 # Introduction  
 
@@ -40,7 +40,7 @@ This has commonly been modeled in the literature by creating body mass bins and 
 
 $\large log_{10}(N) = \lambda log_{10}(M)$ 
 
-However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inacurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, Pomeranz et al. 2024). One of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
+However, binning poses a number of issues and generally provides estimates of $\lambda$ which are inaccurate and maximum likelihood methods are recommended (White et al. 2008, Edwards et al. 2017, 2020b, Pomeranz et al. 2024). One of the main issues around binning methods is the choice of the width of the bins, where the bin edges are located, and whether or not the counts (or sums) in each bin should be normalized or not (Sprules and Barth 2016). 
 
 # `sizeSpectra` Package  
 
@@ -485,10 +485,10 @@ Andersen, K. H., and J. E. Beyer. 2006. Asymptotic Size Determines Species Abund
 
 Andersen, K. H., J. L. Blanchard, E. A. Fulton, H. Gislason, N. S. Jacobsen, and T. van Kooten. 2016. Assumptions behind size-based ecosystem models are realistic. ICES Journal of Marine Science 73:1651–1655.
 
-Edwards, A. M. (2020). sizeSpectra: R package for fitting size spectra to ecological data (including binned data). https://github.com/andrew-edwards/sizeSpectra
+Edwards, A. M. (2020a). sizeSpectra: R package for fitting size spectra to ecological data (including binned data). https://github.com/andrew-edwards/sizeSpectra
 Google Scholar
 
-Edwards, A. M., Robinson, J., Blanchard, J., Baum, J., & Plank, M. (2020). Accounting for the bin structure of data removes bias when fitting size spectra. Marine Ecology Progress Series, 636, 19–33.
+Edwards, A. M., Robinson, J., Blanchard, J., Baum, J., & Plank, M. (2020b). Accounting for the bin structure of data removes bias when fitting size spectra. Marine Ecology Progress Series, 636, 19–33.
 
 Edwards, A. M., Robinson, J., Plank, M., Baum, J., & Blanchard, J. (2017). Testing and recommending methods for fitting size spectra to data. Methods in Ecology and Evolution, 8, 57–67.
 

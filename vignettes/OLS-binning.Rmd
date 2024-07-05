@@ -14,7 +14,155 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+# Setup: Packages 
+```{r setup, warning=FALSE, message=FALSE}
 library(UFSCarISD)
 library(sizeSpectra)
+library(tidyverse)
 ```
+
+# Introduction
+
+Lot's of previous research in size spectra or individual size distributions first bins the data and then performs an ordinary least squares (OLS) linear regression with x being the midpoint of each bin, and y being the count of individuals in each bin. 
+
+One of the issues with binning is you first need to decide the size of the bin. Linear bin widths have been used, but generally bins on a logarithmic scale are chosen.  
+
+Here, I will use log~2~ bin widths. This is an octave scale where each successive bin is twice the size of the previous one. For example, if the first bin is from 1-2, the second bin will be from 2-4, following bins will be 4-8, 8-16, etc. 
+
+A second choice to make is whether or not to "normalize" the data. The bins are not equal widths and to account for that the count in the bin is often transformed be dividing by the width of the bin.  
+
+We will use the `binData()` function from `sizeSpectra`. Conveniently, this has a built in argument for using log~2~ bins, and also calculates the regular and "normalized" counts so we can compare them below. 
+
+# Data Simulation  
+
+Let's start off by simulating a vector of body size data. I first set the seed to make these reproducible. This creates the same data as our first example in the MLE tutorial.    
+
+```{r}
+set.seed(598) # makes simulation reproducible
+m2 <- rPLB(n = 100, b = -2, xmin = 1, xmax = 100)
+```
+
+## `binData()`
+
+```{r}
+x_binned <- binData(m2, binWidth = "2k")
+```
+
+`x_binned` is a list with two parts, the original body sizes (`x_binned$indiv`) with information on the bin it was placed in and all the binned information (`x_binned$binVals`). 
+
+```{r}
+head(x_binned$indiv)
+```
+
+We are going to be working with the full binned data, so I'm going to save that as a new object for simplicity. 
+
+```{r}
+bin_vals <- x_binned$binVals
+bin_vals
+```
+Likewise, we are only going to use a few of the columns in this data, so I will simplify it here. 
+
+```{r}
+bin_vals <- bin_vals %>%
+  select(log10binMid, log10binCount, log10binCountNorm)
+bin_vals
+```
+
+Let's plot them to see what they look like
+
+```{r}
+ggplot(bin_vals,
+       aes(x = log10binMid,
+           y = log10binCount)) +
+  geom_point() +
+  theme_bw() +
+  labs(title = "Bin Counts")
+```
+```{r}
+ggplot(bin_vals,
+       aes(x = log10binMid,
+           y = log10binCountNorm)) +
+  geom_point() +
+  theme_bw() +
+  labs(title = "Normalized Bin Counts")
+```
+Not a drastic change, but we can see the third from the last point comes "up" a little bit and the data looks more linear. Indeed, this is the primary reason that normalization has been recommended in the past. 
+
+## OLS Regression  
+
+Let's fit some simple linear models and extract the slope estimates (often represented with $\beta_1$)
+
+### Original counts  
+
+```{r}
+lm_count <- lm(log10binCount ~ log10binMid, data = bin_vals)
+coef(lm_count)
+confint(lm_count)
+```
+
+Here, the `(Intercept)` is $\beta_0$ and `log10binMid` is the $\beta_1$ or slope estimate. 
+
+
+### Normalized counts  
+
+```{r}
+lm_normal <- lm(log10binCountNorm ~ log10binMid, data = bin_vals)
+coef(lm_normal)
+confint(lm_normal)
+```
+
+
+OLS estimates:  
+* Count = $\beta_{1} = -0.857$ and 95% CI $(-1.19 -0.524)  
+
+* Normalized = $\beta_{1} = -1.857$ and 95% CI $(-2.19, -1.524)   
+
+Note that the normalized result shifts the estimate by a value of -1. This is also consistent across methods; Normalizing binned data results in an estimate that is shifted by -1. 
+
+I personally think that this is where a lot of confusion has come in from previous studies. The OLS count method is actually estimating $\lambda + 1$ so you have to subtract one from your estimate to get $\lambda$. Whereas the estimate from normalized data is actually estimating $\lambda$ directly. See table 1 in Sprules and Barth (2016) and table 2 in Edwards et al. (2017; but note that they use $b$ instead of $\lambda$)
+
+# Comparing with known value  
+
+So, after converting the OLS count estimate above, both the OLS methods give us an estimated $\lambda$ of -1.87. Recall that we simulated data from a *known* lambda of -2. Let's compare it with the MLE estimate
+
+```{r}
+calcLike(
+      negLL.fn = negLL.PLB, # continuous estimates of all individuals
+      x = m2, # the vector of data
+      xmin = min(m2), # the minimum body size
+      xmax = max(m2), # the maximum body size
+      n = length(m2), # the number of observations
+      sumlogx = sum(log(m2)), # sum of log-transformed data
+      p = -1.5) # starting point, arbitrary number
+```
+
+In this case, the estimates are nearly identical but the confidence intervals are smaller for the MLE method. 
+
+But you may also recall that the sample size for this example was only 100. What happens if we use a larger sample size of `n = 1000`?
+
+```{r}
+set.seed(598) # makes simulation reproducible
+m2_large <- rPLB(n = 100, b = -2, xmin = 1, xmax = 1000)
+x_binned_large <- binData(m2_large, binWidth = "2k")
+bin_vals_large <- x_binned_large$binVals %>%
+  select(log10binMid, log10binCount, log10binCountNorm)
+lm_count <- lm(log10binCountNorm ~ log10binMid, data = bin_vals_large)
+coef(lm_count)
+confint(lm_count)
+```
+
+```{r}
+calcLike(
+      negLL.fn = negLL.PLB, 
+      x = m2_large, 
+      xmin = min(m2_large), 
+      xmax = max(m2_large), 
+      n = length(m2_large), 
+      sumlogx = sum(log(m2_large)), 
+      p = -1.5) 
+```
+
+
+In this specific example, the estimate from the normalized OLS method actually got worse (lower estimate; wider CI) whereas the MLE estimate was essentially the same but with a narrower CI (and the tru value is still inside the CI). 
+
+For a more thorough and robust comparison of how the results for identical, simulated data sets vary when using three methods (MLE, L2n and ELn) across a hypothetical environmental gradient, see [Pomeranz et al. 2024](https://besjournals.onlinelibrary.wiley.com/doi/abs/10.1111/1365-2656.14044)

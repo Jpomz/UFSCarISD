@@ -20,15 +20,15 @@ knitr::opts_chunk$set(
 
 The goal of UFSCarISD is to provide a tutorial on using the `sizeSpectra` [package by Andrew Edwards](https://github.com/andrew-edwards/sizeSpectra). This package was developed in order to make a website using `pkgdown`. The website is a collection of resources for a workshop. 
 
-*Workshop Details*:
+**Workshop Details**:
 
-*Facilitator*: Justin Pomeranz, PhD. Assistant Professor of Environmental Sciences & Technology at Colorado Mesa University  
+**Facilitator**: Justin Pomeranz, PhD. Assistant Professor of Environmental Sciences & Technology at Colorado Mesa University  
 
-*Date*: Saturday, July 6, 2024  
+**Date**: Saturday, July 6, 2024  
 
-*Time*: 9 AM to 5 PM  
+**Time**: 9 AM to 5 PM  
 
-*Location*: Integrated Research Unit for Tropical Biodiversity (BIOTROP), Federal University of São Carlos (UFSCar), São Carlos, São Paulo, Brazil  
+**Location**: Integrated Research Unit for Tropical Biodiversity (BIOTROP), Federal University of São Carlos (UFSCar), São Carlos, São Paulo, Brazil  
 
 
 
@@ -46,6 +46,9 @@ In addition, you must install the `sizeSpectra` package by using:
 ``` r
 remotes::install_github("andrew-edwards/sizeSpectra")
 ```
+
+**NOTE** that this tutorial was built using `sizeSpectra 1.1.0` and the last commit was on June 12, 2023 and has commit tag `commit 517c18d`. If you are trying to follow along on the website what happens on your machine may be slightly different depending on when/how the `sizeSpectra` package is updated in the future. 
+
 
 Finally, you will also need the suite of packages in the `tidyverse`. The `tidyverse` is hosted on CRAN so you can install it and load it with the following two lines of code. 
 
@@ -86,7 +89,7 @@ You can learn more about each individual data set by running `?data_name`. For e
 ```
 
 
-```{r, include=FALSE}
+```{r, include=FALSE, message=FALSE, warning=FALSE}
 #You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
 # devtools::build_readme()
 ```
